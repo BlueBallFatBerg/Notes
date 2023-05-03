@@ -1,0 +1,155 @@
+\documentclass[UTF8,AutoFakeBold,AutoFakeSlant,zihao=-4,oneside,openany]{ctexbook}
+% UTF8,AutoFakeBold,AutoFakeSlant,zihao=-4,oneside,openany ctexbook
+% \usepackage{xeCJK}
+% \usepackage{titletoc}
+% \usepackage{fontspec} % unicode，但不能用暂时
+% \usepackage{newunicodechar} % update unicode
+\usepackage{stmaryrd} % $\lightning$
+% \usepackage{setspace}
+% \usepackage{graphicx} % 可以生成镜像文字
+% \usepackage{fancyhdr}
+% \usepackage{pdfpages} % 插入pdf页
+% \usepackage{booktabs}
+% \usepackage{multirow}
+% \usepackage{caption}
+\usepackage{tikz} % 画图
+% \usepackage{etoolbox}
+% \usepackage{xcolor}
+% \usepackage{array}
+\usepackage{amsmath} % 基本数学符号
+\usepackage{amssymb} % 基本数学符号
+\usepackage{mathrsfs} % \mathfrak{}
+\usepackage{float} % 取消figure置顶：[H]
+% \usepackage{enumerate} % 自定义列举标号样式：[(i).]
+\usepackage[shortlabels]{enumitem} % enumerate自定义起始编号：[start = 42]
+% \usepackage{dutchcal} % 小写花体，但大写cal也会变
+\usepackage{cite} % 引用
+\usepackage{color} % 搞颜色
+\usepackage{mathtools} % 左上下标：\prescript{}{}{}
+% \usepackage{booktabs} % 修改表格线段的粗细
+% \usepackage{datetime} % 显示时间：\xxivtime \, \today
+% \usepackage{scrtime} % 显示时间：\thistime \, \today
+\usepackage{hyperref} % 超链接，目录默认
+\usepackage{anyfontsize} % 允许任意字体大小
+% \usepackage{lmodern} % 允许任意字体大小，不如anyfontsize
+\usepackage{blindtext} % 允许隐藏文本
+\usepackage{ifthen} % \ifthenelse 判断结构
+\usepackage{eso-pic} % 在指定位置加入图片指令
+\usepackage{amsxtra} % sp stuff
+% \usepackage{esint} % 更多积分号：\fint
+% \usepackage{stix} % \intbar，库报错
+% \usepackage{MnSymbol} % \storkedint，库报错
+% \usepackage{geometry} % 纸张
+\usepackage{verbatim} % 多行注释：\begin{comment}，库报错
+% \usepackage{undertilde} % 下方波浪号：\utilde{}
+\usepackage{accents}
+
+% 纸张
+\begin{comment}
+\geometry{
+  a4paper,
+  total={170mm,257mm},
+  left=20mm,
+  top=20mm,
+  }
+\end{comment}
+
+% 每页添加回到目录的链接
+\newboolean{linktoc}
+\setboolean{linktoc}{true} % true: 显示连接，false: 不显示链接
+
+\newcommand\AtPageUpperRight[1]{\AtPageUpperLeft{%
+ \put(\LenToUnit{\paperwidth},\LenToUnit{-0.3\paperheight}){#1}%
+ }}%
+\begin{comment}
+\newcommand\AtPageLowerRight[1]{\AtPageLowerLeft{%
+ \put(\LenToUnit{\paperwidth},\LenToUnit{0.3\paperheight}){#1}%
+ }}%
+\end{comment}
+
+\ifthenelse{\boolean{linktoc}}%
+{%
+\AddToShipoutPictureBG{%
+   \AtPageUpperRight{\put(-140,216){\hyperref[toc]{Go to TOC}}}
+   % \AtPageLowerRight{\put(-70,0){\hyperref[toc]{Go to TOC}}}
+    }%
+}%
+{}%
+
+\newtheorem{sol}{Solution}
+\newtheorem{rmk}{Rmk}
+\newtheorem{df}{Def}
+\newtheorem{ppt}{Property}
+\newtheorem{prop}{Prop}
+\newtheorem{lem}{Lemma}
+\newtheorem{thm}{Thm}
+\newtheorem{thk}{Thinking}
+\newtheorem{conc}{Conculsion}
+\newtheorem{pf}{Proof}
+\newtheorem{eg}{Example}
+\newtheorem{coro}{Corollary}
+
+\newcommand \dbar {\hspace{0.4em} \bar{} \hspace{-0.4em} d} % 定义符号：dbar
+
+% \newcommand*{\intbar}{\mathop{\ooalign{$\int$\cr$-$}}} % 定义符号：intbar，不好用
+
+\setlength{\parindent}{0pt} % 取消首行缩进
+
+\setcounter{tocdepth}{4} % 设置目录显示的章节深度
+\setcounter{secnumdepth}{3} % 设置章节的编号深度
+
+\begin{document}
+
+\begin{Large}
+  \textsc{Notes}
+\end{Large}
+
+\begin{comment}
+
+To Do:
+
+Ruler：规定书写规则和语法表（先规定，之后慢慢改）。
+
+何时不用句号？
+
+小段之间如何分割？首行缩进？
+
+做一个词义检索的东西
+
+$\le$ yes $\leq$ no
+
+$, \quad \forall$
+
+Names：Poincaré，Céa，Hölder
+
+-（）作为subsubsub或定理引理，其他用：
+
+两种方法：证明Hilbert空间中集合稠密，定义或取正交补为零。
+
+\end{comment}
+
+\tableofcontents\label{toc}
+
+% \input{parts/infinitesimal generator.tex}
+
+% \input{parts/PDE.tex}
+
+\input{parts/SDE.tex}
+
+% \input{parts/MOM.tex}
+
+% \input{parts/CT.tex}
+
+% \input{parts/FEM.tex}
+
+% \input{parts/FA.tex}
+
+% \input{parts/PFM.tex}
+
+% \input{parts/Python.tex}
+
+\vspace{5pt} \hrule \vspace{5pt}
+
+$\ddot \smile$
+
+\end{document}

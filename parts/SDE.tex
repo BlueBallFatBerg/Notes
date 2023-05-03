@@ -1,0 +1,1363 @@
+\vspace{5pt} \hrule \vspace{5pt}
+
+\chapter{SDE}
+
+\section{随机分析基础}
+
+\subsection{概率与概率空间}
+
+概率空间$(\Omega, \mathcal{F}, P)$：样本空间$\Omega$，$\sigma$-代数$\mathcal{F}$（补和可列并封闭），概率测度$P$（可列可加）。
+
+随机变量$X: (\Omega, \mathcal{F}, P) \to (E, \mathcal{E})$。
+
+随机过程$X_{\cdot}: (T \times \Omega, \mathcal{B}(T) \otimes \mathcal{F}, L \times P) \to (E, \mathcal{E})$。
+
+生成$\sigma$-代数$\sigma(\mathcal{U})$，拉回$\sigma$-代数$\sigma(X) = X^{-1}(\mathcal{E})$，前推测度$\mu_{X} = P \circ X^{-1}$。
+
+期望$E[X] = \int_{\Omega} X dP = \int_{\Omega} X(\omega) P(d\omega)$，随机过程的期望是一个随机变量。
+
+概率分布$F(x) = P(X \le x) = P \circ X^{-1} ((-\infty, x]) = \mu_X((-\infty, x]) = \mu_X(A_x)$
+
+随机变量函数的期望（变量替换公式）：
+\[
+  \begin{aligned}
+    E[f(X)] &= \int_{\Omega} f(X) dP = \int_{\Omega} f(X(\omega)) P(d\omega)\\ &= \int_{E} f(x) \mu_X(dx) = \int_{\mathbb{R}} y m_X(dy)
+  \end{aligned}
+\]
+
+独立性的定义：事件的独立性，集合的独立性，随机变量的独立性。
+
+独立性的使用：$P(A \cap B) = P(A) P(B), E(X 1_B) = E(X) P(B), E(XY) = E(X) E(Y)$。
+
+\subsection{三种收敛性}
+
+$L^p$-收敛：$\lim \|X_n - X\|_p = \lim \|X_n - X\|_p^p = \lim E(X_n - X)^p = 0$
+
+a.e.-收敛：$P(\omega, \lim |X_n(\omega) - X(\omega)| > \varepsilon) = 0$，即不收敛的概率为0
+
+依概率收敛：$\lim P(\omega, |X_n(\omega) - X(\omega)| > \varepsilon) = 0$
+
+$L^p$-收敛$\Rightarrow$依概率收敛
+
+a.e.-收敛$\Rightarrow$依概率收敛
+
+依概率收敛$\Rightarrow$存在子列a.e.-收敛
+
+$L^p$ not a.e.: $f_n = 1_{[\frac{n - 2^k}{2^k}, \frac{n - 2^k}{2^k} + \frac{1}{2^k})} \overset{L^p}{\to} 0, \overset{a.e.}{\not \to} 0, 1 \le p < \infty, L^\infty \Rightarrow$ uniform a.e.
+
+a.e. not $L^p$: $f_n = n^{\frac{1}{p}} 1_{[0, \frac{1}{n})} \overset{a.e.}{\to} 0, \overset{L^p}{\not \to} 0$
+
+\subsection{条件期望}
+
+----- 条件期望的定义性质 -----
+
+给定$\mathcal{F}$-可测的随机变量X以及$\mathcal{F}$的子$\sigma$-代数$\mathcal{C}$，以下两条性质能够唯一决定一个新的随机变量$E(X|\mathcal{C})$ s.t.
+
+\begin{enumerate}
+  \item 关于$\mathcal{C}$可测
+  \item $\int_B E(X|\mathcal{C}) dP = \int_B X dP, \quad \forall B \in \mathcal{C}$
+\end{enumerate}
+
+称为条件期望。
+
+----- 条件期望的投影性质 -----
+
+$E(X|\mathcal{C})$是$X \in H = L^2(\Omega, \mathcal{F}, P)$在$K = L^2(\Omega, \mathcal{C}, P)$（前者的闭线性子空间）上的正交投影 s.t.
+
+\begin{enumerate}
+  \item 若X是$\mathcal{C}$可测的，即$X \in K$，则$E(X|\mathcal{C}) = X$。（可测取自己）
+  \item 若$\mathcal{C} \subset \mathcal{A} \subset \mathcal{F}$，则$E(E(X|\mathcal{C})|\mathcal{A}) = E(E(X|\mathcal{A})|\mathcal{C}) = E(X|\mathcal{C})$。
+\end{enumerate}
+
+另外两条积分性质：
+
+\begin{enumerate}
+  \item 若X与$\mathcal{C}$独立，则$E(X|\mathcal{C}) = E(X), P_{\mathcal{C}}$ a.e.。pf by def。（独立没关系）
+  \item 若Y是$\mathcal{C}$可测的，则$E(YX|\mathcal{C}) = Y E(X|\mathcal{C}), P_{\mathcal{C}}$ a.e.。（可测当常数）
+\end{enumerate}
+
+pf: 几乎处处意义下的相等用积分相等来证明，即证
+\[
+  E(\eta \text{ LHS})) = E(\eta \text{ RHS})), \quad \forall \eta \in K
+\]
+
+由积分的建立过程（示性，简单，非负可测，一般可测），只要对于示性函数$\eta = 1_B, \forall B \in \mathcal{C}$成立即可
+
+1. $E(1_B E(X|\mathcal{C})) = E(1_B X) = E(1_B E(X))$
+
+2. $E(1_B E(1_C X|\mathcal{C})) = E(1_B 1_C X) = E(1_B 1_C E(X|\mathcal{C})), \quad \forall C \in \mathcal{C}$
+
+条件期望的严格定义（Radon导数）需要用到Radon-Nikodym定理（见严士健 7.2节）
+
+Kolmogorov存在性定理：若f.d.d.族是对称的和相容的，则存在概率空间及其上的随机过程使得其f.d.d.由上给出。（说明随机过程的f.d.d.是随机过程概率特征的完整描述）
+
+\subsection{Brownian Motion}
+
+标准BM：
+
+0. $B_0 = 0$, a.e.
+
+1. 正态增量，$B_t - B_s \sim N(0, (t - s)I)$
+
+2. 独立增量，$B_t - B_s$ ind of $B_s - B_0$
+
+3. 轨道连续
+
+----- BM的f.d.d. -----
+
+令$p(t, x, y) = {(2 \pi t)}^{- \frac{n}{2}}exp(-\frac{(y - x)^2}{2t}), B_i = B_{t_i}, W_i = W_{t_i} = B_i - B_{i - 1}$，则有
+\[
+  \begin{aligned}
+    E^x[h(B_1, B_2)] &= E^x[h(W_1 + x, W_2 + W_1 + x)]\\
+    (\text{by def}) &= \iint h(z_1 + x, z_2 + z_1 + x)f_{W_1, W_2}(z_1, z_2) dz_1 dz_2\\
+    (\text{ind}) &= \iint h(z_1 + x, z_2 + z_1 + x)f_{W_1}(z_1)f_{W_2}(z_2) dz_1 dz_2\\
+    &= \iint h(y_1, y_2)p(t_1, x, y_1)p(t_2 - t_1, y_1, y_2) dy_1 dy_2
+  \end{aligned}
+\]
+
+归纳可得BM的f.d.d.。
+
+----- 轨道性质 -----
+
+两个相同状态空间的随机过程互为修正，若其轨道几乎处处相等。
+
+Kolmogorov连续性定理：保证BM存在连续修正。
+
+BM增量的四阶矩：$E^x[|B_t - B_s|^4] = n(n + 2)|t - s|^2$。
+
+p阶变差过程$\langle X, X \rangle_{t}^{(p)}(\omega)=\lim_{\Delta t_{k} \rightarrow 0} \sum_{t_{k} \leqslant t}|X_{t_{k+1}}(\omega)-X_{t_{k}}(\omega)|^{p}$。（变差反应了充分小时间内的振动）
+
+BM的一阶变差$\langle B, B \rangle_{t}^{(1)}(\omega) = \infty$，二阶变差$\langle B, B \rangle_{t}^{(2)}(\omega) = t$, a.e.。
+
+pf see ppt SDE\_1-2 p30-31（二阶变差计算，先证$L^2$意义下收敛，用到随机变量独立则随机变量的函数形式独立，由此消去交叉项，$L^2$-收敛则依概率收敛则存在子列a.e.-收敛。一阶变差用反证法，用到BM在有界时间区间内一致连续，一阶变差有限推出二阶变差为零，矛盾）
+
+----- Gauss过程 -----
+
+BM是Gauss过程，即$\forall 0 \le t_1 \le \dots \le t_k$，随机向量$(B_1, \dots, B_k)$服从高维正态分布。
+
+等价于（用于判断）线性组合$\forall a_i, \sum_i a_i B_i$服从一维正态分布。
+
+pf: 线性组合用增量$W_i = B_i - B_{i - 1}$的形式来写，则$\sum_i a_i B_i = \sum_j b_j W_j + b_0 B_0$服从一维正态分布。
+
+若$B_t = (B_t^{(1)}, \dots, B_t^{(n)})$是n维BM，则$\{B_t^{(i)}\}$是相互独立的一维BM。
+
+BM是鞅和强马氏过程。
+
+\section{Ito积分}
+
+\subsection{Ito积分的建立}
+
+能且只能用BM来表示“噪声"。
+
+----- 流和适应 -----
+
+可测空间$(\Omega, \mathcal{F})$上的流$\mathcal{F}_t$是一族递增的$\mathcal{F}$的子$\sigma$-代数，随机过程$X_t$的自然流$\mathcal{F}_t^0 := \sigma(X_t)$是由$X_t$拉回的一族递增$\sigma$-代数。
+
+随机过程$X_t$是$\mathcal{F}_t$-适应的，若$\forall t \in T$，$\sigma(X_t) \subset \mathcal{F}_t$。
+ 
+----- Ito积分的建立 -----
+
+定义一个“好”的函数空间$\mathcal{V} = \{ f(t, \omega):[0, \infty) \times \Omega \to \mathbb{R} \}$，其中f s.t.
+\begin{enumerate}
+  \item $f(t, \omega)$是$\mathcal{B}([0, \infty)) \times \mathcal{F}$-可测的
+  \item $f(t, \omega)$是$\mathcal{F}_{t}$（BM的自然流）-适应的
+  \item $E\left[\int_{0}^{T} f(t, \omega)^{2} d t\right]<\infty$
+\end{enumerate}
+
+2. 可弱化为关于某个BM适应的流适应。
+
+3. 可弱化为二阶矩几乎处处有限，此时Ito积分是局部鞅。
+
+建立思路：利用BM二阶变差有限，我们希望这个积分在$L^2$意义下能被基本函数（取左端点的阶梯函数）的积分逼近，于是由$L^2$空间的完备性可得$I[f](w)$。
+
+基本函数，有界连续函数，有界函数，一般函数。
+
+\begin{enumerate}
+  \item 对于基本函数$\phi(t, \omega)=\sum_{j} e_{j}(\omega) \cdot 1_{[t_{j}, t_{j+1})}(t)$，$e_j(\omega) = \phi(t_j, \omega)$是$\mathcal{F}_{t_j}$-可测的，Ito积分即求和
+  \[
+    \int_{S}^{T} \phi(t, \omega) d B_{t}(\omega)=\sum_{j} e_{j}(\omega)\left[B_{t_{j+1}}-B_{t_{j}}\right](\omega)
+  \]
+  
+  Ito等距公式：若$f \in \mathcal{V}$，则有
+  \[
+    E\left[\left(\int_{S}^{T} f(t, \omega) d B_{t}(\omega)\right)^{2}\right]=E\left[\int_{S}^{T} f(t, \omega)^{2} d t\right]
+  \]
+
+  \item 有界连续函数由基本函数逼近，控制收敛定理。
+  \item 有界函数由有界连续函数（有界函数的磨光）逼近，控制收敛定理。（磨光算子的逼近性质，这里的精妙之处在于没有损失可测性）
+  \item 一般函数由有界函数逼近，控制收敛定理。
+\end{enumerate}
+
+注：连续函数说的就是轨道连续，因为Ito积分是对时间积分，也就是在轨道上积分，另一方面样本空间上也没有拓扑，没法谈连续。
+
+最后定义Ito积分（在$L^2$意义下取极限）
+\[
+  \int_{S}^{T} f(t, \omega) d B_{t}(\omega):=\lim \int_{S}^{T} \phi_{n}(t, \omega) d B_{t}(\omega), \quad \forall f \in \mathcal{V}
+\]
+
+推论一（Ito等距公式）：Ito积分$I: \mathcal{V} \to I[\mathcal{V}]$是等距映射。
+
+推论二：若基本函数列$\phi_n \overset{L^2}{\to} f$，则由Ito等距公式$I[f] = \lim I[\phi_n]$。
+
+Ito积分是对时间积分（基本，有界连续，连续，一般），期望是对空间积分（示性，简单，非负可测，一般可测）。
+
+Fubini定理：二元可测则积分可换序。
+
+Stratonovich积分由Ito积分表示：
+\[
+  \int_{0}^{t} \sigma(s, X_{s}) \circ d B_{s} = \frac{1}{2} \int_{0}^{t} \sigma^{\prime}(s, X_{s}) \sigma(s, X_{s}) d s+\int_{0}^{t} \sigma(s, X_{s}) d B_{s}.
+\]
+
+\subsection{Ito积分的性质}
+
+基本性质
+
+0. 线性性，区间可加性
+
+1. 零均值性：$E(I[f]) = 0$
+
+2. 可测性：$I[f](w) = \int_S^T f(t, \omega) dB_t$是$\mathcal{F}_T$-可测的
+
+pf: 由Ito积分的建立过程（基本，有界连续，有界，一般），只要证对于基本函数成立，显然。
+
+----- 鞅 -----
+
+随机过程$M_t$关于流$\mathcal{M}_t$是鞅，若有
+
+1. 适应性：$M_t$是$\mathcal{M}_t$-适应的
+
+2. 可积性：$E|M_t| < \infty, \quad \forall t \ge 0$
+
+3. 公平性：$E(M_t | \mathcal{M}_s) = M_s, \quad  \forall 0 \le s < t$
+
+鞅的期望不变：$E(M_s) = E(E(M_t | \mathcal{M}_s)) = E(M_t) = E(M_0)$。
+
+BM关于$\mathcal{F}_t$是鞅。
+
+pf: 1. 显然。2. $(E|B_{t}|)^{2} \le E[|B_{t}|^{2}]=nt<\infty$. 3. $E[B_{t} | \mathcal{F}_{s}]=E[B_{t}-B_{s} | \mathcal{F}_{s}]+E[B_{s} | \mathcal{F}_{s}]=0+B_{s}=B_{s}$.
+
+Chebyshev ineq: $1_{|x| \ge \lambda} \le \frac{|x|^p}{\lambda^p} \Rightarrow P(|x| \ge \lambda) \le \frac{1}{\lambda^p} E(|x|^p)$
+
+Doob's ineq: 若$X_t$为右连续鞅，则有
+\[
+  P\left[\sup_{0 \leq t \leq T}|X_{t}| \geq \lambda\right] \leq \frac{1}{\lambda^{p}} E\left[|X_{T}|^{p}\right]
+\]
+
+Doob's ineq 用来证明Ito积分是鞅，具体来说是证$I[\phi_n]$关于$\omega$一致连续，从而$I[f] = \lim I[\phi_n]$关于t连续。
+
+之前建立的Ito积分是在固定时间区间上的，相当于定积分，出来之后是一个随机变量，之后我们讨论更一般的不定积分，即$I[f](t, \omega) = \int_0^t f(s, \omega) d B_{s}$，出来之后还是一个随机过程。
+
+定理：Ito积分存在连续修正。
+
+pf：简单起见假设所有系数函数都是有界的，对于一般情形逼近即可。
+
+S0. 设基本函数列$\phi_n \overset{L^2}{\to} f$，则由Ito等距公式$I_n := I[\phi_n] \overset{L^2}{\to} I[f]$。
+
+S1. 证$I_n$是右连续鞅（为了用Doob鞅不等式），适应性由Ito积分的可测性，可积性由Ito等距公式，公平性由定义直接计算，连续性由基本函数的积分即求和。
+
+S2. $I_n - I_m$也是右连续鞅，由Doob鞅不等式（p = 2）
+\[
+  P\left[\sup_{0 \le s \le t}|(I_n - I_m)(s, \omega)| \geq \lambda\right] \le \frac{1}{\lambda^{2}} E\left[|(I_n - I_m)(t, \omega)|^{2}\right] \to 0
+\]
+
+则存在一个子列$n_k$ s.t.
+\[
+  P\left[\sup_{0 \le s \le t}|(I_{n_{k + 1}} - I_{n_k})(s, \omega)| \ge \lambda\right] < 2^{-k}
+\]
+
+Borel-Cantelli引理：如果一堆事件的概率和有限，则无穷个事件发生的概率为零，或者如果一堆区域的面积和有限，则被无穷个区域覆盖的区域为零测集。
+
+由Borel-Cantelli引理
+\[
+  P\left[\sup_{0 \le s \le t}|(I_{n_{k + 1}} - I_{n_k})(s, \omega)| \geq \lambda, \text{i.o.}\right] = 0
+\]
+
+于是对于几乎所有的$\omega, \exists n, \forall k > n, \sup_{0 \le s \le t}|(I_{n_{k + 1}} - I_{n_k})(s, \omega)| < \lambda$，即$I_{n_k}(t, \omega)$在[0, t]上对于几乎所有的$\omega$一致收敛，其极限函数$J(t, \omega)$连续。
+
+一致收敛：$f_n \rightrightarrows f$, if $\forall \varepsilon > 0, \exists N$ s.t. $\forall n > N, |f_n(t) - f(t)| \le \varepsilon, \forall t$。一致收敛的连续函数列的极限函数连续。
+
+Ito积分是连续鞅，由$I_n$是连续鞅，取极限即可。
+
+要证明Ito积分的性质只要对基本函数进行验证即可。
+
+\section{Ito公式和鞅表示定理}
+
+\subsection{Ito公式}
+
+----- 一维Ito公式 -----
+
+一维Ito过程：$dX_t = udt + vdB_t$，其中u和v关于t分别$L^1$和$L^2$ a.e. 可积。
+
+一维Ito公式：若$Y_t = g(t, X_t)$，则有
+\[
+  d Y_{t}=\frac{\partial g}{\partial t}(t, X_{t}) d t+\frac{\partial g}{\partial x}(t, X_{t}) d X_{t}+\frac{1}{2} \frac{\partial^{2} g}{\partial x^{2}}(t, X_{t})(d X_{t})^{2}
+\]
+
+在$L^2$意义下有$d t \cdot d t=d t \cdot d B_{t}=d B_{t} \cdot d t=0,  d B_{t} \cdot d B_{t}=d t$。
+
+----- 高维Ito公式 -----
+
+高维Ito公式：若$\undertilde{Y}(t, \omega) = \undertilde{g}(t, \undertilde{X}(t, \omega))$，则有
+\[
+  d Y_{k}=\frac{\partial g_{k}}{\partial t}(t, X) d t+\sum_{i} \frac{\partial g_{k}}{\partial x_{i}}(t, X) d X_{i}+\frac{1}{2} \sum_{i, j} \frac{\partial^{2} g_{k}}{\partial x_{i} \partial x_{j}}(t, X) d X_{i} d X_{j}
+\]
+
+在$L^2$意义下有$dB_t^{(i)} \cdot dB_t^{(j)} = \delta^{i}_j dt$。
+
+----- 分部积分公式 -----
+
+一般分部积分公式：若$X_t, Y_t$为Ito过程，则有
+\[
+  d(X_{t} Y_{t})=X_{t} d Y_{t}+Y_{t} d X_{t}+d X_{t} \cdot d Y_{t}
+\]
+
+pf：对$g(t, x, y) = xy$用二维Ito公式。
+
+若$f_t$为连续有界变差过程，则有
+\[
+  d(f_t B_{t})= f_t dB_t + B_{t} d f_{t}
+\]
+
+$d B_t$约等于$d \sqrt{t}$。
+
+\subsection{鞅表示定理}
+
+Doob-Dynkin引理：设$X, Y: \Omega \to \mathcal{E}$，则Y是$\sigma(X)$-可测的 iff $\exists g: \mathcal{E} \to \mathcal{R}$ s.t. $Y = g(X)$。
+
+鞅收敛定理：1. 若鞅列$\{X_n\}$一致有界（$\sup_n E(X_n) < \infty$），则极限a.e.存在（对几乎所有$\omega$，$\lim_n X_n(\omega)$存在）。2. 进一步，若$\{X_n\}$一致可积（= 一致有界 + 积分一致绝对连续），则极限在$L^1$意义下存在。（鞅收敛定理可以看作是一致可积性的应用，鞅收敛定理见ASPp61-61Thm2.2-2.3，一致可积性见APTp221Thm8.3.18，或厄克森达尔p268-270附录C）
+
+鞅收敛定理的一个推论（见厄克森达尔p270推论C.9）的应用如下：
+
+引理1：固定$T > 0$，则$\left\{\phi\left(B_{t_{1}}, \cdots, B_{t_{n}}\right) ; t_{i} \in[0, T], \phi \in C_{0}^{\infty}\left(\mathbb{R}^{n}\right), n \in \mathbb{N} \right\}$在$L^{2}\left(\mathcal{F}_{T}, P\right)$中是稠密的。
+
+注：这里的$\sigma$-代数$\mathcal{H}_n = \sigma(B_1, \dots, B_n)$，$\mathcal{F}_{T} = \mathcal{H}_{\infty}$，即包含所有$\mathcal{H}_n$的最小$\sigma$-代数。
+
+pf：1. $\forall g \in L^2(\mathcal{F}_{T}, P)$，由鞅收敛定理的推论，可以由$g=E\left[g | \mathcal{F}_{T}\right]=\lim_{n \rightarrow \infty} E\left[g | \mathcal{H}_{n}\right]$逼近。2. 由Doob-Dynkin引理，后者可以写成$E\left[g | \mathcal{H}_{n}\right]=g_{n}\left(B_{t_{1}}, \cdots, B_{t_{n}}\right)$。3. $g_n$能被紧支函数$\phi_n$逼近。
+
+引理2：指数鞅$\exp \left\{\int_{0}^{T} h(t) d B_{t}(\omega)-\frac{1}{2} \int_{0}^{T} h^{2}(t) d t\right\}, h \in L^{2}[0, T]$的线性组合全体（构成的集合）在$L^{2}\left(\mathcal{F}_{T}, P\right)$中是稠密的。
+
+pf：设$g \in L^2(\mathcal{F}_{T}, P)$与上述集合正交，证g只能是0。这里的h不妨取成阶梯函数的形式。另外需要用到Fourier变换，因此要先解析延拓到复数域上。
+
+Ito表示定理（固定时间形式的鞅表示定理）：设$F \in L^{2}(\mathcal{F}_{T}, P)$，则存在唯一的一个随机过程$f(t, \omega) \in \mathcal{V}(0, T)$使得$F(\omega)=E[F]+\int_{0}^{T} f(t, \omega) d B(t)$。
+
+pf：先证引理2中的指数鞅满足Ito表示定理，而任意$F \in L^{2}(\mathcal{F}_{T}, P)$可以由其逼近（在$L^{2}(\mathcal{F}_{T}, P)$意义下），再由Ito等距公式，可以在$L^{2}(T \times \Omega)$下逼近。关键是证找到的$f(t, \omega) \in \mathcal{V}(0, T)$收敛，需要用Ito积分的期望性质并再用一次Ito等距公式。最后证唯一性（在$L^{2}(T \times \Omega)$意义下），还是用Ito等距公式。
+
+注：1. 过程$f(t, \omega)$可看成$F(\omega)$的Frechét导数。2. 上述定理可以推广到P是n维空间（$\mathbb{R}^n$）的情形。
+
+鞅表示定理：在Ito表示定理的基础上，若$M_t$还是$\mathcal{F}_t$（BM自然流）-鞅，则$\exists!g(s, \omega)$ s.t. $\forall t \ge 0, g \in \mathcal{V}^{(n)}(0, t)$，且有
+\[
+  M_{t}(\omega)=E\left[M_{0}\right]+\int_{0}^{t} g(s, \omega) d B(s), \text{ a.e., } \forall t \ge 0.
+\]
+
+pf：先由Ito表示定理，对于每个固定的t，可以找到对应的$f_t$。再由鞅的期望性质证不同时刻的$f_t$在几乎处处意义下其实是一样的。
+
+\section{SDE}
+
+\subsection{SDE求解}
+
+1. 人口增长模型：$d N_{t}=r N_{t} d t+\alpha N_{t} d B_{t}$
+
+解：$N_{t}=N_{0} \exp \left(\left(r-\frac{1}{2} \alpha^{2}\right) t+\alpha B_{t}\right)$。
+
+若$N_{0}$与$B_{t}$独立，则$E N_{t}=E\left[N_{0}\right] e^{r t}$。pf：直接计算即可。
+
+比如你要算$Y_t$的期望，先用Ito公式算$Y_t$的微分，然后再积分会得到关于$Y_t$的积分方程，最后解这个方程就好了。
+
+重对数律，判断收敛速度。
+
+2. 电路电荷模型，引入随机向量，将高维问题转化为一维问题，跟ODE中处理方式相同。
+
+3. 单位圆上的BM（略）
+
+\subsection{解的存在唯一性定理}
+
+给定SDE：$d X_{t}=b\left(t, X_{t}\right) d t+\sigma\left(t, X_{t}\right) d B_{t}, X_{0}=Z$，其中初值（是一个随机变量）Z关于$\mathcal{F}_{\infty}$独立，且二阶矩有限。
+
+若线性增长条件：$|b(t, x)|+|\sigma(t, x)| \leq C(1+|x|), \forall t \in[0, T]$以及Lipschitz条件：$|b(t, x)-b(t, y)|+|\sigma(t, x)-\sigma(t, y)| \leq D|x-y|, \forall t \in[0, T]$关于t一致成立，则上述SDE的解存在唯一。
+
+注：1. 线性增长条件也称非爆炸条件，若不满足可能会出现爆炸（有限时间内函数值趋向无穷）导致解不存在。
+
+2. Lipschitz条件，若不满足解可能不唯一。上述Lipschitz条件蕴含对于b和$\sigma$的Lipschitz条件分别成立（用的时候用单个的）。
+
+3. 解有很好的性质：轨道连续，$\mathcal{F}_{t}^{Z}$适应，$E\left[\int_{0}^{T}|X_{t}|^{2} d t\right]<\infty$。$\mathcal{F}_{t}^{Z}$是由Z和BM生成的流。
+
+唯一性证明：Ito等距，Lipschitz条件，Gronwall ineq。
+
+存在性证明：Picard迭代$Y_{t}^{(k+1)}=X_{0}+\int_{0}^{t} b\left(s, Y_{s}^{(k)}\right) d s+\int_{0}^{t} \sigma\left(s, Y_{s}^{(k)}\right) d B_{s}$，类似唯一性的计算可得$Y_t^{(n)}$在$L^2(T \times \Omega)$意义下为Cauchy列，故收敛，得到$X_t$，最后由Ito等距公式验证其满足原方程（就是说现在你有$Y_t^{(n)}$收敛到$X_t$了，你想两边取极限，但是那两个积分是不是收敛到相应的$X_t$的形式呢，是证这个）。
+
+可测性：每个$Y_t^{(n)}$是$\mathcal{F}_{t}^{Z}$可测的，故其极限$X_t$也是$\mathcal{F}_{t}^{Z}$可测的。
+
+连续性：确定部分的连续性由积分的绝对连续性保证，随机部分（Ito积分）则存在连续修正。
+
+\subsection{强解与弱解}
+
+强解：$X_t$是$\mathcal{F}_t^Z$适应的，（由Doob-Dynkin引理）$X_t$由$B_t$唯一决定，即$X_t$可以写成$B_t$的泛函形式$X_t = F(B_t, 0 \le t \le T)$。
+
+于是上述存在唯一性定理说的是强解。
+
+弱解：$X_t$满足方程即可。
+
+弱唯一性：弱解在概率分布相同意义下唯一。
+
+轨道唯一性：弱解在轨道相同意义下唯一。
+
+若b和$\sigma$满足线性增长条件和Lipschitz条件，则SDE的弱解唯一。
+
+Tanaka公式：
+\[
+  |B_{t}|=|B_{0}|+\int_{0}^{t} \operatorname{sign}\left(B_{s}\right) d B_{s}+L(t, 0),
+\]
+
+其中$L(t, x)=\lim _{\epsilon \rightarrow 0} \frac{1}{2 \epsilon} \int_{0}^{t} 1_{(x-\epsilon, x+\epsilon)}\left(B_{s}\right) d s$在$L^{2}(\Omega, P)$中存在, 称为$B_{t}$在点x处的局部时。
+
+pf：对$g_{\varepsilon}(x)=\left\{\begin{array}{ll}
+  |x|, & |x| \geq \varepsilon \\
+  \frac{1}{2}\left(\varepsilon+\frac{x^{2}}{\varepsilon}\right), & |x|<\varepsilon .
+\end{array}\right. , X_t = B_t$使用Ito公式，再令$\varepsilon \to 0$。
+
+Tanaka方程：$\left\{\begin{array}{ll}
+  d X_{t}=\operatorname{sign}\left(X_{t}\right) d B_{t} \\
+  X_{0}=0
+\end{array}\right.$的弱解存在唯一，而强解不存在。
+
+pf：BM是方程的弱解，故存在唯一。由Tanaka公式，方程的解$X_t$的自然流比BM的自然流要大，故不可能是强解。（$X_t$要想是BM的自然流可测的，其自然流肯定要小一点，因为自然流是说我至少需要这么多集合来让我可测。）
+
+\section{扩散过程}
+
+\subsection{Ito扩散与Markov性质}
+
+随机过程$X_t$是时齐的，若$P\left(X_{s+h} \in B | X_{s}=x\right)=P\left(X_{h} \in B | X_{0}=x\right)$，即条件概率只和时间跨度有关，与具体时刻无关。
+
+Ito扩散$X_t$是一个随机过程，满足SDE $d X_{t}=b\left(X_{t}\right) d t+\sigma\left(X_{t}\right) d B_{t}$，其中b称漂移系数，$\sigma$称扩散系数，二者满足存在唯一性定理中的线性增长条件和Lipschitz条件。
+
+用$X_t^{s, x}$表示初始时刻为s且$X_s = x$的上述扩散方程的解。
+
+Ito扩散是时齐的。pf by def。
+
+注：Ito积分的时间平移公式：$\int_s^{s + h} \sigma(X_{u}^{s, x}) dB_u = \int_0^h \sigma(X_{s + u}^{s, x}) d\widetilde{B}_u, \widetilde{B}_u = B_{s + u} - B_s$。$\widetilde{B}_u$仍为BM，与$B_u$同分布。
+
+由于时齐性质，初始时刻不妨为0，上述记号变为$X_t^x$，另外$Q^x$表示$X_0^x$诱导的概率分布测度（所谓概率分布，就是随机变量推到状态空间的概率测度），$E^{x}\left[f_{1}\left(X_{t_{1}}\right) \cdots f_{k}\left(X_{t_{k}}\right)\right]=E\left[f_{1}\left(X_{t_{1}}^{x}\right) \cdots f_{k}\left(X_{t_{k}}^{x}\right)\right]$表示$Q^x$下的期望（也是一个变量替换公式，见ASPp94Notes）。$\mathcal{F}_t$表示BM的自然流，$\mathcal{M}_t$表示Ito扩散的自然流。
+
+$Q^x$下的期望，说明$Q^x$是$\Omega$上的测度，但是概率分布又是$\mathbb{R}^n$上的测度，其实是一个。那个等式应该可以理解为一个变量替换公式。
+
+由于我们要求存在唯一性定理中的条件成立，Ito扩散作为SDE的解是强解，所以是$\mathcal{F}_t$可测的，故$\mathcal{M}_t \subset \mathcal{F}_t$。
+
+Markov性质（关于流$\mathcal{F}_t$）：
+\[
+  E^{x}\left[f\left(X_{t+h}\right) | \mathcal{F}_{t}^{(m)}\right](\omega)=E^{X_{t}(\omega)}\left[f\left(X_{h}\right)\right].
+\]
+
+pf（Ito扩散的Markov性质）：\[
+  \begin{aligned}
+    E^{x}\left[f\left(X_{t+h}\right) | \mathcal{F}_{t}\right] & =E^{x}\left[f\left(F\left(X_{t}, B_{u}-B_{t}, t<u \leq t+h\right)\right) | \mathcal{F}_{t}\right] \\
+    & =E^{x}\left[f\left(F\left(X_{t}, B_{u}-B_{t}, t<u \leq t+h\right)\right) | X_{t}\right] \\
+    & =E^{x}\left[f\left(X_{t+h}\right) | X_{t}\right] \\
+    & =E^{X_{t}(\omega)}\left[f\left(X_{h}\right)\right]
+  \end{aligned}
+\]
+第一和三个等号：由强解的定义，$X_{t+h} = F\left(X_{t}, B_{u}-B_{t}, t<u \leq t+h\right)$。第二个等号：BM的增量独立性质$X_{t}$是$\mathcal{F}_t$可测的。第四个等号：时齐性质。
+
+\subsection{强Markov性质}
+
+随机变量$\tau$是关于流$\mathcal{N}_t$的停时，若$\{\omega, \tau(\omega) \le t\} \in \mathcal{N}_t, \forall t \in T$。
+
+开集U的首次逃离时（闭集的首次进入时）$\tau_U = \inf \{t > 0, X_t \notin U\}$。
+
+$\sigma$-代数$\mathcal{N}_{\tau} = \{ A \in \mathcal{N}_{\infty}: A \cap \{ \tau \le t \} \in \mathcal{N}_t, \forall t \in T \}$
+
+$\mathcal{N}_{t}=\mathcal{F}_{t}$时，$\mathcal{F}_{\tau}$即$\{B_{s \wedge \tau}, s \geq 0\}$生成的$\sigma$-代数。（$B_{s \wedge \tau}$看成函数复合）
+
+\begin{conc}
+  \textbf{(Week 3-1)} 存在唯一性定理的存在性证明，Picard序列，强解和弱解，Tanaka公式，Tanaka方程弱解存在唯一而强解不存在，Ito扩散，时齐性质，Markov性质，停时，开集的首次逃离时。
+\end{conc}
+
+BM的强马氏性：马氏性里面的固定时间可以换成随机时间，即停时\[
+  E^x[f(X_{\tau + h}) | \mathcal{F}_\tau](\omega) = E^{X_\tau(\omega)}[f(X_h)], (0, \tau + h, \tau \Rightarrow 0, h)
+\]
+
+推广到k个时刻
+\[
+  E^{x}\left[f_{1}\left(X_{\tau+h_{1}}\right) \cdots f_{k}\left(X_{\tau+h_{k}}\right) | \mathcal{F}_{\tau}\right] = E^{X_{\tau}}\left[f_{1}\left(X_{h_{1}}\right) \cdots f_{k}\left(X_{h_{k}}\right)\right] .
+\]
+
+BM的增量里面的固定时间换成随机时间$\widetilde{B}_v = B_{\tau + v} - B_\tau$（BM与停时的复合的增量）仍是高斯增量，且与$\mathcal{F}_\tau$独立。
+
+推移算子$\theta_t, \theta_t(g(X_s)) = g(X_{s + t})$。
+
+强Markov性质用平移算子可以表述为$E^{x}\left[\theta_{\tau} \eta | \mathcal{F}_{\tau}\right]=E^{X_{\tau}}[\eta]$。
+
+首中分布，调和测度和平均值性质
+
+调和测度：由Dicichlet边界的调和方程确定的测度，见Wiki。
+
+\subsection{无穷小生成元}
+
+设$\left\{X_{t}\right\}$是一个$\mathbb{R}^{n}$上的时齐的Ito扩散（b和$\sigma$没有t），$X_{t}$的无穷小生成元$A: D(A) \to C_0$定义为
+\[
+  A f(x)=\lim _{t \rightarrow 0} \frac{E^{x}\left[f\left(X_{t}\right)\right]-f(x)}{t}, \quad x \in \mathbb{R}^{n}
+\]
+
+由SDE的解$X_t^x$可以确定一个转移半群$P_t(f) = E^{x}\left[f\left(X_{t}\right)\right]$，这样就可以和Revuz那本书联系起来了。
+
+计算公式：设Ito扩散$dX_t = b(X_t)dt + \sigma(X_t)dB_t$，$f \in C_0^2$，则
+\[
+  A f(x)=\sum_{i} b_{i}(x) \frac{\partial f}{\partial x_{i}}+\frac{1}{2} \sum_{i, j}\left(\sigma \sigma^{T}\right)_{i j}(x) \frac{\partial^{2} f}{\partial x_{i} \partial x_{j}}.
+\]
+
+证明就是用Ito公式再取期望，算的时候会出来三项，前两项就是上面这个形式，只要证第三项（形式上是Ito积分）是零，因为要取期望，只要证Ito积分被积部分在$\mathcal{V}$里面，需要费一番周折，见厄克森达尔p103证明。
+
+\subsection{Dynkin公式}
+
+\begin{thm}（Dynkin公式）
+  设$f \in C_{0}^{2}\left(\mathbb{R}^{n}\right)$，$\tau$是停时 s.t. $E^{x} \tau<\infty$，则
+  \[
+    E^{x} f\left(X_{\tau}\right)=f(x)+E^{x}\left[\int_{0}^{\tau} A f\left(X_{s}\right) d s\right] .
+  \]
+\end{thm}
+
+两个例题，具体的就不写了，主要是怎么选这个试验函数f，如果是方程里是Laplace算子，对应的过程就是BM，这时候一般选$\Delta f = c/n$或$\Delta f = 0$（调和函数），感觉就是为了用Dynkin公式的时候让那个积分好算。那找f的过程是不是就是一个解确定方程的过程？
+
+\subsection{特征算子}
+
+时齐的Ito扩散$X_{t}$的特征算子$\mathcal{A}$定义为
+\[
+  \mathcal{A} f(x)=\lim_{U \rightarrow 0} \frac{E^{x}\left[f\left(X_{\tau_U}\right)\right]-f(x)}{E^x \tau_U}, \quad x \in \mathbb{R}^{n}
+\]
+
+其中极限表示一族收缩到点x的一族开集$U_k$。
+
+特征算子比生成元算子更加广泛，即$D(A) \subset D(\mathcal{A})$，可以看成是生成元算子的推广。一般来说生成元算子作用对象要求有一定的光滑性，特征算子则不需要，甚至可以不连续。（见厄克森达尔p108例7.5.6）
+
+而且在$D(A)$上，$\mathcal{A}f(x) = Af(x)$，即有
+\[
+  \mathcal{A} f(x)=\sum_{i} b_{i}(x) \frac{\partial f}{\partial x_{i}}+\frac{1}{2} \sum_{i, j}\left(\sigma \sigma^{T}\right)_{i j}(x) \frac{\partial^{2} f}{\partial x_{i} \partial x_{j}} .
+\]
+
+证明用到Dynkin公式。
+
+\subsection{Kolmogorov向后方程}
+
+\begin{thm}（Kolmogorov向后方程）
+  \begin{enumerate}
+    \item （PDE的概率解）设$f \in C_{0}^{2}\left(\mathbb{R}^{n}\right)$，令
+    \[
+      u(t, x)=E^{x}\left[f\left(X_{t}\right)\right],
+    \]
+    则对每个t，$u(t, \cdot) \in D_{A}$，且u是以下PDE的解
+    \[
+      \begin{aligned}
+        \frac{\partial u}{\partial t}&=A u, \quad t>0, x \in \mathbb{R}^{n} \\
+        u(0, x)&=f(x), \quad x \in \mathbb{R}^{n}
+      \end{aligned}
+    \]
+    \item （唯一性）若$w(t, x) \in C^{1,2}\left(\mathbb{R} \times \mathbb{R}^{n}\right)$是满足上述两个等式的有界函数，则$w(t, x)=u(t, x)=E^{x}\left[f\left(X_{t}\right)\right]$ .
+  \end{enumerate}
+\end{thm}
+
+pf: 1. 用定义式计算即可，应该是在逐点意义下。2. 注意到，若时间延拓$Y_t = (t, X_t)$，则$A_Y f = \frac{\partial f}{\partial t} + A_X f$。之后对时间延拓后的随机过程使用Dynkin公式，可得唯一性，即概率解的形式唯一。
+
+技术上由于Dynkin公式中要求有限停时，因此用的时候先用$k \wedge \tau$，完了之后让$k \to \infty$即可，效果是一样的。
+
+这个定理主要建立了PDE和随机过程之间的联系，于是可以用概率方法研究方程。主要的桥梁就是生成元算子（特征算子），有了过程，算生成元算子就可以得到对应的方程，反过来有了方程，就要去找这个生成元算子对应的过程，然后找的话就是用生成元算子那个计算公式找系数，大概是这样。
+
+\subsection{半群与预解式}
+
+之前提到，由SDE的解$X_t^x$可以确定一个转移半群$P_tf(x) = E^{x}\left[f\left(X_{t}\right)\right] = \int_E P_t(x, dy) f(y) = \int_\Omega f(X_t(\omega)) dQ^x(\omega)$。Revuz书上预解算子定义为$U_p f = \int_0^{\infty} e^{-p t} P_tf(x) dt$。
+
+半群性质$P_{s + t} = P_s P_t \Rightarrow \int P_{s + t}(x, dz) f(z) = \int P_s(x, dy) \int P_t(y, dz) f(z)$，即$P_s P_t f(x) = E^x[ (P_t f)(X_s) ] = E^x[ E^{X_s} f(X_t) ] = E^x[ E(f(X_{t + s}) | \mathcal{F}_s) ] = E^x[f(X_{s + t})]$。（注意马氏性有个推移算子在里面）
+
+对$\alpha>0, f \in C_{b}\left(\mathbb{R}^{n}\right)$，定义预解算子$R_{\alpha} g(x)=E^{x}\left[\int_{0}^{\infty} e^{-\alpha t} g\left(X_{t}\right) d t\right] = \int_0^\infty e^{-\alpha t} E^x[g(X_t)] dt = \int_0^{\infty} e^{-\alpha t} P_t g(x) dt$，所以两个是一样的。
+
+预解算子可以看成半群的Laplace变换，也可以看成生成元算子的预解式，即$R_\lambda = (\lambda I - A)^{-1}$。
+
+$R_{\alpha} g$有界连续。
+
+pf is omitted.（下半连续，Fatou引理）
+
+预解算子的性质
+\begin{enumerate}
+  \item 若$f \in C_{0}^{2}\left(\mathbb{R}^{n}\right)$，则$\forall \alpha>0, R_{\alpha}(\alpha-A) f=f$。
+  \item 若$g \in C_{b}\left(\mathbb{R}^{n}\right)$，则$\forall \alpha>0, R_{\alpha} g \in D_{A}$且$(\alpha-A) R_{\alpha} g=g$。
+\end{enumerate}
+
+pf is omitted.（主要用之前讲的各种公式计算，Dynkin公式，马氏性，半群性质）
+
+与几何中的无穷小生成元：转移半群是E上函数空间$\mathcal{F}(E)$上的“流”，打引号是因为这里是这个流不可逆，所以叫半群，几何里面是单参数变换群，总之是一个意思。那生成元算子就是$\mathcal{F}(E)$上的向量场$A \in \mathfrak{X}(\mathcal{F}(E)), Af \in T_f \mathcal{F}(E)$。随机过程在哪？
+
+\subsection{Feynmann-Kac公式}
+
+\begin{thm}（Feynman-Kac公式，Kolmogorov向后方程的推广）
+  \begin{enumerate}
+    \item （PDE的概率解）设$f \in C_{0}^{2}\left(\mathbb{R}^{n}\right), q \in C\left(\mathbb{R}^{n}\right)$，q下有界。令
+    \[
+      v(t, x)=E^x\left[ Z_t f(X_t) \right]=E^{x}\left[\exp \left(-\int_{0}^{t} q\left(X_{s}\right) d s\right) f\left(X_{t}\right)\right]
+    \]
+    则v是以下PDE的解
+    \[
+      \begin{aligned}
+        \frac{\partial v}{\partial t}&=A v-q v \\
+        v(0, x)&=f(x)
+      \end{aligned}
+    \] 
+    \item （唯一性）若$w(t, x) \in C^{1,2}\left(\mathbb{R} \times \mathbb{R}^{n}\right)$对每个紧集$K \subset \mathbb{R}$，在$K \times \mathbb{R}^{n}$上有界，且$w(t, x)$是上述方程的解，则$w(t, x)=v(t, x)$。
+  \end{enumerate}
+\end{thm}
+
+证明思路和Kolomogrov向后方程一致。
+
+Ito公式计算（最后那个$Z_t$不是随机积分，不用Ito公式，就是一般微分）
+\[
+  \begin{aligned}
+    dX_t &= bdt + \sigma dB_t \\
+    (dX_t)^2 &= \sigma^2 dt \\
+    dY_t &= d(f(X_t))\\
+    &= \partial_x f dX_t + \frac{1}{2} \partial_{xx} f (dX_t)^2 \\
+    &= \partial_x f bdt + \partial_x f \sigma dB_t + \frac{1}{2} \partial_{xx} f \sigma^2 dt \\
+    &= Af dt + \partial_x f \sigma dB_t\\
+    dZ_t &= d\left(\exp \left(-\int_{0}^{t} q(X_{s}) ds\right)\right)\\
+    &= Z_t \left( -q(X_t) \right) dt
+  \end{aligned}
+\]
+
+消灭与消灭过程
+
+\subsection{鞅问题}
+
+上述计算中$d(f(X_t)) = Af dt + \partial_x f \sigma dB_t$的积分形式为
+\[
+  f(X_t) = f(x) + \int_0^t Af(X_s) ds + \int_0^t \partial_x f(X_s) \sigma(X_s) dB_s,
+\]
+
+这启示我们
+\[
+  M_t = f(X_t) - f(x) - \int_0^t Af(X_s) ds
+\]
+
+是Ito积分，故为鞅，且是$\mathcal{M}_t$（Ito扩散自然流）适应的。
+使用坐标过程的看法在无穷乘积空间上看，$\omega \in \Omega = E^T, \omega: T \to E, \omega(t) = X_t(\omega), (\Omega, \mathcal{F}, P) \overset{X_0}{\to} (E, \mathcal{E}, Q^x) \overset{X_0 \circ \phi^{-1}}{\longrightarrow} (E^T, \mathcal{E}^T, \widetilde{Q}^x),$
+\[
+  M_t = f(\omega_t) - f(\omega_0) - \int_0^t Af(\omega_s) ds
+\]
+
+是$E^T$上关于$\mathcal{E}^T$的$\widetilde{Q}^x$鞅。
+
+上面的处理没有新的东西，就是对于Ito扩散（SDE的解），可以定义生成元算子A（是一个椭圆算子）和无穷乘积空间上的鞅$M_t$，换句话说，由随机过程（一般是Markov过程）可以找到对应的算子。那么反过来，很多时候我们想由方程找对应的随机过程，那么自然想问是不是所有的椭圆算子L（其系数是局部有界和$\mathcal{E}^T$可测的）都能找到随机过程$X_t$与之对应，答案是，如果能找到$E^T$上的测度$\widetilde{P}^x$使得
+\[
+  M_t = f(\omega_t) - f(\omega_0) - \int_0^t Lf(\omega_s) ds
+\]
+
+是鞅（此时称$\widetilde{P}^x$解决了算子L的鞅问题），那么能够找到$X_t$是SDE的弱解，进一步如果$\widetilde{P}^x$是唯一的（此时称鞅问题是好处理的），那么$X_t$就能升级成Markov过程。
+
+另外鞅问题解的存在唯一性与之前一般SDE解的存在唯一性结论有所不同，比如Lipschitz连续不再是必要的。
+
+证明思路是找一列“好”的椭圆算子$L_n \to L$，得到一列测度$\widetilde{P}^x_n$，然后在某个拓扑下收敛到我们想要的L对应的那个测度。
+
+随机过程和测度的对偶关系：本来是要找SDE的解，是一个随机过程，现在等价于找一个怎么怎么样的测度。
+
+鞅问题的解与原方程的弱解相互确定。
+
+过程的概率分布可以诱导轨道空间的测度（测度拉回）。
+
+\subsection{Ito过程何时是Ito扩散}
+
+\begin{thm}（Ito过程何时是Ito扩散）
+
+  设$X_t$为Ito扩散，即
+  \[
+    dX_t = b(X_t)dt + \sigma(X_t)dB_t,
+  \]
+  $Y_t$为Ito过程，即
+  \[
+    dY_t = u(t, Y_t)dt + v(t, Y_t)dB_t.
+  \]
+  则$X_t$与$Y_t$拥有相同的概率分布 iff 对几乎所有的$(t, \omega)$
+  \[
+    E^{x}\left[u(t, \cdot) | \mathcal{N}_{t}\right]=b\left(Y_{t}^{x}\right), \quad v v^{T}(t, \omega)=\sigma \sigma^{T}\left(Y_{t}^{x}\right),
+  \]
+  其中$\mathcal{N}_{t}$是$Y_t$的自然流。
+\end{thm}
+
+pf: $\Leftarrow$ 设A是$X_t$的生成元算子，对于Ito过程$Y_t$可以定义$M_t = f(Y_t) - \int_0^t Af(Y_s) ds$，证$M_t$关于$\mathcal{N}_t$是鞅，然后由鞅问题的唯一性可得$X_t$与$Y_t$概率分布相同（因为$E^T$上测度一样，用f推到$\mathbb{R}$上还是一样）。
+
+$\Rightarrow$ Ito扩散是Markov过程，但是Ito过程不一定是，而生成元算子是对于半群说的，所以Ito过程不一定有这个东西。现在$X_t$和$Y_t$概率分布相同，前者是Markov过程，那后者也应该是，所以从两种不同算法算形式上的生成元，让他俩相等，得到那两个式子。
+
+可测性部分$v v^{T}(t, \cdot)$是$\mathcal{N}_{t}$可测的，意思是说存在一个$\mathcal{N}_{t}$适应过程$W(t, \omega)$ ，使得对几乎所有的$(t, \omega)$，$v v^{T}(t, \omega)=W(t, \omega)$。
+
+pf is omitted.（见厄克森达尔p127引理8.4.4）
+
+特别地，一个Ito过程$d Y_{t}=u(t, \omega) d t+v(t, \omega) d B_{t}$是BM iff 
+\[
+  E^{x}\left[u(t, \cdot) | \mathcal{N}_{t}\right]=0, \quad v v^{T}(t, \omega)=I_{n}.
+\]
+
+更特别地，一个Ito过程$d Y_t = v(t, Y_t)dB_t$是BM iff $vv^T = I$。
+
+“是BM”应该理解为在概率分布相同。
+
+最后三节内容主要关注的问题就是，随机积分（BM的积分），即Ito过程，和BM的关系。这一节的结论就是，当Ito过程的系数满足某些条件时，其在概率分布相同的意义下就是BM。
+
+\subsection{随机时变}
+
+给定随机过程$c(t, \omega) \ge 0$是$\mathcal{F}_t$适应的。定义随机时变（是一个随机过程）$\beta(t, \omega) = \int_0^t c(s, \omega) ds$，其也是$\mathcal{F}_t$适应的。$\beta(t, \omega)$的右逆过程$\alpha_{t}=\inf \left\{s: \beta_{s}>t\right\}$，其关于$\mathcal{F}_t$是一族停时，这是因为$\{\omega: \alpha(t, \omega)<s\}=\{\omega: t<\beta(s, \omega)\} \in \mathcal{F}_{s}$。
+
+\begin{thm}（BM的Levy特征）
+
+  $X_t$相对于测度Q是BM iff $X_t$相对于测度Q是鞅，且二阶变差（是一个随机过程）$\langle X_i, X_j \rangle = \delta_{ij} t$ a.e.（一维情形即$\langle X \rangle_t = t$），最后一句话可以换成$\langle X_i, X_j \rangle - \delta_{ij} t$相对于测度Q是鞅。
+\end{thm}
+
+直接按照定义验证BM不好弄，转化为证明鞅的问题就容易许多。
+
+设Ito过程$d Y_{t}=v(t, \omega) d B_{t}, Y(0) = 0$，假定对某个过程$c(t, \omega) \geq 0$有$v v^{T}(t, \omega)=c(t, \omega) I_{n}$，则停止过程$Y_{\alpha_{t}}$是BM。
+
+这里$Y_{\alpha_{t}}$应该理解为函数复合，即$Y_{\alpha_{\cdot}}(t, \omega) = Y_{\alpha_t(\omega)}(\omega)$，是一个随机过程。
+
+pf: $Y_t = \int_0^t v(s, \omega) dB_s, Y_{\alpha_t} = \int_0^{\alpha_t} v(s, \omega) dB_s.$ 现在验证BM的Levy特征。$E[Y_{\alpha_t} | \mathcal{F}_{\alpha_s}] = E\left[\int_0^{\alpha_t} v(s, \omega) dB_s | \mathcal{F}_{\alpha_s}\right] = Y_{\alpha_s}.$（可测取自己，独立没关系）$\langle Y_{\alpha_{t}} \rangle=\int_{0}^{\alpha_{t}} v v^{T}(s, \omega) d s = \int_{0}^{\alpha_{t}} c(s, \omega)I_n d s = \beta(\alpha_t, \omega)I_n = tI_n.$ 
+
+Ito过程$dY_t = u(t, Y_t) dt + v(t, Y_t) dB_t, Y_0 = 0$，即$Y_t = \int_0^t u(s, Y_s) ds + \int_0^t v(s, Y_s) = A_t + M_t$的变差过程$\langle Y \rangle_t = \langle A \rangle_t + 2\langle A, M \rangle_t + \langle M \rangle_t = 0 + 0 + \int_0^t v v^T(s, \omega)ds = \int_0^t v v^T(s, \omega)ds$。（证明见Stackexchange: `Calculation of the quadratic variation of an Itô process.'）
+
+或者由Ito公式$d\langle Y \rangle_t = dY_t^2 = 2Y_t dY_t + (dY_t)^2 = 2Y_t u dt + 2Y_t v dB_t + vv^T dt$
+
+\begin{thm}（Ito过程的时变何时是Ito扩散）
+
+  设$X_t$和$Y_t$分别是初值相同的Ito扩散和Ito过程，$\beta_{t}=\int_{0}^{t} c(s, \omega) d s$  是一个时变，且有右逆$\alpha_{t}$。假定对几乎所有的$(t, \omega)$，有
+  \[
+    u(t, \omega)=c(t, \omega) b\left(Y_{t}\right), \quad v v^{T}(t, \omega)=c(t, \omega) \cdot \sigma \sigma^{T}\left(Y_{t}\right),
+  \]
+
+  则$X_{t}$和$Y_{\alpha_{t}}$的概率分布相同。（注意不是充要）
+\end{thm}
+
+pf: 利用鞅解的唯一性，$X_t$是生成元算子A的鞅解，只要证$Y_t$也是就行了。鞅问题是找测度，但其实测度已经有了，就是使得$X_t$是鞅的那个，所以只要证$Y_t$是鞅。这个计算和之前的区别主要在于时间是随机的，课上说是因为强马氏性可以把随机时间当成固定时间处理，但是你Ito过程哪来强马氏性啊。感觉这里处理随机时间应该是用Ito积分的时变公式。
+
+Ito积分的时变公式，见厄克森达尔p131定理8.5.7。
+
+两个推论：1. 设$d Y_{t}=\sum_{i=1}^{n} v_{i}(t, \omega) d B_{i}(t, \omega), Y_{0}=0$，其中$B_t$  是n维BM，$\beta_{s}=\int_{0}^{s} \sum_{i=1}^{n} v_{i}^{2}(r, \omega) d r$，$\alpha_t$是其右逆，则$\widehat{B}_{t}:=Y_{\alpha_{t}}$是一维BM。
+
+2. 给定$c(t, \omega) \geq 0$，则$Y_{t}=\int_{0}^{t} \sqrt{c(s, \omega)} d B_{s}$是n维BM。（这个形式出处见Ito积分的时变公式）
+
+\subsection{Girsonov定理}
+
+\begin{lem}（Bayes公式）
+
+  设$\mu$和$\nu$是可测空间$(\Omega, \mathcal{G})$上的两个概率测度，且存在某个$f \in L^{1}(\mu), f: \Omega \to \mathbb{R}$使得$d \nu=f(\omega) d \mu$，X是一个随机变量，满足
+  \[
+    E_{\nu}[|X|]=\int_{\Omega}|X(\omega)| f(\omega) d \mu(\omega)<\infty,
+  \]
+  则对任意$\sigma$-代数$\mathcal{H} \subset \mathcal{G}$，有
+  \[
+    E_{\nu}[X | \mathcal{H}] \cdot E_{\mu}[f | \mathcal{H}]=E_{\mu}[f \cdot X | \mathcal{H}].
+  \]
+\end{lem}
+
+f应该也是个随机变量，不知道为啥用f。
+
+pf by def.（条件期望的两条定义式，可测性和期望性质）
+
+测度的（绝对）连续：P和Q是$(\Omega, \mathcal{F}, \{\mathcal{F}_t\}_{t \ge 0})$上的两个概率测度，则对任意固定时间T，$Q \ll P$若$P(A) = 0 \Rightarrow Q(A) = 0, \forall A \in \mathcal{F}_T$。即P这个测度测出来要大一点。由Radon-Nikodym 定理，其等价于存在一个$\mathcal{F}_{T}$可测的随机变量$Z_{T}$在$\mathcal{F}_{T}$上有$d Q=Z_{T}(\omega) d P$，记作$\frac{d Q}{d P}=Z_{T}$（小的对大的导），称$Z_{T}$是Q相对于P的Radon-Nikodym导数。
+
+定义绝对连续和Radon-Nikodym导数不依赖流，只需要$\sigma$-代数。
+
+\begin{lem}
+  设$Q \ll P|_{\mathcal{F}_{T}}$，在$\mathcal{F}_{T}$上$\frac{d Q}{d P}=Z_{T}$，则$\forall t \in[0, T]$，$Q|_{\mathcal{F}_{t}} \ll P|_{\mathcal{F}_{t}}$，令
+  \[
+    Z_{t}:=\frac{\left.d Q\right|_{\mathcal{F}_{t}}}{\left.d P\right|_{\mathcal{F}_{t}}}
+  \]
+
+  则$Z_{t}$相对于$\mathcal{F}_{t}$和P是鞅。
+\end{lem}
+
+\begin{pf}
+  因为在$\mathcal{F}_{T}$上$Q \ll P, \mathcal{F}_{t} \subset \mathcal{F}_{T}$，显然在$\mathcal{F}_{t}$上$Q \ll P$，选择$F \in \mathcal{F}_{t}$，则
+  \[
+    \begin{aligned}
+      E_{P}\left[1_{F} \cdot E_{P}\left[Z_{T} | \mathcal{F}_{t}\right]\right] & =E_{P}\left[E_{P}\left[1_{F} \cdot Z_{T} | \mathcal{F}_{t}\right]\right] \\
+      & =E_{P}\left[1_{F} \cdot Z_{T}\right]=E_{Q}\left[1_{F}\right]=E_{P}\left[1_{F} \cdot Z_{t}\right],
+    \end{aligned}
+  \]
+
+  故$E_{P}\left[Z_{T} | \mathcal{F}_{t}\right]=Z_{t}, \text { a.e.} P$。
+\end{pf}
+
+这种证明方法还挺常见，相当于用内积证弱意义下的相等。其实之前说过，这里的等号都应该看成是几乎处处意义下的相等，只是一直没有注意。
+
+\begin{thm}（Girsonov定理 I）
+  
+  设Ito过程$d Y(t)=a(t, \omega) d t+d B(t), t \le T, Y_{0}=0$（这里$T \le \infty$是固定的），指数鞅（参数就是漂移系数）
+  \[
+    M(t)=\exp \left(-\int_{0}^{t} a(s, \omega) d B_{s}-\frac{1}{2} \int_{0}^{t} a^{2}(s, \omega) d s\right), \quad 0 \leq t \leq T.
+  \]
+
+  设$M_{t}$关于$\mathcal{F}_{t}$和P是鞅，定义  $\mathcal{F}_{T}$上的测度Q如下
+  \[
+    d Q=M_{T} d P, \text{ （其称为Girsonov变换）}
+  \]
+
+  则Q是$\mathcal{F}_{T}$上的概率测度，且对$0 \leq t \leq T$，$Y(t)$相对于Q是布朗运动。
+\end{thm}
+
+指数鞅的Ito公式，令$f(x) = e^{-x}, dX_t = -a(t, X_t) dB_t - \frac{1}{2} a^2(t, X_t) dt$，则
+\[
+  \begin{aligned}
+    dM(t) = df(X_t) &= -M(t)dX_t + \frac{1}{2}M(t)(dX_t)^2\\
+    &= -M(t)(-a(t, X_t) dB_t - \frac{1}{2} a^2(t, X_t) dt) + \frac{1}{2}M(t) a^2(t, X_t) dt\\
+    &= M(t) a(t) dB_t
+  \end{aligned}
+\]
+
+Novikov条件能够保证$M_{t}$关于$\mathcal{F}_{t}$是鞅
+\[
+  E_{P}\left[\exp \left(\frac{1}{2} \int_{0}^{T} a^{2}(s, \omega) d s\right)\right]<\infty.
+\]
+
+鞅的期望不变，更一般地，对任意有界可测函数f，$E[fM_T] = E[fM_t]$。
+
+pf: 证$Y_t$相对于Q是BM，用BM的Levy特征验证两个鞅。先证$K_t = M_t Y_t$相对于P是鞅，然后用Bayes公式。
+
+仍然是关于随机积分和BM之间的关系，之前是说系数怎么怎么样，这里则是说可以通过改测度达到同样的效果，有点活动标架的意思在里面。
+
+得到的这个概率测度Q是在$\mathcal{F}_T$这个$\sigma$-代数上的，那也就是在整个流上都能测，因为能测大的就能测小的。
+
+\begin{thm}（Girsonov定理 II）
+
+  若Ito过程变为$d Y(t)=\beta(t, \omega) d t+\theta(t, \omega) d B(t), t \leq T$，即扩散系数$\sigma$不为常数，可以凑一个I中的形式$d Y(t)=\alpha(t, \omega) d t+\theta(t, \omega)(u(t, \omega)dt + d B(t))$，然后做Girsonov变换（指数鞅以$u(t, \omega)$为系数），可得$\mathcal{F}_T$上的概率测度Q，则$\widehat{B}_t$ s.t. $d\widehat{B}_t = u(t, \omega)dt + d B(t)$在Q下是BM，$d Y(t)=\alpha(t, \omega) d t+\theta(t, \omega) d \widehat{B}(t)$。
+\end{thm}
+
+好像你这意思就得是常系数，不然只能做到这个份上，因为其实这个定理没有告诉什么新的东西。
+
+\begin{thm}（Girsonov定理 III）
+
+  设$X(t)=X^{x}(t), Y(t)=Y^{x}(t)$分别为如下形式的Ito扩散和Ito过程:
+  \[
+    \begin{aligned}
+      &d X(t)=b\left(X_{t}\right) d t+\sigma\left(X_{t}\right) d B_{t}, \quad t \leq T, \\
+      &d Y(t)=\left[\gamma(t, \omega)+b\left(Y_{t}\right)\right] d t+\sigma\left(Y_{t}\right) d B_{t}, \quad t \leq T,
+    \end{aligned}
+  \]
+
+  其中这里b和$\sigma$满足线性增长条件和Lipschitz条件。还是凑形式$d Y(t)=\left[\gamma(t, \omega)+b\left(Y_{t}\right)\right] d t+\sigma\left(Y_{t}\right) d B_{t} = b(Y_t) d t+\sigma(Y_t)(u(t, \omega)dt + d B(t))$，然后做Girsonov变换（指数鞅以$u(t, \omega)$为系数），可得$\mathcal{F}_T$上的概率测度Q，则$\widehat{B}_t$ s.t. $d\widehat{B}_t = u(t, \omega)dt + d B(t)$在Q下是BM，$d Y(t)=b(Y_t) d t+\sigma(Y_t) d \widehat{B}(t)$，即$Y_t$在Q下的分布律和$X_t$在P下的分布律相同。
+\end{thm}
+
+Girsonov定理 III可被用于产生SDE的弱解
+
+\begin{eg}
+  考虑SDE$d X_{t}=a\left(X_{t}\right) d t+d B_{t}, \quad X_{0}=x$，其中$a: \mathbb{R}^n \to \mathbb{R}^n$是有界可测函数。这里并没有给出a的连续性条件，注意第五章的存在唯一性是说满足一定光滑性和那两个增长条件则强解存在唯一，这里使用Girsonov定理来产生上述SDE的弱解。
+
+  令$Y_t = B_t$，则$dY_t = a(Y_t) dt - a(Y_t) dt + dB_t$，由Girsonov定理可以找到概率测度Q s.t. $d\widehat{B}_t =  - a(\omega)dt + d B(t)$在Q下是BM，$dY_t = a(Y_t) dt + d\widehat{B}_t$，故$(Y_t, \widehat{B}_t)$在Q下是上述SDE的弱解。
+\end{eg}
+
+那个作业题8.15，现在只是说形式上可以那么算，具体该怎么写还不知道。
+
+最后三节的中心议题就是随机积分和BM的关系。
+
+第一节就是随机积分的系数满足什么样条件的时候是一个BM。
+
+第二节就是通过一个时间变换可以变成BM。
+
+第三节就是漂移项可以通过测度变换变成BM。
+
+\begin{comment}
+
+\section{边界值问题}
+
+D是$\mathbb{R}^n$中连通开集，
+\[
+  L=\sum_{i=1}^{n} b_{i}(x) \frac{\partial}{\partial x_{i}}+\sum_{i, j=1}^{n} a_{i j}(x) \frac{\partial^{2}}{\partial x_{i} \partial x_{j}}
+\]
+
+是$C^2(\mathbb{R}^n)$中的（半）椭圆算子，即$a_{ij}$（半）正定。
+
+\subsection{组合Dirichlet-Poisson问题解的唯一性}
+
+设$\phi \in C(\partial D), g \in C(D)$是给定的函数，求$w \in C^{2}(D)$使得
+
+1. $L w=-g$, in D.
+
+2. $\lim_{x \rightarrow y, x \in D} w(x)=\phi(y), \quad y \in \partial D$.
+
+求解思想：一开始的思路跟之前Feymann-Kac公式的思路差不多，由PDE得到生成元算子，构造对应SDE，然后找到随机过程$X_t$，用这个过程可以写出上述问题的概率解。（$X_{t}$的生成元算子A与L在$C_{0}^{2}\left(\mathbb{R}^{n}\right)$上相同，简言之$\frac{1}{2} \sigma(x) \sigma^{T}(x)=\left[a_{i j}(x)\right]$）
+
+\begin{thm}（唯一性定理1）
+  设$\phi$有界，g满足$E^{x}\left[\int_{0}^{\tau_{D}}|g\left(X_{t}\right)| d t\right]<\infty$（控制收敛定理）。$w \in C^{2}(D)$是有界解且满足
+  
+  1. $L w=-g$, in D.
+  
+  2'. $\lim_{t \rightarrow \tau_{D}} w\left(X_{t}\right)=\phi\left(X_{\tau_{D}}\right) 1_{\tau_{D}<\infty}, \quad y \in \partial D$. 
+  
+  则
+  \[
+    w(x)=E^{x}\left[\phi\left(X_{\tau_{D}}\right) \cdot 1_{\tau_{D}<\infty}\right]+E^{x}\left[\int_{0}^{\tau_{D}} g\left(X_{t}\right) d t\right] .
+  \]
+\end{thm}
+
+pf: Dynkin公式，条件2'，控制收敛定理。
+
+条件2'实际上比条件2要弱，因此原问题的有界解也可以写成上形式。如果我们考虑有限停时，即$\tau_D < \infty$，则有界解的形式为
+\[
+  w(x)=E^{x}\left[\phi\left(X_{\tau_{D}}\right)\right]+E^{x}\left[\int_{0}^{\tau_{D}} g\left(X_{t}\right) d t\right].
+\]
+
+形式上，第一部分代表击中边界项，第二部分代表区域内部积分项。
+
+\subsection{Dirichlet问题}
+
+\begin{df}（Dirichlet问题）
+  
+  设$\phi \in C(\partial D)$，求$u \in C^{2}(D)$ s.t.
+
+  (1) $L u=0$, in D.
+
+  (2) $\lim _{x \rightarrow y, x \in D} u(x)=\phi(y), \quad y \in \partial D$.
+\end{df}
+
+\begin{df}（Poisson问题）
+
+  设$g \in C(\partial D)$，求$v \in C^{2}(D)$ s.t.
+
+  (1) $L v=-g$ in D.
+
+  (2) $\lim_{x \rightarrow y, x \in D} v(x)=0, \quad y \in \partial D .$
+\end{df}
+
+\begin{eg}（Dirichlet问题）
+  \begin{enumerate}
+    \item （经典Dirichlet问题）$L = \frac{1}{2}\Delta, X_t^x = B_t^x, w(x)=E^{x}\left[\phi\left(B_{\tau_{D}}\right)\right] .$
+    \item （经典热传导方程）$L=\frac{\partial}{\partial s}+\frac{1}{2} \frac{\partial^{2}}{\partial x^{2}}, D = (0, T) \times \mathbb{R}, X_t^{s, x} = (s + t, B_t^x)$, $w(s, x)=E^{s, x} \phi\left(X_{\tau_{D}}\right)= E^{s, x} \phi(X_{T - s}) = E\left[\phi\left(T, B_{T - s}^{x}\right)\right]$.（这里$\tau_D$可以写出表达式，作业题中也有）
+  \end{enumerate}
+\end{eg}
+
+解决唯一性问题之后我们自然要问存在性是否成立，其结果和分析中是一致的，即要想得到存在性需要边界上“足够好”（反例略）。这时候一般有两条路，一条就是加条件去证强意义下的存在性，比如PDE中的正则性定理。还有一条路就是放宽标准去证弱意义下的存在性。具体来说，边界值条件弱化为随机边界条件，生成元算子变为特征算子。
+
+这里的弱应该理解为弱导数的弱，即对于光滑性不再提出太高的要求，只要几乎处处就可以了。
+
+\begin{df}（X调和）
+
+  设f在D上是一个局部有界且可测的函数。若$\forall x \in D$和任意有界开集$U \subset \subset D$，有
+  \[
+    f(x)=E^{x}\left[f\left(X_{\tau_{U}}\right)\right],
+  \]
+  
+  则称f在D内为X调和的。
+\end{df}
+
+\begin{lem}（f关于X调和 iff $\mathcal{A} f=0$）
+
+  \begin{enumerate}
+    \item 设f在D内是X调和的，则在D内，$\mathcal{A} f=0$。（就是特征算子定义式分子上的两项）
+    \item 相反的，若$f \in C^{2}(D)$且在D内$\mathcal{A} f=0$（或更强地，关于L调和），则f是X调和的。（由Dynkin公式可得，注意特征算子的证明就是用Dynkin公式，然后算的时候还要用停时截断那个技巧）
+  \end{enumerate}
+\end{lem}
+
+分析上的调和更强，即f关于L调和$\Rightarrow$f关于$\mathcal{A}$调和$\Leftrightarrow$f关于X调和。
+
+\begin{lem}（之前定义的Dirichlet问题的概率解是X调和的）
+
+  设$\phi$是$\partial D$上的有界可测函数，记
+  \[
+    u(x)=E^{x}\left[\phi\left(X_{\tau_{D}}\right)\right], \quad x \in D
+  \]
+
+  则其是X调和的。
+\end{lem}
+
+pf: 用强马氏性倒。
+
+\begin{df}（随机Dirichlet问题）
+  给定$\partial D$上的有界可测函数$\phi$，求定义于D上的函数u（不再要求光滑性）使得
+  
+  (1) u是X调和的。
+  
+  (2) $\lim_{t \rightarrow \tau_{D}} u\left(X_{t}\right)=\phi\left(X_{\tau_{D}}\right)$.
+\end{df}
+
+事实上，u在弱导数意义下关于L调和等价于u关于X调和。
+
+\begin{thm}（随机Dirichlet问题解的存在唯一性定理）
+  
+  （存在性）$u(x) = E^x[\phi (X_{\tau_D})]$是上述随机Dirichlet问题的解。
+
+  （唯一性）若g满足上述随机Dirichlet问题，则$g(x) = E^x[\phi (X_{\tau_D})]$。
+\end{thm}
+
+反正想到我就说一下，等号在几乎处处意义下成立。
+
+pf: 存在性：强马氏性，证明是鞅（一番周折：用定义，强马氏性三连倒），鞅收敛定理，Doob鞅不等式。
+
+唯一性：由条件二，控制收敛定理，
+
+在边界值问题中条件二，即边界上的收敛性不是一件容易的事情，如上就需要借助很多鞅的东西。
+
+\begin{lem}（0-1律）
+  设$H \in \cap_{t>0} \mathcal{M}_{t} = \mathcal{M}_{0+}$，则要么$P^{x}(H)=0$要么$P^{x}(H)=1$。
+\end{lem}
+
+pf:（Revuz书p95定理2.15）
+\[
+  \begin{aligned}
+    P^{x}(H) &= \int_{E^T} 1_H(\omega) P_{\varepsilon_x}(d\omega) = \int_E 1_H \circ X_0^{-1}(y) \varepsilon_x(dy)\\ 
+    &= 1_H \circ X_0^{-1}(x) = \left\{ \begin{array}{ll}
+      1, & X_0^{-1}(x) \in H\\
+      0, & X_0^{-1}(x) \notin H
+    \end{array} \right.
+  \end{aligned}
+\]
+
+特别地，设$y \in \partial E = \mathbb{R}^n$，则有
+\[
+  P^{y}\left[\tau_{D}=0\right]=0 \quad \text { 或 } \quad P^{y}\left[\tau_{D}=0\right]=1.
+\]
+
+即以y为起点的随机过程，要么所有轨道都直接离开D，要么所有轨道都在D内停留某个正时间之后再离开D，就是说不会出现有的轨道直接离开，有的轨道停留一会。我们将第一种情况的边界点记为相对这个随机过程的正则点。
+
+注意有的时候竖轴是时间轴，那就只能向前流，有的时候就只有空间轴。
+
+正方形区域上的BM边界点都是正则点，这是因为如果不是正则点，所有轨道都会在区域内部停留一会，但由高斯分布的对称性，将有轨道直接离开，矛盾。
+
+BM的正则点：若满足外部圆锥条件。
+
+\begin{df}（广义Dirichlet问题）
+  
+  给定区域$D \subset \mathbb{R}^{n}$，L和$\phi$  如前，求函数$u \in C^{2}(D)$使得
+  
+  (1) $L u=0$ in D.
+  
+  (2) $\lim_{x \rightarrow y, x \in D} u(x)=\phi(y)$对任意的正则点$y \in \partial D$。
+\end{df}
+
+\begin{thm}
+  设L在D内是一致椭圆，即$\left(a_{i j}\right)$正定。（应该按照FEM中的一致椭圆定义，即CT中的严格正算子）设$\phi$是$\partial D$上的有界连续函数，则$u(x)=E^{x}\left[\phi\left(X_{\tau_{D}}\right)\right]$是广义Dirichlet问题的解。
+\end{thm}
+
+证明是对于L为Laplace算子，即随机过程是BM的情形给出的，需要用到以下引理，具体不要求掌握。
+
+\begin{lem}
+  设边界点$y \in \partial D$是正则点，若$x_{n} \in D$且$x_{n} \rightarrow y$，则对于任给$t>0$，
+  \[
+    \lim _{n \rightarrow \infty} \mathbb{P}^{x_{n}}\left(\tau_{D} \leq t\right)=0 .
+  \]
+\end{lem}
+
+在随机分析中，为了满足边界条件，边界的正则性已经是达到最优了。
+
+\subsection{Piosson问题}
+
+广义Poisson问题，广义说的是边界条件限制在边界的正则点上成立。
+
+\begin{df}（广义Poisson问题）
+  
+  给定区域$D \subset \mathbb{R}^{n}$上的连续函数g，求函数$v \in C^{2}(D)$使得
+  
+  (1) $L v= -g$ in D.
+  
+  (2) $\lim_{x \rightarrow y, x \in D} v(x)=0$对任意的正则点$y \in \partial D$。
+\end{df}
+
+将椭圆算子弱化为特征算子，称为随机Poisson问题。
+
+\begin{thm}（随机Poisson问题解的存在性定理）
+  
+  设对于任给的$x \in D, E^{x}\left[\int_{0}^{\tau_{D}}|g\left(X_{s}\right)| d s\right] < \infty$。定义
+  \[
+    v(x)=E^{x}\left[\int_{0}^{\tau_{D}} g\left(X_{s}\right) d s\right],
+  \]
+
+  则$\mathcal{A} v=-g$且$\lim _{t \rightarrow \tau_{D}} v\left(X_{t}\right)=0$。
+\end{thm}
+
+pf: 第一个条件我只会强马氏性的形式计算，技术上在算那个推移算子的时候需要用到值域划分，最后再取极限，跟那个有停时截断的技术感觉差不多。第二个条件就需要停时截断，还有强马氏性和鞅收敛定理。
+
+注：对任意随机过程$\eta$，$\xi_k = E[\eta | \mathcal{F}_{\tau_k}]$关于$\mathcal{F}_{\tau_k}$是鞅。由鞅收敛定理，若$\tau_k \to \tau_D$，则$\xi_k \to E[\eta | \mathcal{F}_{\tau_D}]$。
+
+\begin{thm}（随机Poisson问题解的唯一性定理）
+  
+  设D是正则区域，若存在一个函数$v \in C^{2}(D)$及常数C使得
+  \[
+    |v(x)| \leq C\left(1+E^{x} \int_{0}^{\tau_{D}}|g\left(X_{s}\right)| d s\right), \quad x \in D
+  \]
+  并且$L v=-g$ in D，$\lim _{x \rightarrow y, x \in D} v(x)=0$，其中$y \in \partial D$为正则点，则$v(x)=E^{x}[\int_{0}^{\tau_{D}} g\left(X_{s}\right) d s]$。
+\end{thm}
+
+pf: Dynkin公式和控制收敛定理。
+
+\begin{thm}（组合随机Dirichlet和Poisson问题解的存在唯一性定理）
+  
+  设$\tau_{D}<\infty$，$\phi \in C(\partial D)$有界可测，$g \in C(D)$满足
+  \[
+    E^{x} \int_{0}^{\tau_{D}}|g\left(X_{s}\right)| d s<\infty, \quad x \in D.
+  \]
+
+  定义
+  \[
+    w(x)=E^{x}\left[\phi\left(X_{\tau_{D}}\right)\right]+E^{x} \int_{0}^{\tau_{D}} g\left(X_{s}\right) d s, \quad x \in D .
+  \]
+  
+  则w满足$\mathcal{A} w=-g$ in D，以及$\lim _{t \rightarrow \tau_{D}} w\left(X_{t}\right)=\phi\left(X_{\tau_{D}}\right)$。而且若存在一个函数$w_{1} \in C^{2}(D)$使得
+  \[
+    |w_{1}(x)| \leq C\left(1+E^{x} \int_{0}^{\tau_{D}}|g\left(X_{s}\right)| d s\right), \quad x \in D
+  \]
+  
+  同时$w_{1}$是组合问题的解，则$w_{1}=w$。
+\end{thm}
+
+\begin{thm}（什么时候随机问题的解是经典问题的解）
+  
+  若L在D内一致椭圆，$g \in C^{\alpha}(D)$有界，区域边界是正则的，则随机问题的解是经典问题的解，即可以把特征算子变回椭圆算子。
+\end{thm}
+
+\subsection{Green测度}
+
+\begin{df}（区域上的预解算子）
+  \[
+    \begin{aligned}
+      \mathcal{R}_\alpha g(x) &= E^x\left[\int_0^{\tau_D} e^{-\alpha s}g(X_s) ds\right]\\
+      \mathcal{R} g(x) &= E^x\left[\int_0^{\tau_D} g(X_s) ds\right]
+    \end{aligned}
+  \]
+
+  有
+  \[
+    \begin{aligned}
+      (\alpha I - \mathcal{A}) \mathcal{R}_\alpha g &= g\\
+      - \mathcal{A} \mathcal{R} g &= g.
+    \end{aligned}
+  \]
+\end{df}
+
+上述性质表明区域上的预解算子是特征算子的右逆，事实上也是左逆。
+
+\[
+  \begin{aligned}
+    & \qquad X_t = b dt + \sigma d B_t, \quad Y_t = e^{-\alpha t} f(X_t)\\
+    dY_t &= -\alpha Y_t dt + e^{-\alpha t} f'(X_t) dX_t + \frac{1}{2} e^{-\alpha t} f''(X_t) (dX_t)^2\\
+    &= -\alpha Y_t dt + e^{-\alpha t} f'(X_t) b dt + \frac{1}{2} e^{-\alpha t} f''(X_t) \sigma^2 dt + \dots dB_t\\
+    &= -\alpha Y_t dt + e^{-\alpha t} Lf(X_t) dt + \dots dB_t\\
+    &E^x[Y_t] = f(x) + E^x\left[ \int_0^t -\alpha Y_s + e^{-\alpha t} Lf(X_s) ds \right]\\
+    f(x) &= E^x\left[ e^{-\alpha t} f(X_t) \right] - E^x\left[ \int_0^t -\alpha e^{-\alpha s} f(X_s) + e^{-\alpha t} Lf(X_s) ds \right]\\
+    &= 0 + \mathcal{R}_\alpha (\alpha I - L) f(x)
+  \end{aligned}
+\]
+
+故也为左逆，注意那个零是因为$f \in C_0^2(D)$。于是对于算子方程来说，有$u(x) = -L^{-1} g(x) = \mathcal{R} g(x) = E^x\left[\int_0^{\tau_D} g(X_s) ds\right]$。
+
+\begin{df}（Green测度）$G(x, \cdot)$定义为
+  \[
+    G(x, H)=E^{x} \left[ \int_{0}^{\tau_{D}} 1_{H}\left(X_{s}\right) d s \right], \quad H \subset \mathbb{R}^{n}
+  \]
+  
+  即跑出去之前的平均停留时间。或对有界连续函数f 
+  \[
+    \int f(y) G(x, d y)=E^{x} \left[ \int_{0}^{\tau_{D}} f\left(X_{s}\right) d s \right] = \mathcal{R} f(x).
+  \]
+\end{df}
+
+G即转移核，Green测度就是转移测度。
+
+\begin{coro}
+  设$E^{x} \tau_{D}<\infty$，$f \in C_{0}^{2}\left(\mathbb{R}^{n}\right)$则
+  \[
+    f(x)=E^{x} f\left(X_{\tau_{D}}\right)-\int_{D} L f(y) G(x, d y).
+  \]
+
+  特别地，若$f \in C_{0}^{2}(D)$，则第一项为零。
+\end{coro}
+
+证明由Dynkin公式即可。
+
+\section{最优停时方面的应用}
+
+\subsection{时齐情形}
+
+报酬函数$g(x) = E^x[g(X_\tau)]$是$\mathbb{R}^n$上的正函数，最优停时问题是任给x，看成关于$\tau$的最值问题。时齐情形是说g与时间t无关，非时齐就是g也是t的函数，还有一种情形包含利率函数的积分项。
+
+超均值函数：若可测函数f满足对任意停时$\tau$以及x，有$f(x) \ge E^x[f(X_\tau)]$（Dynkin公式前两项），则f关于$X_t$是超均值函数。
+
+下半连续：若$\lim_{x_n \to y} \inf f(x_n) \ge f(y)$。
+
+上调和 = 超均值 + 下半连续。
+
+上调和 iff $\mathcal{A}f \le 0$。（若$f \in C^2$，则$Lf = \mathcal{A}f$）
+
+引理：1. 上调和函数的线性组合是上调和的。
+
+2. 超均值函数列的下极限函数，若可测，则也是超均值函数。pf by def.
+
+3. 若上调和函数列$f_i \uparrow f$，则f上调和。（控制收敛定理）
+
+4. （上鞅性质）若f是超均值的且$\sigma \leq \tau$是停时，则$E^{x} f\left(X_{\sigma}\right) \geq E^{x} f\left(X_{\tau}\right)$。先由强马氏性证$f(X_t)$相对于$\mathcal{F}_t$是上鞅，然后用Doob停止定理，把固定时间变成停时。上鞅的期望下降。
+
+5. 若f是超均值的，H是一个Borel集，则$\tilde{f}(x):=E^{x} f\left(X_{\tau_{H}}\right)$是超均值的。证明用强马氏性和引理4.。
+
+控制函数，最小超均值控制函数$\bar{h}$，最小上调和控制函数$\widehat{h}$。
+
+过分函数：一个下半连续函数f若满足
+\[
+  f(x) \geq E^{x} f\left(X_{s}\right), \quad s \geq 0, x \in \mathbb{R}^{n}
+\]
+
+则称相对$X_t$的过分函数。
+
+即把上调和函数定义中的停时变成固定时间了，但事实上这两个是等价的。证明是用Dynkin公式和用停时截断逼近停时。
+
+（最小上调和控制函数的构造）设$g=g_{0}$是$\mathbb{R}^{n}$上非负的下半连续函数，归纳定义
+\[
+  g_{n}(x)=\sup _{t \in S_{n}} E^{x}\left[g_{n-1}\left(X_{t}\right)\right]
+\]
+
+这里$S_{n}=\left\{k 2^{-n}: 0 \leq k \leq 4^{n}\right\}$（时间变长，分割变细），则$g_{n} \uparrow \widehat{g}$，且$\widehat{g}$是g的最小上调和控制函数，以及$\widehat{g}=\bar{g}$。
+
+pf: 首先由单调性可得在离散时间是“过分”的，然后由下半连续和Fatou引理得在任意时间都是“过分”的，因此是过分函数，进而是上调和函数，最后其他的控制函数都能够控制他，所以是最小的。
+
+最优停时存在性定理：Omitted。
+
+最优停时唯一性定理：Omitted。
+
+总之就是存在唯一，自己看ppt去。
+
+最优停时可以写成是某个区域的首次逃离时，下面考虑如何构造这样的区域D。
+
+设$\mathcal{A}$是$X_{t}$的特征算子，$g \in C^{2}\left(\mathbb{R}^{n}\right)$。定义
+\[
+  U=\{x: \mathcal{A} g(x)>0\}, \quad D=\left\{x: g(x)<g^{*}(x)\right\} .
+\]
+则$U \subset D$。
+
+证明由Dynkin公式。
+
+这个D很重要，因为最后就是$g^{\ast}(x) = E^x g{X_{\tau_D}}$。
+
+$\mathbb{R}^2$上BM的上调和函数是常数。
+
+\subsection{非时齐情形}
+
+定义$Y_{t}^{s, x}=\left(s+t, X_{t}^{x}\right)$
+
+其特征算子$\hat{\mathcal{A}} \phi(s, x)=\frac{\partial \phi}{\partial s}(s, x)+\mathcal{A} \phi(s, x), \quad \phi \in C^{2}\left(\mathbb{R} \times \mathbb{R}^{n}\right)$，算特征算子就用（高维）Ito公式。
+
+设报酬函数$g(t, \xi)=e^{-\alpha t+\beta \xi}$，则$Y_t$的特征算子为$\hat{\mathcal{A}} g(s, x)=\frac{\partial g}{\partial s}+\frac{1}{2} \frac{\partial^{2} f}{\partial x^{2}}=\left(-\alpha+\beta^{2} / 2\right) g$。若$\beta^{2} \leq 2 \alpha$，$\hat{\mathcal{A}} g \leq 0$，则$g^{\ast} = g$。若$\beta^{2} > 2 \alpha$，$\hat{\mathcal{A}} g > 0$恒成立，于是$D = \mathbb{R}^2$，$\tau^{\ast}$不存在，即股票稳赚不用抛。此时由Dynkin公式计算或者指数鞅的性质可证$g^{\ast} = \infty$。
+
+\subsection{带积分项情形}
+
+最优停时问题
+\[
+  \Phi(y)=\sup _{\tau} \mathbb{E}^{y}\left[\int_{0}^{\tau} f\left(Y_{t}\right) d t+g\left(Y_{\tau}\right)\right]=\mathbb{E}^{y}\left[\int_{0}^{\tau^{*}} f\left(Y_{t}\right) d t+g\left(Y_{\tau^{*}}\right)\right]
+\]
+
+定义Ito扩散$d Z_{t}=\left(\begin{array}{c}
+  d Y_{t} \\
+  d W_{t}
+\end{array}\right)=\left(\begin{array}{l}
+  b\left(Y_{t}\right) \\
+  f\left(Y_{t}\right)
+\end{array}\right) d t+\left(\begin{array}{l}
+  \sigma\left(Y_{t}\right) \\
+  0
+\end{array}\right) d B_{t}$。
+
+其特征算子$\mathcal{A}_{Z} \phi(z)=\mathcal{A}_{Z} \phi(y, w)=\mathcal{A}_{Y} \phi(y, w)+f(y) \frac{\partial \phi}{\partial w}, \quad \phi \in C^{2}\left(\mathbb{R}^{k+1}\right)$。
+
+一个例子：$\Phi(x)=\sup _{\tau} \mathbb{E}^{x}\left[\int_{0}^{\tau} \theta e^{-\rho t} X_{t} d t+e^{-\rho \tau} X_{\tau}\right]$，这里$d X_{t}=\alpha X_{t} d t+\beta X_{t} d B_{t}, \quad X_{0}=x>0$。
+
+（基本设置）令$Y_{t}^{(s, x)}=\left(s+t, X_{t}^{x}\right), W_{t}=\int_{0}^{t} \theta e^{-\rho u} X_{u} d u, Z_{t}=\left(Y_{t}, W_{t}\right)$，以及$ f(y)=f(s, x)=\theta e^{-\rho s} x, g(y)=g(s, x)=e^{-\rho s} x, \tilde{g}(s, x, w)=g(s, x)+w=e^{-\rho s} x+w .$
+
+（分类讨论）略
+
+这个生成元算子是怎么算的？
+
+这里$d Z_{t}=\left(\begin{array}{c}
+  d t \\
+  d X_t \\
+  d W_{t}
+\end{array}\right)=\left(\begin{array}{c}
+  1 \\
+  0 \\
+  f(t)
+\end{array}\right) d t+\left(\begin{array}{l}
+  0 \\
+  1 \\
+  0
+\end{array}\right) d X_{t} = \left(\begin{array}{c}
+  1 \\
+  \alpha X_t \\
+  f(t)
+\end{array}\right) d t+\left(\begin{array}{l}
+  0 \\
+  \beta X_t \\
+  0
+\end{array}\right) d B_{t}$。于是由生成元算子定义$\mathcal{A}_{Z} \phi(z) = 1 \cdot \frac{\partial \phi}{\partial t} + \alpha x \frac{\partial \phi}{\partial x} + f(t) \frac{\partial \phi}{\partial w} + \frac{1}{2} (\beta x)^2 \frac{\partial^2 \phi}{\partial x^2} = \frac{\partial \phi}{\partial t} + 
+\mathcal{A}_X f + f(t) \frac{\partial \phi}{\partial w}$。
+
+
+\section{随机控制方面的应用}
+
+随机问题化成确定性问题。
+
+Omitted.
+
+\end{comment}
+
+\newpage
+
+\section{一些}
+
+一些映射：
+\begin{enumerate}[(1).]
+  \item 随机变量$X: (\Omega, \mathcal{F}, P) \to (E, \mathcal{E}, \mu_{X})$，
+  
+  变量替换公式：$E(X) = \int_\Omega X dP = \int_E x d\mu_X$。
+  \item 可测函数$f: (E, \mathcal{E}, \mu_X) \to (\mathbb{R}, \mathcal{B}(\mathbb{R}), m_X)$，
+  
+  变量替换公式：$E[f(X)] = \int_\Omega f(X)dP = \int_E f(x) d\mu_X = \int_\mathbb{R} y dm_X$。
+  \item 随机过程$X_{\cdot}: (T \times \Omega, \mathcal{B}(T) \otimes \mathcal{F}, L \times P) \to (E, \mathcal{E})$。
+  \item 轨道$X_{\cdot}(\omega): T \to E$。
+  \item 可测映射$\phi: (\Omega, \mathcal{F}, P) \to (E^T, \mathcal{E}^T), \phi(\omega) = X_{\cdot}(\omega)$。
+  \item 坐标过程$Y_t: (E^T, \mathcal{E}^T, P_x/P_\nu) \to (E, \mathcal{E}, \varepsilon_x/\nu), Y_t \circ \phi (\omega) = X_t(\omega)$。
+  \item 停时$\tau: (\Omega, \mathcal{F}) \to (T, \mathcal{B}(T))$。
+  \item 停止过程（是一个随机变量）$X_\tau: (\Omega, \mathcal{F}) \to (E, \mathcal{E}), X_\tau (\omega) = X_{\tau(\omega)}(\omega)$。
+  \item 推移算子$\theta_h: (E^T, \mathcal{F}_{t + h}) \to (E^T, \mathcal{F}_t)$。
+  \item 初值函数$i: E \to \mathbb{R}, x \mapsto E^x[X]$.
+  \item 转移半群$P_t: E \times \mathcal{E} \to \mathbb{R}_+$ 或 $P_t: \mathcal{F}(E) \to \mathcal{F}(E)$
+  \item 生成元算子$A: D(A) \subset \mathcal{F}(E) \to C_0 \subset \mathcal{F}(E)$
+  \item 特征算子$\mathcal{A}: D(\mathcal{A}) \subset \mathcal{F}(E) \to \mathcal{F}(E)$
+\end{enumerate}
+
+一些公式：
+\begin{enumerate}
+  \item 一维Ito公式：若$Y_t = g(t, X_t)$，则
+  \[
+    d Y_{t}=\frac{\partial g}{\partial t}\left(t, X_{t}\right) d t+\frac{\partial g}{\partial x}\left(t, X_{t}\right) d X_{t}+\frac{1}{2} \frac{\partial^{2} g}{\partial x^{2}}\left(t, X_{t}\right)\left(d X_{t}\right)^{2},
+  \]
+  \item 一般分部积分公式：若$X_t, Y_t$为Ito过程，则
+  \[
+    d\left(X_{t} Y_{t}\right)=X_{t} d Y_{t}+Y_{t} d X_{t}+d X_{t} \cdot d Y_{t}.
+  \]
+  \item 马氏性：$E^{x}\left[f\left(X_{t+h}\right) | \mathcal{F}_{t}\right](\omega)=E^{X_{t}(\omega)}\left[f\left(X_{h}\right)\right].$，强马氏性（用推移算子来写）：$E^{x}\left[\theta_{\tau} \eta | \mathcal{F}_{\tau}\right]=E^{X_{\tau}}[\eta]$。（强）马氏性（用转移半群来写）：
+  \item $X_{t}$的无穷小生成元$A: D(A) \to C_0$定义为
+  \[
+    A f(x)=\lim _{t \rightarrow 0} \frac{E^{x}\left[f\left(X_{t}\right)\right]-f(x)}{t}, \quad x \in E = \mathbb{R}^{n}
+  \]
+  \item 生成元算子计算公式：设Ito扩散$X_t = b(X_t)dt + \sigma(X_t)dB_t$，$f \in C_0^2$，则
+  \[
+    A f(x)=\sum_{i} b_{i}(x) \frac{\partial f}{\partial x_{i}}+\frac{1}{2} \sum_{i, j}\left(\sigma \sigma^{T}\right)_{i j}(x) \frac{\partial^{2} f}{\partial x_{i} \partial x_{j}}.
+  \]
+  另一种解释：对$f(X_t)$用Ito公式
+  \[
+    \begin{aligned}
+      df(X_t) &= \frac{\partial f}{\partial x} dX_t + \frac{1}{2} \frac{\partial^2 f}{\partial x^2} (dX_t)^2\\
+      &= \frac{\partial f}{\partial x} bdt + \frac{1}{2} \frac{\partial^2 f}{\partial x^2} \sigma^2 dt + \frac{\partial f}{\partial x} \sigma dB_t\\
+      &= Af(X_t) dt + \frac{\partial f}{\partial x} \sigma dB_t
+    \end{aligned}
+  \]
+  积分取期望可得
+  \[
+    E^x[f(X_t)] = f(x) + E^x\left[ \int_0^t Af(X_s) ds \right]
+  \]
+  \item Dynkin公式：设$f \in C_{0}^{2}\left(\mathbb{R}^{n}\right)$，$\tau$是停时 s.t. $E^{x} \tau<\infty$，则
+  \[
+    E^{x} f(X_{\tau})=f(x)+E^{x}\left[\int_{0}^{\tau} A f\left(X_{s}\right) d s\right] .
+  \]
+  \item 特征算子：设时齐的Ito扩散$X_{t}$，则
+  \[
+    \mathcal{A} f(x)=\lim_{U \rightarrow 0} \frac{E^{x}\left[f\left(X_{\tau_U}\right)\right]-f(x)}{E^x \tau_U}, \quad x \in \mathbb{R}^{n}
+  \]
+\end{enumerate}
+
+
