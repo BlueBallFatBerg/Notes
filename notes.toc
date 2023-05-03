@@ -1,30 +1,156 @@
-\contentsline {chapter}{\numberline {第一章\hspace {.3em}}SDE}{4}{chapter.1}%
-\contentsline {section}{\numberline {1.1}随机分析基础}{4}{section.1.1}%
-\contentsline {subsection}{\numberline {1.1.1}概率与概率空间}{4}{subsection.1.1.1}%
-\contentsline {subsection}{\numberline {1.1.2}三种收敛性}{4}{subsection.1.1.2}%
-\contentsline {subsection}{\numberline {1.1.3}条件期望}{5}{subsection.1.1.3}%
-\contentsline {subsection}{\numberline {1.1.4}Brownian Motion}{6}{subsection.1.1.4}%
-\contentsline {section}{\numberline {1.2}Ito积分}{7}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Ito积分的建立}{7}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Ito积分的性质}{9}{subsection.1.2.2}%
-\contentsline {section}{\numberline {1.3}Ito公式和鞅表示定理}{11}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Ito公式}{11}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}鞅表示定理}{12}{subsection.1.3.2}%
-\contentsline {section}{\numberline {1.4}SDE}{13}{section.1.4}%
-\contentsline {subsection}{\numberline {1.4.1}SDE求解}{13}{subsection.1.4.1}%
-\contentsline {subsection}{\numberline {1.4.2}解的存在唯一性定理}{14}{subsection.1.4.2}%
-\contentsline {subsection}{\numberline {1.4.3}强解与弱解}{14}{subsection.1.4.3}%
-\contentsline {section}{\numberline {1.5}扩散过程}{15}{section.1.5}%
-\contentsline {subsection}{\numberline {1.5.1}Ito扩散与Markov性质}{15}{subsection.1.5.1}%
-\contentsline {subsection}{\numberline {1.5.2}强Markov性质}{16}{subsection.1.5.2}%
-\contentsline {subsection}{\numberline {1.5.3}无穷小生成元}{17}{subsection.1.5.3}%
-\contentsline {subsection}{\numberline {1.5.4}Dynkin公式}{18}{subsection.1.5.4}%
-\contentsline {subsection}{\numberline {1.5.5}特征算子}{18}{subsection.1.5.5}%
-\contentsline {subsection}{\numberline {1.5.6}Kolmogorov向后方程}{18}{subsection.1.5.6}%
-\contentsline {subsection}{\numberline {1.5.7}半群与预解式}{19}{subsection.1.5.7}%
-\contentsline {subsection}{\numberline {1.5.8}Feynmann-Kac公式}{20}{subsection.1.5.8}%
-\contentsline {subsection}{\numberline {1.5.9}鞅问题}{21}{subsection.1.5.9}%
-\contentsline {subsection}{\numberline {1.5.10}Ito过程何时是Ito扩散}{22}{subsection.1.5.10}%
-\contentsline {subsection}{\numberline {1.5.11}随机时变}{23}{subsection.1.5.11}%
-\contentsline {subsection}{\numberline {1.5.12}Girsonov定理}{25}{subsection.1.5.12}%
-\contentsline {section}{\numberline {1.6}一些}{29}{section.1.6}%
+\contentsline {chapter}{\numberline {第一章\hspace {.3em}}SDE}{8}{chapter.1}%
+\contentsline {section}{\numberline {1.1}随机分析基础}{8}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}概率与概率空间}{8}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}三种收敛性}{8}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}条件期望}{9}{subsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.1.4}Brownian Motion}{10}{subsection.1.1.4}%
+\contentsline {section}{\numberline {1.2}Ito积分}{11}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Ito积分的建立}{11}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Ito积分的性质}{13}{subsection.1.2.2}%
+\contentsline {section}{\numberline {1.3}Ito公式和鞅表示定理}{15}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Ito公式}{15}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}鞅表示定理}{16}{subsection.1.3.2}%
+\contentsline {section}{\numberline {1.4}SDE}{17}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}SDE求解}{17}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}解的存在唯一性定理}{18}{subsection.1.4.2}%
+\contentsline {subsection}{\numberline {1.4.3}强解与弱解}{18}{subsection.1.4.3}%
+\contentsline {section}{\numberline {1.5}扩散过程}{19}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Ito扩散与Markov性质}{19}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}强Markov性质}{20}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}无穷小生成元}{21}{subsection.1.5.3}%
+\contentsline {subsection}{\numberline {1.5.4}Dynkin公式}{22}{subsection.1.5.4}%
+\contentsline {subsection}{\numberline {1.5.5}特征算子}{22}{subsection.1.5.5}%
+\contentsline {subsection}{\numberline {1.5.6}Kolmogorov向后方程}{22}{subsection.1.5.6}%
+\contentsline {subsection}{\numberline {1.5.7}半群与预解式}{23}{subsection.1.5.7}%
+\contentsline {subsection}{\numberline {1.5.8}Feynmann-Kac公式}{24}{subsection.1.5.8}%
+\contentsline {subsection}{\numberline {1.5.9}鞅问题}{25}{subsection.1.5.9}%
+\contentsline {subsection}{\numberline {1.5.10}Ito过程何时是Ito扩散}{26}{subsection.1.5.10}%
+\contentsline {subsection}{\numberline {1.5.11}随机时变}{27}{subsection.1.5.11}%
+\contentsline {subsection}{\numberline {1.5.12}Girsonov定理}{29}{subsection.1.5.12}%
+\contentsline {section}{\numberline {1.6}边界值问题}{32}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}组合Dirichlet-Poisson问题解的唯一性}{32}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.2}Dirichlet问题}{33}{subsection.1.6.2}%
+\contentsline {subsection}{\numberline {1.6.3}Piosson问题}{36}{subsection.1.6.3}%
+\contentsline {subsection}{\numberline {1.6.4}Green测度}{38}{subsection.1.6.4}%
+\contentsline {section}{\numberline {1.7}最优停时方面的应用}{40}{section.1.7}%
+\contentsline {subsection}{\numberline {1.7.1}时齐情形}{40}{subsection.1.7.1}%
+\contentsline {subsection}{\numberline {1.7.2}非时齐情形}{41}{subsection.1.7.2}%
+\contentsline {subsection}{\numberline {1.7.3}带积分项情形}{42}{subsection.1.7.3}%
+\contentsline {section}{\numberline {1.8}随机控制方面的应用}{42}{section.1.8}%
+\contentsline {section}{\numberline {1.9}一些}{43}{section.1.9}%
+\contentsline {chapter}{\numberline {第二章\hspace {.3em}}MOM}{45}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Some Convex Analysis}{45}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Unconstrained Optimization}{45}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Recognizing a local minimum}{46}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Two strategies: Line Search and Trust Region}{46}{subsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.2.1}Line search strategy}{46}{subsubsection.2.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2.2}Trust region strategy}{48}{subsubsection.2.2.2.2}%
+\contentsline {section}{\numberline {2.3}Line Search Methods}{49}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Convergence of Line Search Methods}{49}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Convergence Rate of Line Search Methods}{51}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}Trust Region Method}{52}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Cauchy Point}{52}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}The Dogleg Method}{53}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}The Subspace Minimization Method}{53}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Convergence Theorem}{54}{subsection.2.4.4}%
+\contentsline {section}{\numberline {2.5}Conjugate Gradient Method}{54}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Linear case}{54}{subsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.1.1}Conjugate direction method}{54}{subsubsection.2.5.1.1}%
+\contentsline {subsubsection}{\numberline {2.5.1.2}Conjugate gradient method}{55}{subsubsection.2.5.1.2}%
+\contentsline {subsection}{\numberline {2.5.2}Nonlinear case}{56}{subsection.2.5.2}%
+\contentsline {section}{\numberline {2.6}Semismooth Newton's Method}{57}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Semismoothness}{57}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Semismooth Newton's method}{58}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}SVM}{58}{subsection.2.6.3}%
+\contentsline {subsubsection}{\numberline {2.6.3.1}SVC}{58}{subsubsection.2.6.3.1}%
+\contentsline {subsubsection}{\numberline {2.6.3.2}SVR}{58}{subsubsection.2.6.3.2}%
+\contentsline {subsection}{\numberline {2.6.4}Semismooth Newton's Method for SVM}{58}{subsection.2.6.4}%
+\contentsline {subsection}{\numberline {2.6.5}Exploring Sparity}{59}{subsection.2.6.5}%
+\contentsline {section}{\numberline {2.7}Theory of Constrained Optimization}{59}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}First-Order Optimality Conditions}{61}{subsection.2.7.1}%
+\contentsline {subsection}{\numberline {2.7.2}Second Order Necessary Condition}{61}{subsection.2.7.2}%
+\contentsline {subsection}{\numberline {2.7.3}Second Order Sufficient Condition}{62}{subsection.2.7.3}%
+\contentsline {subsection}{\numberline {2.7.4}Duality}{62}{subsection.2.7.4}%
+\contentsline {section}{\numberline {2.8}Further Discussions on Constrained Optimization}{62}{section.2.8}%
+\contentsline {section}{\numberline {2.9}Penalty and Augmented Lagrangian Methods}{64}{section.2.9}%
+\contentsline {subsection}{\numberline {2.9.1}Quadratic Penalty Method}{64}{subsection.2.9.1}%
+\contentsline {subsection}{\numberline {2.9.2}Exact Penalty Function}{65}{subsection.2.9.2}%
+\contentsline {subsection}{\numberline {2.9.3}Augmented Lagrangian Method}{65}{subsection.2.9.3}%
+\contentsline {subsection}{\numberline {2.9.4}QPM for HM, ALM for SVM}{66}{subsection.2.9.4}%
+\contentsline {chapter}{\numberline {第三章\hspace {.3em}}CT}{71}{chapter.3}%
+\contentsline {section}{\numberline {3.1}有界算子}{71}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Riesz表示定理}{71}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}共轭算子}{71}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}自伴算子}{72}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}无界算子}{72}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}闭算子}{72}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}共轭算子}{73}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}对称算子与自伴算子}{74}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}$V \subset U \subset V'$嵌入}{75}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}对偶空间}{75}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}$H_1, H_1^d, H_{-1}$空间}{76}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}正算子}{77}{section.3.4}%
+\contentsline {section}{\numberline {3.5}几个常用算子}{78}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Sturm-Liouville算子}{78}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}耗散算子}{78}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}反自伴算子}{79}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}二阶双曲无穷维系统}{80}{subsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.5.5}半群理论}{80}{subsection.3.5.5}%
+\contentsline {section}{\numberline {3.6}方程的解}{81}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}非齐次方程的解}{81}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}解的表达式}{81}{subsection.3.6.2}%
+\contentsline {section}{\numberline {3.7}系统的稳定性}{81}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}稳定性的基本概念}{82}{subsection.3.7.1}%
+\contentsline {section}{\numberline {3.8}自治系统的稳定性}{83}{section.3.8}%
+\contentsline {chapter}{\numberline {第四章\hspace {.3em}}FEM}{85}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Sobolev空间与椭圆方程理论}{85}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Sobolev空间}{85}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}嵌入定理和迹定理}{86}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}变分原理}{86}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}抽象变分原理}{87}{subsection.4.1.4}%
+\contentsline {section}{\numberline {4.2}有限元与有限元空间}{90}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}有限元空间定义}{90}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}协调有限元空间}{91}{subsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2.1}Lagrange元}{91}{subsubsection.4.2.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2.2}Hermite元}{93}{subsubsection.4.2.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2.3}Arygris元}{93}{subsubsection.4.2.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.2.4}张量积元}{93}{subsubsection.4.2.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.2.5}不完全双二次元（奇妙族k = 2）}{94}{subsubsection.4.2.2.5}%
+\contentsline {subsection}{\numberline {4.2.3}有限元等价}{95}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}多项式逼近理论}{96}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Bramble-Hilbert引理}{96}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}变换估计}{98}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}插值误差估计}{100}{subsection.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.3.1}Scott-Zhang插值}{103}{subsubsection.4.3.3.1}%
+\contentsline {subsection}{\numberline {4.3.4}变分问题的有限元方法与误差估计}{104}{subsection.4.3.4}%
+\contentsline {subsubsection}{\numberline {4.3.4.1}Poisson问题有限元近似}{104}{subsubsection.4.3.4.1}%
+\contentsline {subsubsection}{\numberline {4.3.4.2}一般二阶椭圆方程}{105}{subsubsection.4.3.4.2}%
+\contentsline {section}{\numberline {4.4}非协调有限元方法}{108}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}非协调有限元空间}{108}{subsection.4.4.1}%
+\contentsline {subsubsection}{\numberline {4.4.1.1}CR元}{108}{subsubsection.4.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.4.1.2}旋转$Q_1$元}{110}{subsubsection.4.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.4.1.3}Wilson元}{110}{subsubsection.4.4.1.3}%
+\contentsline {subsubsection}{\numberline {4.4.1.4}Morley元}{110}{subsubsection.4.4.1.4}%
+\contentsline {subsection}{\numberline {4.4.2}非协调元误差估计}{112}{subsection.4.4.2}%
+\contentsline {subsubsection}{\numberline {4.4.2.1}CR元误差估计}{115}{subsubsection.4.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.4.2.2}Morley元误差估计}{121}{subsubsection.4.4.2.2}%
+\contentsline {section}{\numberline {4.5}混合有限元方法}{123}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}混合变分形式}{123}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}混合有限元方法}{123}{subsection.4.5.2}%
+\contentsline {subsubsection}{\numberline {4.5.2.1}Babuška理论}{123}{subsubsection.4.5.2.1}%
+\contentsline {subsubsection}{\numberline {4.5.2.2}Brezzi理论}{128}{subsubsection.4.5.2.2}%
+\contentsline {section}{\numberline {4.6}后验误差估计}{133}{section.4.6}%
+\contentsline {section}{\numberline {4.7}一些}{134}{section.4.7}%
+\contentsline {chapter}{\numberline {第五章\hspace {.3em}}FA}{136}{chapter.5}%
+\contentsline {section}{\numberline {5.1}拓扑线性空间}{136}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Topology of TLS}{136}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}局部凸空间}{139}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}谱测度与谱分解}{142}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}谱测度与谱积分}{142}{subsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.1}谱测度}{142}{subsubsection.5.2.1.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.2}谱积分}{143}{subsubsection.5.2.1.2}%
+\contentsline {subsection}{\numberline {5.2.2}谱系}{144}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}有界自伴算子谱分解}{145}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}广义函数}{149}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}基本函数空间}{149}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}广义函数及其运算}{151}{subsection.5.3.2}%

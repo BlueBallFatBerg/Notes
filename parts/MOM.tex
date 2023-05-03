@@ -1,0 +1,935 @@
+\vspace{5pt} \hrule \vspace{5pt}
+
+\chapter{MOM}
+
+\section{Some Convex Analysis}
+
+convex set, convex function
+
+convex optimization: both cost function and feasible region are convex, the latter requires: equality constrains are linear and inequality constrains are concave.
+
+Cones
+
+convex cone, sepcial cases: closed/open half-spaces
+
+fixing $b$ and $\beta$, \{$\langle  x, b \rangle = \beta$\} is a dividing surface/line($bx = \beta$) of the whole space ($\mathbb{R}^2$)
+
+normal vector $x^{\ast}$ \textbf{to a convex set $C$ at a point $a \in C$} if $\langle x^{\ast}, x - a \rangle \le 0, \forall x \in C$.
+
+normal cone $N_C (a)$ = \{normal vectors $x^{\ast}$ to a convex set $C$ at a point $a \in C$\}
+
+tangent cone $T_C (a)$ = \{tangent vectors $v_a$ to a convex set $C$ at a point $a \in C$\}
+
+polar cone $C^{\circ} = \{y \in \mathbb{R}^n | \langle y, x \rangle \le 0, \forall x \in C\}$
+
+dual cone $C^{\ast} = \{y \in \mathbb{R}^n | \langle y, x \rangle \ge 0, \forall x \in C\} = - C^{\circ}$
+
+\section{Unconstrained Optimization}
+
+Global minimizer, Local minimizer, Strict local minimizer, Isolated local minimizer (the only one locally).
+
+A strict local minimizer but not an isolated one: zero point in figure `0.06'.
+
+Taylor's Expansion: $f(x+p)=f(x)+\nabla f(x+t p)^{T} p$, for some $t \in(0,1)$ if $f \in C^1$, $f(x+p)=f(x)+\nabla f(x)^{T} p+\frac{1}{2} p^{T} \nabla^{2} f(x+t p) p$, for some $t \in(0,1)$ if $f \in C^2$.
+
+\subsection{Recognizing a local minimum}
+
+First-order necessary conditions: Gradient equals zero, that is, a stationary point.
+
+Second-order necessary conditions: Gradient equals zero and Hessian is positive semidefinite.
+
+Both prove by contradiction, find a smaller one using Taylor expansion.
+
+Second-order sufficient conditions: Gradient equals zero and Hessian is positive definite.
+
+Proof: Again using Taylor expansion and  \textbf{continuity of Hessian}.
+
+Convex case: If f is convex, then a local minimizer is also a global one, and any stationary point is a global minimizer.
+
+Both prove by contradiction, find the contradiction using convexity of f.
+
+Nonsmooth problems
+
+subgradient or generlized gradient, see Convex Analysis and Minimization ...
+
+\vspace{15pt}
+
+\subsection{Two strategies: Line Search and Trust Region}
+
+\subsubsection{Line search strategy}
+
+Main idea for line search strategy: $x_{k+1}=x_{k}+\alpha_{k} p_{k}$.
+
+- Choose a direction $p_{k}$
+
+- Find a step length $\alpha_{k}$ along $p_{k}$ 
+
+Step length is determined by: $\min _{\alpha>0} \phi(\alpha):=f\left(x_{k}+\alpha p_{k}\right)$. （看成关于$\alpha_k$的优化问题）
+
+- Exact line search: $\alpha_{k}$ is a global minimizer of the equation above.（达到最小，一般来说计算量很大）
+
+- Inexact line search: $\alpha_{k}$ achieves adequate reduction in f at minimal cost.（“足够”小就行了）
+
+Steepest descent direction: $p_k = - \nabla f_k$.
+
+def: descent direction $p_k$ if $\nabla f(x_k)^{T} p_k < 0$.
+
+\begin{conc}
+  \textbf{(Week 1)} 一些凸分析中的定义，区分各种锥；极小值点（minimizer）的定义，如何区分：一二阶充分或必要条件，Taylor展开式；线搜索算法，精确和非精确，梯度下降法。
+\end{conc}
+
+Newtion's direction: $p_{k}^{N}=-\nabla^{2} f_{k}^{-1} \nabla f_{k}$. ($p_{k}^{N}$ is indeed a descent direction)
+
+How: Taylor's expansion: $f(x+p)=f(x)+\nabla f(x)^{T} p+\frac{1}{2} p^{T} \nabla^{2} f(x) p + O(||p||^2)$, 看成关于p的最优化问题，则$\nabla f(x)+\nabla^{2} f(x) p = 0 \Rightarrow p = -\nabla^{2} f^{-1} \nabla f$。需要计算Hessian，计算量和存储量大，而且Hessian可能不存在或者退化。
+
+Quasi-Newtion direction: Approximate $\nabla^{2} f_{k}$ by $B_{k}$. $B_{k}$ is symmetric and $\Delta B_{k}$ has low rank. And by def: $B_{k+1} s_{k}=y_{k}$ where $s_{k}=x_{k+1}-x_{k}, y_{k}=\nabla f_{k+1}-\nabla f_{k}$.
+
+SR1(rank 1) and BFGS(rank 2):
+
+SR1: 
+\[
+  B_{k+1}=B_{k}+\frac{\left(y_{k}-B_{k} s_{k}\right)\left(y_{k}-B_{k} s_{k}\right)^{T}}{\left(y_{k}-B_{k} s_{k}\right)^{T} s_{k}}
+\]
+
+BFGS:
+\[
+  B_{k+1}=B_{k}-\frac{B_{k} s_{k} s_{k}^{T} B_{k}}{s_{k}^{T} B_{k} s_{k}}+\frac{y_{k} y_{k}^{T}}{y_{k}^{T} s_{k}}
+\]
+
+How: 修正矩阵，DFP修正公式，Broyden修正公式。（see OPIppt4-4）
+
+Conjugate gradient direction: $p_{k}=-\nabla f\left(x_{k}\right)+\beta_{k} p_{k-1}$ where $\beta_{k}$ is a scalar to ensure that $p_{k}$ and $p_{k-1}$ are conjugate.
+
+What is conjugate: $p_i$ is conjugate to $p_j$ w.r.t some $G \succ 0$ if $p_i^T G p_j = 0$.
+
+共轭梯度法（相比梯度下降法）更高效且（相比（拟）Newton法）储存量更少（不用存矩阵）。
+
+\subsubsection{Trust region strategy}
+
+$x_{k+1}=x_{k}+p_{k}$. （只考虑迭代方向）
+
+1. 用模型函数$m_{k}(p)=f_{k}+g_{k}^{T} p+\frac{1}{2} p^{T} B_{k} p$逼近f，即Taylor expansion，$B_k$ approximates Hessian of f as in quasi-Newton methods。
+
+2. Get $p_{k}$ by $\min_{p} m_{k}\left(x_{k}+p\right)$ s.t. $\|p\| \leq \Delta$ where  $\Delta>0$ is called the trust region.（看成关于p的优化问题）
+
+3. 改变$\Delta$，用一个指标$\rho_k$（见OPI 信赖域方法），做得好，也就是下降得多，就值得信赖，扩大信赖域，反之，做得不好就不值得信赖，缩小信赖域。
+
+和线搜索方法的联系：选合适的模型函数和信赖域即退化为一些线搜索方法，如梯度下降法和Newton法。
+
+收敛性与收敛速度
+
+locally convergent, globally convergent.
+
+Suppose $\left\{x_{k}\right\}$ converges to $x^{\ast}$, and
+\[
+  \lim_{k \rightarrow \infty} \frac{\left\|x_{k+1}-x^{\ast}\right\|}{\left\|x_{k}-x^{*}\right\|}=\beta
+\]
+
+$\left\{x_{k}\right\}$ is said to be linearly convergent if $0<\beta<1$, superlinearly convergent if $\beta=0$, and sublinearly convergent If $\beta=1$.
+
+$\left\{x_{k}\right\}$ is p-order convergent if for some $p \geq 1$, there is
+\[
+  \lim_{k \rightarrow \infty} \frac{\left\|x_{k+1}-x^{*}\right\|}{\left\|x_{k}-x^{*}\right\|^{p}}=\beta, \quad 0<\beta<\infty,
+\]
+
+and quadratically convergent if p = 2.
+
+\begin{conc}
+  \textbf{(Week 2-1)} 线搜索方法和信赖域方法，都是在优化迭代过程，包括迭代方向和步长，你要优化哪个就看成哪个的优化问题，然后用Taylor展开就好了，简单的都是这样，只有拟Newton法用到修正公式麻烦一点，不过也没讲。
+\end{conc}
+
+\section{Line Search Methods}
+
+优化步长就看成是关于步长的优化问题$\min_{\alpha>0} \phi(\alpha):=f\left(x_{k}+\alpha p_{k}\right)$，全局极小值点即为精确线搜索步长，局部极小值点即为非精确线搜索步长。
+
+精确线搜素：还是计算量的问题。
+
+非精确线搜索：看成步长的优化问题收敛速度可能太慢或者不收敛，所以要加一些条件。
+
+The Wolfe conditions:
+
+1. Sufficient decrease: $\phi(\alpha) \le \phi(0) + c_1 \phi'(0) \alpha$ for some $c_1 \in (0, 1)$. Note that $\phi'(0) = \nabla f(x_k)^T p_k < 0$ since $p_k$ is a descent direction. 这个点在RHS这条直线下方，保证足够下降。
+
+2. Curvature condition: $\phi'(\alpha_k) \ge c_2 \phi'(0)$ for some $c_2 \in (c_1, 1)$. 这个点的切线斜率不能太小，由于这些切线斜率都是负的，不能太小意味着接近零，而极值点切线斜率为零。
+
+The Strong Wolfe conditions:
+
+2. $\to$ 2$'$. $|\phi'(\alpha_k)| \le c_2 |\phi'(0)|$ for some $c_2 \in (c_1, 1)$. 加上绝对值之后，这个点的切线斜率就不能正地太大了，还是想要接近零，这样容易接近极值点。
+
+The Goldstein Conditions:
+
+$\phi(0) + (1 - c) \phi'(0) \le \phi(\alpha) \le \phi(0) + c \phi'(0) \alpha$ for some $c \in (0, \frac{1}{2})$. 这个搜索区域是以$\phi(0)$为顶点的一个锥，优点是可以排除过小步长，缺点是可能不包含极值点。
+
+Backtracking
+
+只考虑Sufficient decrease: $\phi(\alpha) \le \phi(0) + c \phi'(0) \alpha$ for some $c \in (0, 1)$. 同时也想排除过小步长，于是先选一个大步长，看满不满足Sufficient decrease，如果不满足就乘一个缩小系数，直到满足Sufficient decrease。
+
+\subsection{Convergence of Line Search Methods}
+
+定义搜索方向$p_k$和梯度下降方向$- \nabla f_k^T $的夹角：$\cos \theta_{k}=\frac{-\nabla f_{k}^{T} p_{k}}{\left\|\nabla f_{k}\right\|\left\|p_{k}\right\|}, \cos \theta_{k} > 0$ if $p_k$ is a descent direction.
+
+Zoutendijk's Theorem
+
+对于线搜索方法，若搜索方向为下降方向，搜索步长满足Wolfe Conditions（另外两个条件同理），并且目标函数f的性质足够好，即f本身连续可微有下界（无下界的话说明这个优化问题可能不是良定的），f的梯度Lipschitz连续，则有估计：
+\[
+  \sum_{k \geq 0}^{\infty} \cos^{2} \theta_{k}\left\|\nabla f_{k}\right\|^{2}<\infty .
+\]
+
+pf is omitted. 上式称为Zoutendijk条件。
+
+这个条件说了什么？级数有限，则尾项趋零，即$\cos \theta_{k}\left\|\nabla f_{k}\right\| \to 0$。若夹角$\cos \theta_k$有下界，则$\left\|\nabla f_{k}\right\| \to 0$，这是线搜索方法所能达到的最强的全局收敛性条件（可以将其作为全局收敛性的定义，之前那个只是描述性的）。缺点是确保收敛但不能确保收敛到极小值点。
+
+对于梯度下降法，搜索方向就是负梯度方向，所以$\cos \theta_k \equiv 1$有下界，故一定\textbf{全局收敛}。
+
+对于类Newton法，若$B_k$的条件数$cond(B_k) = ||B_k|| \cdot ||B_k^{-1}||$（$||\cdot||$表示矩阵范数）有一致上界，则算法全局收敛。
+
+对于共轭梯度法，只能得到较弱的收敛性条件：$\lim \inf \left\|\nabla f_{k}\right\| = 0$，即下极限为零。证明由反证，若下极限大于零，则$\{\left\|\nabla f_{k}\right\|\}$有非负下界，结合Zoutendijk条件必须$\cos \theta_k \to 0$，另一方面又可以找到远离0的子列（或者按照实际意义，$\cos \theta_k \to 0$意味着搜索方向收敛到等高线切线方向了，显然不合理。），矛盾。
+
+Scaling: see textbook.
+
+\begin{conc}
+  \textbf{(Week 2-2)} 线搜索方法如何优化搜索步长，看成关于搜索步长的优化问题，精确搜索没啥好说的，非精确搜索需要加一些条件，比如Wolfe条件等，这些条件的几何意义，总之是，下降要足够多，希望下降到极小值点，搜索步长不能太小，全局收敛性条件，Zoutendijk's Theorem。
+\end{conc}
+
+\subsection{Convergence Rate of Line Search Methods}
+
+评估算法：收敛性和收敛速率。
+
+梯度下降法的收敛速率
+
+1. 二次优化问题，精确线搜索
+
+定义条件数$\kappa(Q) = \frac{\lambda_n}{\lambda_1}$，由一个估计（没证所以不写了），梯度下降法的收敛速率和条件数有关，条件数过大可能导致收敛速度过慢。
+
+2. 一般光滑（f二次可微）问题，精确线搜索
+
+上述估计的系数会发生一点偏移，知道就行了。
+
+注：1. 非精确线搜索收敛不会比精确线搜索快，所以上面讨论的时候都是用精确线搜索。2. 梯度下降法的收敛速度最高是线性收敛。
+
+Newton法的收敛速率
+
+要求Hessian在收敛点$x^{\ast}$附近正定和Lipschitz连续。
+
+条件全局收敛，二次收敛。
+
+pf：1. $\nabla f(x^{\ast}) = 0$. 2. 梯度的积分形式Taylor展开。 3. Hessian非奇异以及Lipschitz条件。
+
+Quasi Newton's Method
+
+超线性收敛
+
+比较精确线搜索和非精确线搜索：
+
+线搜索方法使用精确线搜索时收敛速度更快。
+
+非精确线搜索计算量更小。
+
+比较四种线搜索方法
+
+梯度下降法：全局收敛，最高线性收敛，adv：仅需计算梯度，dis：对于一些问题可能出现Zegzag现象，导致收敛速度非常慢。
+
+Newton法：条件全局收敛，二次收敛，adv：收敛速度最快，dis：需要计算Hessian，计算量大。
+
+拟Newton法：条件全局收敛，超线性收敛。dis：相比Newton法计算量小，相比梯度下降法收敛速度快。
+
+共轭梯度法：adv：相比梯度下降法效率更高，相比（拟）Newton法计算量小，且不需要存储矩阵。
+
+\section{Trust Region Method}
+
+模型函数$m_k$：一个好的二次函数，即目标函数Taylor展开前三项，然后Hessian用$B_k$。
+
+衡量指标：$\rho_{k}=\frac{f\left(x_{k}\right)-f\left(x_{k}+p_{k}\right)}{m_{k}(0)-m_{k}\left(p_{k}\right)}$，即实际下降与预计下降之比。对于模型函数的优化问题是好做的，但是模型函数的下降是否蕴含目标函数的下降以及下降多少需要用这个指标来衡量。
+
+如果$\rho_k$接近1，说明又有下降又拟合得好，可以扩大信赖域。
+
+如果$\rho_k$大于0但接近0，说明目标函数可能没下降多少，暂时不改变信赖域。
+
+如果$\rho_k$小于0，说明都目标函数都没下降，只能缩小信赖域。
+
+算法里面还有一个总上界$\hat{\Delta}$，意思是说虽然做得好就可以扩大信赖域，但是考虑计算量不能一直扩大，信赖域半径始终小于$\hat{\Delta}$。
+
+子问题的KKT条件
+
+\begin{conc}
+  \textbf{(Week 3-1)} 线搜索方法的收敛速率，梯度下降法：最高线性收敛，Newton法：二次收敛，拟Newton法：超线性收敛。信赖域方法，关键点：模型函数的子问题，KKT条件。
+\end{conc}
+
+Solving subproblem
+
+\subsection{Cauchy Point}
+
+（先找方向）关于方向的一次优化问题（原来子问题的线性部分）：
+
+$p_{k}^{s}=\arg \min _{p \in \mathbb{R}^{n}} f_{k}+g_{k}^{T} p \quad \text { s.t. }\|p\| \leq \Delta_{k}$, where $g_k = \nabla f_k$.
+
+方向就取负梯度方向$p = -g_k$，但是还要满足在信赖域里面，所以取$p = - \Delta_k \frac{g_k}{\|g_k\|}$。
+
+（再找步长）关于步长的二次优化问题：
+
+$\tau_{k}=\arg \min _{\tau>0} m_{k}\left(\tau p_{k}^{s}\right), \text { s.t. }\left\|\tau p_{k}^{s}\right\| \leq \Delta_{k}$.
+
+对首项系数分类讨论，最后$\tau_{k}=\left\{\begin{array}{ll}
+  1, & \text {if } g_{k}^{T} B_{k} g_{k} \leq 0. \\
+  \min \left\{1, \frac{\left\|g_{k}\right\|^{3}}{\left(\Delta_{k} g_{l}^{T} B_{k} g_{k}\right)}\right\}, & \text {otherwise. }
+\end{array}\right.$。$\tau_k$不超过1时因为要保证Cauchy点在信赖域里面
+
+Cauchy点$p_{k}^{C} = \tau_k p_{k}^{s} = - \frac{\tau_k \Delta_k}{\|g_k\|} g_k$。
+
+Cauchy点法形式上还是（特殊步长的）梯度下降法，所以能产生足够下降，也不用算Hessian，问题也还是收敛速度可能太慢。
+
+Cauchy点法的两种改进：狗腿法和子空间法。
+
+之前讲线搜索方法的时候，一种是线性优化，一种是二次优化，结合信赖域方法来说，你这个信赖域比较小的时候，二次项不起主要作用，所以用线性逼近就可以了，但是信赖域比较大的时候，二次项的影响比较大，需要用二次逼近。那要是信赖域不太大也不太小，这时候就可以两种混着用。
+
+\subsection{The Dogleg Method}
+
+用两段直线逼近最优曲线：$\tilde{p}(\tau) = \left\{\begin{array}{cl}
+  \tau p^{U}, & 0 \leq \tau \leq 1 \\
+  p^{U}+(\tau-1)\left(p^{B}-p^{U}\right), & 1 \leq \tau \leq 2
+\end{array}\right.$。
+
+$p^{U}=-\frac{g^{T} g}{g^{T} B g} g$为（特殊步长的）负梯度方向，$p^B = - B^{-1} g$为拟Newton法（二次优化）里的搜索方向。
+
+可以证明（略），模长$\|\tilde{p}(\tau)\|$随时间上升，模型函数的值$m(\tilde{p}(\tau))$随时间下降。
+
+现在曲线有了，要找下一个迭代点是什么，就是解关于时间参数$\tau$的优化问题$min_{\tau \in [1, 2]} m(\tilde{p}(\tau))$。由单调性引理，如果信赖域足够大，就取$\tau = 2$，如果不是，就取边界上的点，反之越大越好。
+
+\subsection{The Subspace Minimization Method}
+
+考虑优化问题：$\min_{p} m(p)$, s.t. $\|p\| \leq \Delta, p \in \operatorname{span}\left[g, B^{-1} g\right]$。
+
+思想跟狗腿法是一样的，只是最后找点的时候在这个二维子空间里找，而不是在狗腿那两条线上。
+
+好处是计算量不大，全局收敛，并且B不正定也能用。
+
+\subsection{Convergence Theorem}
+
+Reduction obtained by Cauchy Point:
+\[
+  m_{k}(0)-m_{k}\left(p_{k}\right) \geq \frac{1}{2}\left\|g_{k}\right\| \min \left(\Delta_{k}, \frac{\left\|g_{k}\right\|}{\left\|B_{k}\right\|}\right)
+\]
+
+pf is omitted.
+
+狗腿法和子空间法作为Cauchy点法的改进，都满足上述估计。
+
+在此估计以及一些其他条件下（见ppt4.5p5），可以得到$g_k$的下极限为零。在线搜索方法的收敛性定理（Zoutendijk's Theorem）中，$g_k$的极限为零意味着全局收敛，但这里下极限为零已经是最强的结果了。
+
+超线性收敛：因为k很大的时候，信赖域失效，意思是最优点总是在信赖域中，这时候总能取到最优点，于是收敛速度就是逆Newton法的收敛速度。
+
+Scaling: 对信赖域的形状塑形，即$\|Dp\| \le \Delta$，其中D为正定对角矩阵。
+
+trust region in other norm.
+
+\section{Conjugate Gradient Method}
+
+\subsection{Linear case}
+
+线性系统$Ax = b, A \succ 0$
+
+等价于二次优化问题$\min_{x} \phi(x)=\frac{1}{2} x^{T} A x-b^{T} x, \nabla \phi(x)=A x-b:=r(x)$
+
+def of conjugacy: $p_i^T A p_j = 0$
+
+\subsubsection{Conjugate direction method}
+
+$x_{k+1}=x_{k}+\alpha_{k} p_{k}, \alpha_{k}=-\frac{r_{k}^{T} p_{k}}{p_{k}^T A p_{k}}
+$.（$\alpha_k$就是精确线搜索来的，然后$p_k$是预先给定的一族共轭方向，$r_k$是梯度方向。）
+
+有限终止：对于线性系统$Ax = b$，上述搜索有限终止。
+
+pf: 用到共轭方向都是线性无关的，因此能张成整个空间，$x^{\ast} - x_0$用$p_k$线性表示，由共轭关系（乘$p_k^T A$）找到系数$\sigma_k$，再证上述搜索中$\alpha_k = \sigma_k$，故一定能有限终止。
+
+矩阵A的选取：A要是对角矩阵就很好，不是就不好，所以自然想到对角化。若有$S^T A S$为对角矩阵，则做变量替换$\hat{x} = S^{-1}x, \hat{\phi}(\hat{x}):=\phi(S \hat{x})=\frac{1}{2} \hat{x}^{T}\left(S^{T} A S\right) \hat{x}-\left(S^{T} b\right)^{T} \hat{x}$。
+
+Expanding Subspace Minimization: 1. $r_{k}^{T} p_{i}=0, \forall i=0, 1, \cdots, k-1$.
+
+2. $x_{k}$ is the minimizer of $\min_{x \in S}\phi(x)=\frac{1}{2} x^{T} A x-b^{T} x$, where $S = x_{0}+\operatorname{span}\left\{p_{0}, p_{1}, \cdots, p_{k-1}\right\} .$（极小问题的解）
+
+pf: 2. 的必要条件是1. 然后用归纳法。
+
+\subsubsection{Conjugate gradient method}
+
+初始版
+
+搜索方向迭代$p_{k}=-r_{k}+\beta_{k} p_{k-1}$，选取$\beta_k$保证共轭方向，$\beta_{k}=\frac{r_{k}^{T} A p_{k-1}}{p_{k-1}^{T} A p_{k-1}}$，$p_0 = -r_0$。
+
+Programming: $\alpha_k, x_{k + 1}, r_{k + 1}, \beta_{k + 1}, p_{k + 1}, k++$.（迭代一步，然后算下一步的搜索方向。）
+
+迭代过程有以下性质：
+
+1. $r_{k}^{T} r_{i} = 0, \forall i=0, 1, \cdots, k-1.$（梯度方向都垂直）
+
+2. $p_{k}^{T} A p_{i} = 0, \forall i=0,1, \cdots, k-1 .$（搜索方向都共轭）
+
+3. $\operatorname{span}\left\{r_{0}, r_{1}, \cdots, r_{k}\right\} = \operatorname{span}\left\{r_{0}, A r_{0}, \cdots, A^{k} r_{0}\right\} = \operatorname{span}\left\{p_{0}, p_{1}, \cdots, p_{k}\right\} .$
+
+简化版（不想算矩阵说是，没具体说为什么这样改）
+
+改搜索步长$\alpha_{k}=\frac{r_{k}^{T} r_{k}}{p_{k}^{T} A p_{k}}$
+
+改$\beta_{k+1}=\frac{r_{k+1}^{T} r_{k+1}}{r_{k}^{T} r_{k}}$
+
+A范数$\|p\|_A = p^TAp$。
+
+收敛速率（复杂的咱不谈）
+
+迭代步数即不同特征值的个数。
+
+收敛速率和条件数$\kappa(A) = \frac{\lambda_n}{\lambda_1}$有关，一般条件数越小（接近一）则收敛速率越快，反之条件数越大收敛速度越慢。（具体的估计就不写了，见pptMOM-5.4p4）
+
+Preconditioning
+
+目的是改善A的特征值分布，也就是改善条件数。
+
+方法就是做一个变换$\hat{x} = Cx, \hat{A} = C^{-T}AC^{-1}, \hat{b} = C^{-T}b, \hat{r} = C^{-T}r$。
+
+Algorithm: (see.pptMOM-5.4p7)
+
+Preconditioner: $M = C^T C$.
+
+$M_k y_k = r_k$
+
+Why using y? Since $\hat{r}^T\hat{r} = r^T C^{-T} C^{-1} r = r^T M^{-1} r = r^T y$.
+
+\subsection{Nonlinear case}
+
+FR method
+\[
+  \begin{aligned}
+    \beta_{k+1}^{F R}&=\frac{\nabla f_{k+1}^{\top} \nabla f_{k+1}}{\nabla f_{k}^{\top} \nabla f_{k}}, \\
+    p_{k+1}&=-\nabla f_{k+1}+\beta_{k+1}^{F R} p_{k}.
+  \end{aligned}
+\]
+
+在强Wolfe条件下，可以证明（见pptMOM-5.5p4-5）每一步$p_k$都是梯度下降方向。缺点是如果某一步搜索方向不好，这种不好会一直持续下去，导致收敛速率太慢。
+
+PR method
+\[
+  \beta_{k+1}^{P R}=\frac{\nabla f_{k+1}^{\top}\left(\nabla f_{k+1}-\nabla f_{k}\right)}{\left\|\nabla f_{k}\right\|^{2}}
+\]
+
+对于强凸二次优化问题，二者是一样的，对于一般非线性函数和非精确连续搜索，后者效果好不少，总之就是PR比FR要好。
+
+但是PR在强Wolfe条件下不能保证搜索方向为梯度下降方向，于是引入PR+ method，只要在PR迭代过程中加个+，即$\beta_{k+1}^{+}=\max \left\{\beta_{k+1}^{P R}, 0\right\},$。这个+相当于就是如果我的方向不好，即$\beta_k < 0$，则“重启”一下。此时强Wolfe条件能够保证搜索方向为梯度下降方向。
+
+HS method
+\[
+  \beta_{k+1}^{H S}=\frac{\nabla f_{k+1}^{T}\left(\nabla f_{k+1}-\nabla f_{k}\right)}{\left(\nabla f_{k+1}-\nabla f_{k}\right)^{T} p_{k}} 
+\]
+
+DY method
+\[
+  \beta_{k+1}^{D Y}=\frac{\left\|\nabla f_{k}\right\|^{2}}{\left(\nabla f_{k+1}-\nabla f_{k}\right)^{T} p_{k}}
+\]
+
+在线性问题（强凸二次优化问题）中，上述格式都是一样的。
+
+收敛性定理
+
+若有1. 水平集有界。2. 函数Lipschitz连续。3. 搜索步长满足强Wolfe条件。则梯度列的下极限为零，$\lim \inf_{k \rightarrow \infty}\left\|\nabla f_{k}\right\|=0$。
+
+如何分析table(pptMOM-5.6p9)
+
+非线性共轭梯度法搜索方向不再共轭，要是共轭就有限终止了。
+
+\section{Semismooth Newton's Method}
+
+\subsection{Semismoothness}
+
+$\Phi: \mathbb{R}^m \to \mathbb{R}^l$ is locally Lipschitz, thus is differentiable almost everywhere by Rademacher’s theorem.
+
+Define $D_{\Phi}:=\left\{x \in \mathbb{R}^{m} \mid \Phi \text { is differentiable at } x\right\}$. Bouligand subdifferential: $\partial_{B} \Phi(x) =  \left\{V \in \mathbb{R}^{m \times l} \mid \Phi^{\prime}\left(x^{k}\right) \to V, x^{k} \to x, x^{k} \in D_{\Phi}\right\}$. Convex hull: $\operatorname{co}(A)=\left\{\sum_{i \in I} \lambda_{i} x_{i}, x_{i} \in A, \sum_{i \in I} \lambda_{i}=1, \lambda_{i} \geq 0, i \in I\right\}$
+
+Then Clarke's generlized Jacobian: $\partial \Phi(x) = \operatorname{co} \partial_B \Phi(x)$
+
+Jacobian是一个矩阵，广义Jacobian一个集合，（一维情形）就是左极限和右极限的凸组合。（由于局部Lipschitz连续，各个方向的极限有的话就是唯一的）
+
+We say that $\Phi$ is semismooth at x if
+
+1. $\Phi$ is directional differentiable at x.
+
+2. $\forall V \in \partial \phi(x+h), \Phi(x+h)-\Phi(x)-V h=o(\|h\|)$.
+
+and $\gamma$-order semismooth if
+
+$\forall V \in \partial \phi(x+h), \Phi(x+h)-\Phi(x)-V h=O(\|h^{1 + \gamma}\|)$
+
+and strongly semismooth if $\gamma = 2$
+
+小o表示误差的渐进下界，大O表示误差的渐进上界。
+
+\subsection{Semismooth Newton's method}
+
+半光滑Newton法就是把迭代时的Jacobian换成广义Jacobian，在这个集合里面选一个非奇异的就行了，也没说具体怎么选，得看代码才知道。
+
+如果有半光滑性和矩阵非奇异，则能保证局部收敛和超线性收敛。
+
+可以推广到整体版本，得到整体收敛性。
+
+\subsection{SVM}
+
+\subsubsection{SVC}
+
+C stands for Classification. 目的是找到超平面把数据分开。
+
+正则化模型：引入松弛变量。
+
+$L^2$损失模型：$L^2$损失函数。
+
+对偶问题。
+
+\subsubsection{SVR}
+
+R stands for Regression. 目的是找到回归曲线（也就是超平面）拟合目标值。
+
+周志华西瓜书：支持向量回归假设我们能容忍$f(x)$与$y$之间最多有$\epsilon$的偏差，即仅当$f(x)$与$y$之间的差别绝对值大于$\epsilon$时才计算损失。这相当于以$f(x)$为中心，构建了一个宽度为2$\epsilon$的间隔带，若训练样本落入此间隔带，则认为是被预测正确的。
+
+也有类似的正则化模型，$L^2$损失模型和对偶问题。
+
+State-of-art Softwares
+
+\subsection{Semismooth Newton's Method for SVM}
+
+用半光滑Newton法是因为对于SVM中的最优化问题，一些损失函数是半光滑的。
+
+全局收敛，二次收敛。
+
+\subsection{Exploring Sparity}
+
+按照流程对于优化问题用半光滑Newton法可得以下迭代格式
+\[
+  V \Delta \omega=\Delta \omega+2 C \sum_{i=1}^{1} h_{i}\left(x_{i}^{T} \Delta \omega\right) x_{i}
+\]
+
+其中$h_{i} \in \partial \max \left(0, z_{i}(\omega)\right)$，即
+\[
+  h_{i}=\left\{ \begin{array}{ll}
+    1, & z_{i}(\omega)>0 \\
+    0, & z_{i}(\omega)<0 ; \\
+    \mu, & z_{i}(\omega)=0,
+  \end{array} \quad \mu \in[0,1] .\right.
+\]
+
+注意到有的时候$h_i = 0$就不用算了，定义那些需要算的情况，即指标集$I_{k}:=\left\{i: z_{i}^{k}\left(\omega^{k}\right)=1-y_{i} x_{i}^{T} \omega^{k}>0\right\}$，$V \Delta \omega=\Delta \omega+2 C \sum_{i \in I_{I}}\left(x_{i}^{T} \Delta \omega\right) x_{i}$可减少计算量。
+
+咋算计算量呢，以上面这个为例，从里到外，括号里的向量相乘是n，再乘给向量是n，有$|I_k|$项，所以是$2|I_k|n$，再乘前面的系数2C是n，最后加法是1，一共$2|I_k|n + n + 1$。
+
+\section{Theory of Constrained Optimization}
+
+满足限制的区域叫可行域，现在定义什么局部解，严格局部解，孤立局部解都要在可行域里。
+
+限制条件光滑化，把非光滑限制变成光滑限制，其实就是把那些条件写开了。
+
+有效指标集$\mathcal{A}(x)=\mathcal{E} \cup\left\{i \in \mathcal{I} \mid c_{i}(x)=0\right\}$，即等式约束指标集（不管满不满足），加上取等号的不等式约束指标集。
+
+如果不等式约束取等号，说明下一步迭代将受到该约束的影响，反之，如果有效指标集不包含不等式约束指标，则迭代方向是自由的，局部上可行域约束不起作用。
+
+等式约束
+
+可行与下降条件：$\nabla c_{1}(x)^{T} s = 0$（可行） and $\nabla f(x)^{T} s<0$（下降）
+
+如果找不到这样的s，说明已经达到了局部极小值点。s不存在  iff $\nabla f(x)$与$\nabla c_{1}(x)$平行。
+
+Lagrange乘子法，乘子可以是任意值。
+
+不等式约束
+
+可行与下降条件：$\nabla c_{1}(x)^{T} s \ge 0$（可行，等号变成不等号是因为等式约束相当于只能在边上走，不等式约束可以走一个半平面。） and $\nabla f(x)^{T} s<0$（下降）
+
+如果找不到这样的s，说明已经达到了局部极小值点。s不存在  iff $\nabla f(x)$与$\nabla c_{1}(x)$平行。
+
+Lagrange乘子法，此时乘子大于零，我们另外要求$\lambda_i c_i(x) = 0, i \in \mathcal{I}$，称complementarity condition。
+
+Tangent cone: 切向量构成的锥，感觉就是切平面。
+
+可行列是说收敛点集整个要在可行域里面。
+
+向量d是区域$\Omega$在点x处的一个切向量，若存在可行列$z_k \to x$和正数列$t_k \to 0$ s.t. $\lim _{k \rightarrow \infty} \frac{z_{k}-x}{t_{k}}=d$，切向量构成的空间称为切锥。
+
+给定可行点x和有效限制集$\mathcal{A}(x)$，the set of the linearized feasible direction is
+\[
+  \mathcal{F}(x) = \left\{ d \bigg| \begin{array}{ll}
+    d^{T} \nabla c_{i}(x)=0, & \text { for all } x \in \mathcal{E} \\
+    d^{T} \nabla c_{i}(x) \geq 0, & \text { for all } i \in \mathcal{A}(x) \cap \mathcal{I}
+  \end{array} \right\}
+\]
+
+这样的方向：和等式约束梯度方向垂直，和有效不等式约束梯度方向夹角为锐角。
+
+其也是一个锥，比切锥好算，并且在LICQ下两者作为集合相等。
+
+linear independent constraint qualification (LICQ): LICQ holds if the set of active constraint gradients $\left\{\nabla c_{i}(x), i \in \mathcal{A}(x)\right\}$ is linearly independent.
+
+简单来说这个条件就是为了上面那两个锥是一样的。
+
+\subsection{First-Order Optimality Conditions}
+
+\begin{thm}
+  （KKT 条件）设$x^{\ast}$是局部极小点，LICQ（保证乘子唯一性）在$x^{\ast}$处成立，f和$c_i$都连续可微，则存在唯一Lagrange乘子$\lambda^{\ast}$使得以下KKT条件成立。
+  \[
+    \begin{aligned}
+      \nabla_{x} \mathcal{L}\left(x^{*}, \lambda^{*}\right) & =0, \\
+      c_{i}\left(x^{*}\right) & =0, \quad \text { for all } i \in \mathcal{E} \\
+      c_{i}\left(x^{*}\right) & \geq 0, \quad \text { for all } i \in \mathcal{I} \\
+      \lambda_{i}^{*} & \geq 0, \quad \text { for all } i \in \mathcal{I} \\
+      \lambda_{i}^{*} c_{i}\left(x^{*}\right) & =0, \quad \text { for all } i \in \mathcal{E} \cup \mathcal{I}.
+    \end{aligned}
+  \]
+\end{thm}
+
+Lagrange函数$\mathcal{L} = f - \sum \lambda_i c_i, c_i \ge 0$。
+
+严格互补条件（Strict Complementarity）成立，若最后一条中有且仅有一项为零。
+
+\subsection{Second Order Necessary Condition}
+
+由线性可行方向的定义和KKT条件，有$d^{T} \nabla f\left(x^{*}\right) \ge 0$。
+
+接下来我们考虑$d \in \mathcal{F}(x^{\ast}), d^{T} \nabla f\left(x^{*}\right) = 0$的方向，称为未定方向。
+
+\begin{df}
+  （critical cone）给定极值点$x^{\ast}$，线性可行方向$\mathcal{F}(x^{\ast})$和$\lambda^{\ast}$满足KKT条件。定义critical cone
+  \[
+    \mathcal{C}\left(x^{*}, \lambda^{*}\right)=\left\{w \in \mathcal{F}\left(x^{*}\right) \mid \nabla c_{i}\left(x^{*}\right)^{T} w=0\right. , \forall i \in \mathcal{A}(x) \cap \mathcal{I} \text{ with } \left.\lambda_{i}^{*}>0\right\} 
+  \]
+  
+  Equivalently,
+  \[
+    \begin{array}{l}
+      w \in \mathcal{C}\left(x^{*}, \lambda^{*}\right) \leftrightarrow \\
+      \left\{\begin{array}{ll}
+      \nabla c_{i}\left(x^{*}\right)^{T} w=0, & \text { for all } i \in \mathcal{E} \\
+      \nabla c_{i}\left(x^{*}\right)^{T} w=0, & \text { for all } i \in \mathcal{A}\left(x^{*}\right) \cap \mathcal{I} \text { with } \lambda_{i}^{*}>0 \\
+      \nabla c_{i}\left(x^{*}\right)^{T} w \geq 0, & \text { for all } i \in \mathcal{A}\left(x^{*}\right) \cap \mathcal{I} \text { with } \lambda_{i}^{*}=0
+      \end{array}\right.
+    \end{array}
+  \]
+
+  i.e. $w \in \mathcal{C}\left(x^{*}, \lambda^{*}\right) \rightarrow \lambda_{i}^{*} \nabla c_{i}\left(x^{*}\right)^{T} w=0, \text { for all } i \in \mathcal{E} \cup \mathcal{I}$.
+\end{df}
+
+其中的方向都是未定方向。
+
+\begin{thm}（Second Order Necessary Condition）
+  
+  给定极值点$x^{\ast}$满足LICQ和$\lambda^{\ast}$满足KKT条件，则二阶必要条件为
+  \[
+    w^{T} \nabla_{x x}^{2} \mathcal{L}\left(x^{*}, \lambda^{*}\right) w \geq 0, \quad \text { for all } w \in \mathcal{C}\left(x^{*}, \lambda^{*}\right)
+  \]
+\end{thm}
+
+\subsection{Second Order Sufficient Condition}
+
+（二阶充分条件）假设KKT条件和二阶必要条件中半正定变成正定都成立，则$x^{\ast}$为严格局部解。
+
+\subsection{Duality}
+
+primal problem $\min _{x \in \mathbb{R}^{n}} f(x) \text { s.t. } c(x) = (c_1(x), \dots, c_m(x)) \geq 0$.
+
+Lagrangian $\mathcal{L} = f - \lambda^T c.$
+
+dual objective function $q(\lambda):=\inf _{x} \mathcal{L}(x, \lambda)$.
+
+domain of q $\mathcal{D}:=\{\lambda \mid q(\lambda)>-\infty\}$
+
+dual problem $\max _{\lambda \in \mathbb{R}^{m}} q(\lambda) \text { s.t. } \lambda \geq 0$.
+
+用KKT条件得到x和$\lambda$之间的关系，把Lagrangian里面的x都换成$\lambda$就得到了$q(\lambda)$。
+
+对偶定理：1. q is concave and $\mathcal{D}$ is convex.
+
+2. 对于原初和对偶问题的解有$q(\bar{\lambda}) \leq f(\bar{x})$。
+
+设$\bar{x}$为原初问题的解，f和-$c_{i}$都是凸函数，若$(\bar{x}, \bar{\lambda})$满足KKT条件，则$\bar{\lambda}$是对偶问题的解。
+
+\section{Further Discussions on Constrained Optimization}
+
+Primal Problem $\begin{array}{ll}
+  \min _{x \in \mathcal{X}} & f(x) \\
+  \text { s.t. } & G(x) \in \mathcal{K}
+\end{array}$
+
+where $f: X \to \mathbb{R}, G: X \to Y$ are continuously differentiable. $\mathcal{K} \subset Y$ is a convex cone.
+
+Lagrange function $L(x, \mu)=f(x)-\langle\mu, G(x)\rangle$
+
+Normal cone $N_{C}(a)=\left\{\begin{array}{ll}
+  \{d \mid\langle d, z-a\rangle \leq 0, \forall z \in C\}, & a \in C \\
+  \emptyset, & \text { otherwise }
+\end{array}\right.$
+
+Dual cone $C^{*}=\left\{y \in \mathbb{R}^{n} \mid\langle y, x\rangle \geq 0, \forall x \in C\right\} .$
+
+KKT condition $\nabla_{x} L(\bar{x}, \bar{\mu})=0, \quad 0 \in \bar{\mu}+N_{\mathcal{K}}(G(\bar{x}))$
+\[
+  \begin{aligned}
+    0 \in \bar{\mu}+N_{\mathcal{K}}(G(\bar{x})) \Longleftrightarrow & -\bar{\mu} \in N_{\mathcal{K}}(G(\bar{x})) \\
+    \Longleftrightarrow &\; G(\bar{x}) \in \mathcal{K},\langle-\bar{\mu}, d-G(\bar{x})\rangle \leq 0, \forall d \in \mathcal{K}, \\
+    & (\mathcal{K} \text { is a convex cone, } 0 \in \mathcal{K}, 2 G(\bar{x}) \in \mathcal{K}) \\
+    \Longleftrightarrow &\; G(\bar{x}) \in \mathcal{K},\langle\bar{\mu}, G(\bar{x})\rangle=0,\langle\bar{\mu}, d\rangle \geq 0, \forall d \in \mathcal{K}, \\
+    \Longleftrightarrow &\; G(\bar{x}) \in \mathcal{K},\langle\bar{\mu}, G(\bar{x})\rangle=0, \bar{\mu} \in \mathcal{K}^{*} .
+  \end{aligned}
+\]
+
+第二个等号由法锥定义，第三个等号用括号里那个提示，逼迫那个内积是零，最后一个用对偶锥定义。
+
+所以说反过来看比较好看，不是一开始就有那个法锥的，把原来的KKT条件翻译一下应该是最后那个条件。
+
+KKT条件等价为$\nabla_{x} L(\bar{x}, \bar{\mu})=0, G(\bar{x}) \in \mathcal{K},\langle\bar{\mu}, G(\bar{x})\rangle=0, \bar{\mu} \in \mathcal{K}^{*}$。
+
+\begin{eg}
+  Primal Problem $\begin{array}{ll}
+    \min_{x \in \mathbb{R}^{n}} & f(x) \\
+    \text { s.t. } & c_{i}(x)=0, \quad i \in E:=\{1, \ldots, m\} \\
+    & h_{i}(x) \geq 0, \quad i \in I:=\{1, \ldots, k\}
+  \end{array}$
+
+  then $G(x) = \left[\begin{array}{c}
+    c_i(x)\\
+    h_i(x)
+  \end{array}\right] \in \mathcal{K} = \left[\begin{array}{c}
+    \{0\}^m\\
+    \mathbb{R}_+^k
+  \end{array}\right], \mathcal{K}^{\ast} = \left[\begin{array}{c}
+    \mathbb{R}^m\\
+    \mathbb{R}_+^k
+  \end{array}\right]$.
+
+  The KKT condition $\nabla_{x} L(\bar{x}, \bar{\mu})=0, G(\bar{x}) \in \mathcal{K},\langle\bar{\mu}, G(\bar{x})\rangle=0, \bar{\mu} \in \mathcal{K}^{*},
+  $
+
+  i.e.,
+  \[
+    \begin{aligned}
+      \mu & \in \mathcal{K}^{*} \Longleftrightarrow \lambda \in \mathbb{R}^{m}, v \in \mathbb{R}_{+}^{k} . \\
+      G(x) \in \mathcal{K} & \Longleftrightarrow c_{i}(x)=0, \quad i \in E, h_{i}(x) \geq 0, i \in I . \\
+      \langle u, G(x)\rangle=0 & \Longleftrightarrow \sum_{i \in E} \lambda_{i} c_{i}(x)+\sum_{i \in I} v_{i} h_{i}(x)=0 \\
+      & \Longleftrightarrow \sum_{i \in I} v_{i} h_{i}(x)=0\left(c_{i}(x)=0\right) \\
+      & \Longleftrightarrow v_{i} h_{i}(x)=0, i \in I\left(h_{i}(x) \geq 0, v_{i} \geq 0\right) .
+    \end{aligned}
+  \]
+\end{eg}
+
+Dual Problem $\sup _{\mu \in \mathcal{K}^{*}} \inf _{x \in \mathcal{X}} L(x, \mu):=\sup _{\mu \in \mathcal{K}^{*}} \theta(\mu)$,
+
+where $\theta(\mu)=\inf _{x \in \mathcal{X}} L(x, \mu)$. 做法上次说过了。
+
+Indicator function $\delta(x | C)=\left\{\begin{array}{ll}
+  0, & x \in C \\
+  +\infty, & \text { otherwise }
+\end{array}\right.$
+
+Conjugate function of f at $x^{*}$ $f^{*}\left(x^{*}\right)=\sup _{x}\left\{\left\langle x, x^{*}\right\rangle-f(x)\right\}$.
+
+The conjugate function of $\delta(\cdot | C)$ at $x^{*}$ is referred as the support function of C at  $x^{*}$, denoted as $\delta^{*}(x^{*} | C) = \sup_{x \in C} \langle x, x^{\ast} \rangle$.（示性函数的共轭函数是支撑函数）
+
+\section{Penalty and Augmented
+Lagrangian Methods}
+
+\subsection{Quadratic Penalty Method}
+
+等式约束问题$\min_{x} f(x) \text { s.t. } c_{i}(x)=0, i \in \mathcal{E}$。
+
+$L^2$罚函数$Q(x; \mu) = f(x)+\frac{\mu}{2} \sum_{i \in \mathcal{E}} c_{i}^{2}(x)$。
+
+对于一般约束问题$Q(x ; \mu)=f(x)+\frac{\mu}{2} \sum_{i \in \mathcal{E}} c_{i}^{2}(x)+\frac{\mu}{2} \sum_{i \in \mathcal{I}}\left(\max \left(0,-c_{i}(x)\right)\right)^{2}$
+
+理论上罚参数$\mu$应该是无穷大，所以选一个罚参数列$\mu_k \uparrow \infty$。
+
+算法里还要一个阈值列$\tau_k \downarrow 0$和初值$x_0$
+
+首先对求解优化问题$Q(x_0, \mu_0, \tau_k)$，是说目标函数$f = Q(x_0, \mu_0)$，终止条件$\|\nabla f\| \le \tau_{1, \dots}$，可以得到一个点列$x_0^k$，极限点$x_1$作为下一个优化问题的初值，然后求解优化问题$Q(x_1, \mu_1, \tau_k)$，重复可得初值点列$x_k$，极限点$x^{\ast}$即为所求。
+
+收敛性定理（原问题说的是那个等式约束问题）
+
+1. 如果每个$x_k$都是对应问题整体极小值，则极限点$x^{\ast}$是原问题的整体极小值。
+
+2. 如果极限点$x^{\ast}$不可行，则其是$\|c(x)\|^2$的驻点。
+
+3. 如果极限点$x^{\ast}$是可行的，并且满足LICQ，则$x^{\ast}$是原问题的KKT点，并且对任意$x_k \to x^{\ast}, x_k \in \mathcal{K}$（$\mathcal{K}$是一个子列），$\lim_{k \in \mathcal{K}}-\mu_{k} c_{i}\left(x_{k}\right)=\lambda_{i}^{*}, \forall i \in \mathcal{E}$得到的$\lambda^{\ast}$是满足KKT条件的乘子向量。
+
+\subsection{Exact Penalty Function}
+
+Exact recovery: 即罚问题的解是原问题的解。
+
+二次罚方法没有这个性质捏。
+
+一般约束问题的$L^1$罚函数$\phi_{1}(x ; \mu)=f(x)+\mu \sum_{i \in \mathcal{E}}\left|c_{i}(x)\right|+\mu \sum_{i \in \mathcal{I}}\left[c_{i}(x)\right]^{-}$，其中$f^- = \max\{0, -f\}$。
+
+算法就是把之前的$L^2$罚函数换成$L^1$罚函数。
+
+\subsection{Augmented Lagrangian Method}
+
+考虑等式约束问题的二次罚方法$Q(x; \mu) = f(x)+\frac{\mu}{2} \sum_{i \in \mathcal{E}} c_{i}^{2}(x)$，给定$\lambda_{k}, \mu_{k}$，定义增广Lagrange函数（Lagrange函数加上罚部分）
+\[
+  \mathcal{L}_{A}\left(x, \lambda^{k}; \mu_{k}\right)=f(x)-\sum_{i \in \mathcal{E}} \lambda^k_{i} c_{i}(x)+\frac{\mu_k}{2} \sum_{i \in \mathcal{E}} c_{i}^{2}(x)
+\]
+
+如果$x_k$是极小值点
+\[
+  x_k \simeq \arg \min _{x} \mathcal{L}_{A}\left(x, \lambda^{k}; \mu_{k}\right)
+\]
+
+则
+\[
+  0 \simeq \nabla_{x} \mathcal{L}_{A}\left(x_k, \lambda^k; \mu_{k}\right)=\nabla f\left(x_k\right)-\sum_{i \in \mathcal{E}}\left[\lambda^k_i-\mu_{k} c_{i}\left(x^{k}\right)\right] \nabla c_{i}\left(x^{k}\right)
+\]
+
+和原本的KKT条件比较
+\[
+  0=\nabla_{x} \mathcal{L}\left(x^{k}, \lambda^{*}\right)=\nabla f\left(x^{k}\right)-\sum_{i \in \mathcal{E}} \lambda^{*}_i \nabla c_{i}\left(x^{k}\right)
+\]
+
+可得
+\[
+  \lambda_{i}^{*} \simeq \lambda_{i}^{k}-\mu_{k} c_{i}\left(x^{k}\right), i \in \mathcal{E}
+\]
+
+于是把这个关系作为迭代格式，即
+\[
+  \lambda_{i}^{k+1}=\lambda_{i}^{k}-\mu_{k} c_{i}\left(x_{k}\right), i \in \mathcal{E}
+\]
+
+算法跟之前那个还是一样的（初值，终止条件），只是把$L^2$罚函数换成增广Lagrange函数。
+
+性质：若$x^{\ast}$是原等式约束问题的局部解，且满足LICQ和二阶充分条件（$\lambda = \lambda^{\ast}$），则对于足够大的罚参数$\mu \ge \bar{\mu}$，$x^{\ast}$也是增广Lagrange函数$\mathcal{L}_{A}\left(x, \lambda^{\ast}; \mu\right)$的严格局部极小值点。
+
+一般约束问题中的不等式约束$c_i(x) \ge 0$可以转化成$c_i(x) - s_i = 0, s_i \ge 0$。特别地线性不等式约束$l \le x \le u$不用变，而是用一个投影映射$P(x)=\max \{I, \min \{x, u\}\}$，把x映到$\{l \le x \le u\}$。
+
+算法需要两个阈值列$\lambda^k$和$\omega^k$，可以取罚参数的倒数的多少次方，第一个作为$\|c(x_k)\|$的终止条件，第二个作为$\left\|x_{k}-P\left(x_{k}-\nabla_{x} \mathcal{L}_{A}\left(x_{k}, \lambda^{k} ; \mu_{k}\right), \mathfrak{l}, \mu\right)\right\|$的终止条件。其他的应该都差不多，然后乘子，罚参数，阈值的具体迭代就不写了。
+
+\subsection{QPM for HM, ALM for SVM}
+
+Relax $\{0, 1\}$ to [0,1]
+
+Reduce to a series of small size of assignment problems
+
+\[
+  \begin{aligned}
+    \operatorname{prox}_{f}(v)&=\underset{x}{\operatorname{argmin}}\left(f(x)+(1 / 2)\|x-v\|_{2}^{2}\right)\\
+    \operatorname{prox}_{\lambda f}(v)&=\underset{x}{\operatorname{argmin}}\left(f(x)+(1 / 2 \lambda)\|x-v\|_{2}^{2}\right)\\
+  \end{aligned}
+\]
+
+\section*{复习}
+
+凸分析：
+
+四个锥，法锥，切锥，极锥，对偶锥
+
+凸优化 = 凸目标函数 + 凸可行域
+
+无约束优化问题：
+
+极小值点，严格局部和孤立局部
+
+凸优化局部极小值点也是全局极小值点
+
+最优条件，一阶必要是驻点，二阶必要是驻点加Hessian半正定，二阶充分是驻点加Hessian正定
+
+线搜索$x_{k + 1} = x_k + \alpha_k p_k$
+
+找步长，精确线搜索，非精确线搜索
+
+找方向，下降方向，最速下降法，Newton法，拟Newton法（修正公式），共轭梯度法
+
+信赖域$x_{k + 1} = x_k + p_k$
+
+二次模型函数（Taylor公式前三项）逼近目标函数
+
+算法收敛 = 有限终止 + 点列收敛到最优点
+
+收敛性，局部收敛，整体收敛
+
+收敛速度，次线性，线性，超线性，p阶
+
+线搜索方法：
+
+非精确线搜索，Wolfe条件是充分下降和曲率条件，强Wolfe条件是充分下降和强曲率条件，Goldstein条件是搜索区域是一个锥（搜索步长不能太小），Backtracking是步长从很大不断变小直到满足充分下降
+
+收敛性，Zoutendijk's Theorem，Zoutendijk条件$\sum_{k \geq 0}^{\infty} \cos^{2} \theta_{k}\left\|\nabla f_{k}\right\|^{2}<\infty$，全局收敛性判断$\sum_{k \geq 0}^{\infty} \left\|\nabla f_{k}\right\|^{2}<\infty$，最速下降法和类Newton法全局收敛
+
+收敛速度，最速下降法是用条件数$\kappa(Q) = \frac{\lambda_n}{\lambda_1}$，最高线性收敛，Newton法二次收敛，拟Newton法超线性收敛
+
+信赖域方法：
+
+模型函数是关于$p$的，衡量指标是实际下降与预计下降之比，其蕴含迭代的有效性，越大（接近1）越好，此时扩大信赖域，但是不能超过一个上界，这是因为信赖域越大计算量越大，如果不是那么接近1，如$[1/4, 3/4]$，可以不动，如果太小，就缩小信赖域。
+
+子问题的KKT条件
+
+Cauchy点法就是特殊步长的梯度下降法，首先是优化方向，就是长度为信赖域半径的负梯度方向，然后优化步长，看成是关于步长的优化问题，出来关于步长的二次函数
+
+狗腿法相当于Cauchy点法的优化，Cauchy点法是步长比较小的时候，二次项不起作用，当步长不那么小的时候，需要考虑二次项，狗腿法的做法是偏折一下，第二段的方向就是拟Newton法那个方向，最后在这条狗腿上找极小值
+
+极小子空间法相当于再改进了一下，最后是在这个狗腿张成的二维空间上找极小值
+
+收敛性，局部收敛，收敛速度，超线性收敛
+
+Scaling
+
+共轭梯度法：
+
+线性系统的共轭方向法，有限终止性，迭代还是线搜索方法，步长是精确线搜索来的，方向是事先给定的一组共轭方向
+
+共轭的定义中有个正定矩阵A，我们希望A是对称矩阵，所以做变量替换来对角化
+
+子空间极小化定理
+
+共轭梯度法，方向的迭代过程中保证是生成的是共轭方向，初始算法和改进算法，梯度方向都垂直，搜索方向都共轭，张成空间关系
+
+收敛速度和条件数（特征值的分布）有关，越小越快，可以使用Preconditioning（做变量替换）来改善特征值的分布以加速
+
+非线性共轭梯度法，FR，PR，HS，DY，在线性问题中这些格式都是一样的，非线性共轭梯度法搜索方向不再是共轭的，不然就有限终止了，全局收敛
+
+半光滑Newton法：
+
+广义Jacobian是左右极限的凸包（一个集合），半光滑Newton法就是把Newton法里面的梯度换成了广义梯度
+
+收敛性，局部收敛，但是有整体收敛版本，收敛速度，超线性收敛
+
+SVM，SVC分类就是找一条直线把数据分开，SVR回归是用直线拟合数据，正则化模型（引入松弛变量）
+
+半光滑Newton法求解L2-SVC是全局收敛和二次收敛的
+
+处理稀疏性
+
+约束优化问题：
+
+在可行域里定义局部解（邻域和可行域交一下），严格和孤立，限制条件光滑化
+
+有效集，等式约束一定是有效的
+
+切锥的极限定义，线性可行方向是和等式约束的梯度垂直以及和有效不等式约束的梯度夹角为锐角，LICQ是可行点有效限制的梯度向量线性无关，LICQ成立是线性可行方向集等于切锥
+
+梯度方向是水平区域的法向，和法向垂直的就是切向，沿切向走就是沿等高线走，所以是保持等式约束，保持或放松不等式约束
+
+一阶最优条件即KKT条件，（在此基础上加上）严格互补条件
+
+临界锥首先要有KKT条件和线性可行方向，临界锥中的方向（这不是定义）都是未定方向（和目标函数梯度垂直），并且$\lambda_i w^T \nabla c_i = 0, \forall i \in \mathcal{E} \cup \mathcal{I}$。
+
+二阶必要条件是Lagrange函数的Hessian在临界锥上是半正定的
+
+二阶充分条件是KKT条件加上Lagrange函数的Hessian在临界锥上是正定的（和无约束一个套路）
+
+对偶问题，对偶定理
+
+抽象Lagrange函数，KKT条件，对偶问题
+
+共轭函数
+
+罚方法：
+
+二次罚方法，二次罚函数$\phi_2(x; \mu)=f(x)+\frac{\mu}{2} \sum_{i \in \mathcal{E}}c_{i}^2(x)+\frac{\mu}{2} \sum_{i \in \mathcal{I}}\left[c_{i}^{-}(x)\right]^2$
+
+精确罚方法，$L^1$罚函数$\phi_1(x; \mu)=f(x)+\mu \sum_{i \in \mathcal{E}}\left|c_{i}(x)\right|+\mu \sum_{i \in \mathcal{I}}\left[c_{i}(x)\right]^{-}$
+
+算法都是有一个趋于无穷的罚参数列，对每个罚参数得到罚函数作为Lagrange函数然后求解对应优化问题，当然还要一个阈值列和初值。
+
+收敛性定理，如果每一步都是全局极小值点，则最后也是全局极小值点
+
+增广Lagrange法，给Lagrange函数加上罚部分
+
+另外：分析图表，计算复杂度
+

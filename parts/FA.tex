@@ -1,0 +1,580 @@
+\vspace{5pt} \hrule \vspace{5pt}
+
+\chapter{FA}
+
+\section{拓扑线性空间}
+
+\subsection{Topology of TLS}
+四菜一汤：代数结构（线性结构，群环域），拓扑结构（拓扑，度量，范数，内积），测度结构（可积先可测），序结构。
+
+TLS：线性和拓扑空间，且加法和数乘（作为乘积拓扑空间到拓扑空间的映射）连续，即线性结构与拓扑结构相容。
+
+1. $T_{\lambda, a}: X \to X, T_{\lambda, a}(x) = \lambda x + a, \lambda \in \mathbb{K}, a \in X$是拓扑同胚。
+
+2. TLS is T2 and T3.
+
+邻域：包含（包含点的）开集。邻域全体$\mathcal{N}(x)$。
+
+邻域基：每个邻域都能找到更小的邻域基中的元素（仍为邻域）含于其中。（这里不需要说是谁的邻域基，因为TLS中有线性结构，因此有平移操作，任意一点处的邻域基可以由零点处的邻域基所生成，类似Lie群）考虑零点的邻域基$\mathcal{U}(\theta)$，则$\forall a \in X$的邻域可以表示成$a + U, U \in \mathcal{U}(\theta)$，进一步$V + U = \cup_{a \in V} (a + U)$是开的。两个TLS相同，若其邻域基相容，即邻域基之于TLS相当于拓扑基之于TS，事实上邻域基完全决定了TLS的拓扑。
+
+NLS的零点的邻域基为单点基$\{ B(0, 1) \}$。（这是因为有范数）以这个单位球为起点，定义：
+
+(a). 吸收集：$\forall x \in \textbf{X}, \exists \alpha \textbf{>} 0 \text{ s.t. } \forall |\lambda| \le \alpha, \lambda x \in S$（包含\textbf{X中}任意一点确定的仿射线段的某个伸缩）
+
+(b). 平衡集：$\forall s \in \textbf{S}, \forall \alpha \in \mathbb{K}, |\alpha| \le 1 \text{ s.t. }  \alpha s \in S$（包含\textbf{S中}任意一点确定的仿射线段）平衡包$\bar{S}^b = \{ \alpha s | |\alpha| \le 1, s \in S \}$。（包含S的最小闭球）
+
+(c). 凸集：$\forall \alpha \in [0, 1], \alpha S + (1 - \alpha) S \subset S$。（主打一个入乡随俗）平衡凸 = 平衡 + 凸。凸包$\bar{S}^c$。（包含S的最小凸集）平衡凸包$\bar{S}^{bc} = \overline{\bar{S}^b}^c \neq \overline{\bar{S}^c}^b$。（包含S的最小平衡凸集）（一个例子：考虑x轴和y轴正半轴构成的空间，先取平衡包是整个x轴和y轴，再取凸包是全空间，先取凸包是第一象限，再取平衡包是一三象限）
+
+注：关于数乘，在实数域表示伸缩，在复数域表示旋转和伸缩，所以在讨论问题的时候必须先说好是实数域还是复数域，在实数域用旋转和伸缩就乱套了，事实上上面很多就是，你说的闭球什么的就都是错的。旋转是说复数域里面的伸缩放到实数域里面看有旋转的效果，这个定义想说的还是伸缩下的性质，就是仿射性质。写这个注是受到一个例子的启发。
+
+平衡集但不是凸集的例子：考虑实数域：$\{(x, y) \in \mathbb{R}^2 | xy = 0\}$，即x轴加y轴，显然是平衡的，不是凸的。考虑复数域把$\mathbb{R}$换成$\mathbb{C}$就好了，那就是$\mathbb{C}^2 \cong \mathbb{R}^4$了。
+
+于是我们只需要考虑实数域和伸缩就好了。
+
+\begin{prop}
+  1. 任意吸收集包含零点，但$\{ \theta \}$不吸收。（因为伸缩系数为正）
+
+  2. 任意零点的邻域是吸收的。（零点的邻域必然包含某个$B(0, \varepsilon)$，伸缩系数取$\varepsilon$（不是零！）即可，这里使用了数乘的连续性）反之并不成立，反例：$[-2, -1) \cap \{0\} \cap (1, 2]$。
+
+  3. 若S平衡，则S吸收 iff $\forall x \in X, \exists \alpha \neq 0, \alpha x \in S$.（平衡所以不用考虑旋转，只要存在一致的伸缩系数就好了）
+
+  4. 平衡集的闭包是平衡的。
+
+  5. 若平衡集的内核包含零点，则内核是平衡的。（pf by def，内核是最大开集）
+
+  6. 凸集的内核和闭包都是凸的。
+
+  7. 吸收集/平衡集/凸集的线性组合仍是吸收集/平衡集/凸集。
+
+  8. $\alpha, \beta \ge 0$，S凸$\Rightarrow$ $\alpha S + \beta S = (\alpha + \beta)S$。（证相互包含）
+\end{prop}
+
+\begin{thm}
+  TLS上存在“好”的邻域基$\mathcal{U}$，满足：
+
+  1. $\forall U \in \mathcal{U}$吸收且平衡。
+
+  2. 裂变：$\forall U \in \mathcal{U}, \exists V 
+  \in \mathcal{U}$ s.t. $V + V \subset U$.
+
+  3. $\forall U_1, U_2 \in \mathcal{U}, \exists U_3 \in \mathcal{U}$ s.t. $U_3 \subset U_1 \cap U_2$.
+  
+  反之，若线性空间X的子集族$\mathcal{V}$满足以上三条，则存在唯一X上的拓扑使得X构成TLS，并且$\mathcal{V}$为邻域基。这说明以上三条完全刻画了X的拓扑。
+\end{thm}
+
+\begin{pf}
+  $\Rightarrow$ 令$\mathcal{U} = \{ \bar{U}^b | U \in \mathcal{N}(\theta) \}$。
+
+  0. 先证$\mathcal{U}$确实一个邻域基，即证零点的任意邻域包含更小的平衡邻域，需要使用数乘的连续性。
+
+  1. 吸收：包含吸收集的集合吸收。平衡：显然。
+
+  2. 裂变：使用加法的连续性，$\exists U_1, U_2 \in \mathcal{U}$ s.t. $U_1 + U_2 \subset U$，令$V = U_1 \cap U_2$即可，要证V是平衡的。
+
+  3. 使用数乘的连续性，令$W = U_1 + U_2$, $V = \cup_{\lambda \le \delta} \lambda W$，先证$W \in \mathcal{U}$，再证V是平衡的。（其实直接由邻域基就可以得到）
+
+  $\Leftarrow$ 令$\mathcal{N}(x) = \{ V \subset X | \exists U \in \mathcal{U} \text{ s.t. } x + U \subset V \}$，S为开集（$S \in \mathcal{O}(X)$）若$\forall s \in S, S \in \mathcal{N}(s)$.
+
+  1. 证拓扑空间，即验证三条：空集和全集，任意并封闭，有限交（两个交）封闭。
+
+  2. 证TLS，即证加法和数乘连续。（TLS上的线性算子，在一点处连续等价于连续等价于一致连续。但是这里就是要证TLS啊，还是得证任意一点）
+
+  加法：$m: X \times X \to X, m(x, y) = x + y$，证在$(x, y)$处连续即证$\forall U \in \mathcal{U}, \exists U_1, U_2 \in \mathcal{U}$ s.t. $x + U_1 + y + U_2 \subset x + y + U$，由裂变令$U_1 = U_2 = V$即可。
+
+  数乘：$p: \mathbb{K} \times X \to X, p(\alpha, x) = \alpha x$，证在$(\alpha, x)$处连续即证$\forall U \in \mathcal{U}, \exists \delta > 0, U_1 \in \mathcal{U}$ s.t. $\forall |\lambda| \le \delta, (\alpha + \lambda)(x + U_1) \subset \alpha x + U$。先用裂变和平衡证一个引理：$\forall U \in \mathcal{U}, \alpha \neq 0, \exists V \in \mathcal{U}$ s.t. $\alpha V \subset U$，再用裂变，让加一项减一项之后得到的两部分都在裂变的V里面。
+
+  3. 证邻域基，由构造过程显然。
+
+  4. 证（拓扑的）唯一性，拓扑由邻域基唯一确定。
+\end{pf}
+
+\begin{conc}
+  \textbf{(Week 1)} TLS，邻域基，abc，TLS上存在好的邻域基：平衡吸收，裂变，交性质，邻域基决定拓扑。总之是：什么是TLS？
+\end{conc}
+
+关键词：球，弱，界。
+
+\subsection{局部凸空间}
+
+若S是凸或平衡凸的，则S的内核以及闭包都是凸或平衡凸的。
+
+pf: 把内核和闭包理解为最大开集和最小闭集，由定义即可。
+
+注：abc是线性性质，内核和闭包是拓扑性质，所以这里X是TLS。
+
+\begin{thm}
+  TLS X，若U是凸邻域，则U包含一个开的平衡凸的邻域基，即凸邻域能被开的平衡凸的邻域基（平衡吸收，裂变，交性质）生成。这样在讨论局部凸空间的时候，我们的邻域基就更好了。
+\end{thm}
+
+回到那个问题：什么时候TLS能成为NLS？我们已经知道了什么是TLS，那么什么时候能成为NLS，这时候需要局部凸空间。此时，邻域基有更好的性质，更像一个NLS的邻域基，也就是单位\textbf{球}。
+
+这里邻域基和邻域基中的元素就按照语意自己区分一下吧。
+
+pf: 取邻域基$V \subset U$，则$\tilde{V} = (\bar{V}^c)^{\circ}$即为所求。要证$\tilde{V}$仍为邻域基（by def），以及$\tilde{V} \subset U$（凸包是最小凸集）。
+
+局部凸空间（LCS）：若邻域基中元素全是凸集。
+
+对于球，我们想要知道其半径，于是引入“尺子”。
+
+LS X上的半范数$p: X \to \mathbb{R}$ if
+
+1. 正性：$p(x) \le 0$。
+
+2. 齐性：$p(\lambda x) = |\lambda| p(x)$。
+
+3. 三角不等式：$p(x + y) \le p(x) + p(y)$。
+
+范数 if 定。
+
+由于p是从X到$\mathbb{R}$的映射，我们可以将X中的那些类球邻域和真正的球进行比较。令$V_1 = p^{-1}([0, 1)) = \{x \in X | p(x) < 1\}, V_2 = p^{-1}([0, 1]) = \{x \in X | p(x) \le 1\}$，则$V_1, V_2$都是abc的。（若$X = \mathbb{R}^n$，则$V_1 = B(0, 1), V_2 = D(0, 1)$）
+
+pf: ab由齐性，c由三角不等式。
+
+TLS X，有了拓扑，我们讨论p的连续性：p连续 iff $V_2 \in \mathcal{N}(\theta)$。
+
+pf: $\Rightarrow$ 显然。 $\Leftarrow$ by def: $\forall \varepsilon > 0, \exists \frac{1}{2} \varepsilon N_2 \in \mathcal{N}(\theta)$ s.t. $p(x) \le \frac{1}{2} \varepsilon < \varepsilon$. （这里是说在原点处连续，在任意一点处类似）
+
+\begin{thm}
+  LS X，$\mathcal{P}$是其上的一族半范数，令$V(p) = \{x \in X | p(x) < 1\}$，
+  \[
+    \mathcal{U} = \left\lbrace \bigcap_{i = 1}^n \gamma_i V(p_i) \bigg| n \in \mathbb{N}, \gamma_i \in \mathbb{K}, p_i \in \mathcal{P} \right\rbrace, 
+  \]
+  则$\mathcal{U}$是使得X成为LCS的邻域基（其中元素都是凸集），并且其诱导的拓扑$\tau$是使得所有p都连续的最小拓扑（最小拓扑是说，开集的个数最少）。
+\end{thm}
+
+pf: 1. 证$\mathcal{U}$是X上的邻域基：平衡吸收和分裂由$V(p)$的abc引理，交性质由构造（伸缩的有限交）。
+
+2. 证$p$关于$\tau$连续：由上述连续性引理。
+
+3. 证最小拓扑：设$\hat{\tau}$是使得X为LCS和所有p都连续的拓扑，则$V(p) \in \mathcal{N}_{\hat{\tau}}(\theta)$，于是其伸缩的有限交也属于后者，即$\mathcal{U} \subset \mathcal{N}_{\hat{\tau}}(\theta)$。
+
+记$\tau := \langle \mathcal{P} \rangle$为由$\mathcal{P}$生成的局部凸拓扑。
+
+$(X, \langle \mathcal{P} \rangle)$，则X是$T_2$的 iff $\forall x \in X, \exists p \in \mathcal{P}$ s.t. $p(x) \neq 0$（称可分点的）.
+
+pf: $\Rightarrow$ 由构造邻域基一定长成伸缩有限交的样子，$x \notin \gamma_i V(p_i) \Leftrightarrow p_i(x) > \gamma_i$ $\Leftarrow$ 显然。
+
+LCS X, $(Y, \langle \mathcal{P} \rangle)$，则$T: X \to Y$连续 iff $\forall p \in \mathcal{P}, p \circ T: X \to \mathbb{R}$连续。
+
+pf is omitted.（见刘培德p25定理4.5）
+
+例子：1. 非空集合T，X为T上有界函数全体，$p_t(x) = |x(t)|$为X上的半范数，$\mathcal{P} = \{p_t, t \in T\} \Rightarrow \tau$，则$x_n \overset{\tau}{\to} x \Leftrightarrow \forall t \in T, |x_n(t) - x(t)| \to 0$，即逐点收敛。
+
+2. TS T，X为T上连续函数全体，K为T中紧集，$p_K(x) = \max_{t \in K} |x(t)|$为X上的半范数，$\mathcal{P} = \{p_t, t \in T\} \Rightarrow \tau$，则$x_n \overset{\tau}{\to} x \Leftrightarrow \forall K \overset{compact}{\subset} T, \max_{t \in K} |x_n(t) - x(t)| \to 0$，即一致收敛。
+
+3. B(H)上的弱算子拓扑和强算子拓扑？（博士资格考试）
+
+\textbf{弱}：弱拓扑的弱体现在，由一族半范数生成的局部凸拓扑是最小的。（见夏道行p147定义3.3.7）
+
+给定一族半范数可以诱导TLS上的局部凸拓扑，反过来由LCS上的拓扑能否构造一族半范数，使得其诱导的局部凸拓扑就是原来的拓扑？其难点在于如何构造这样的半范数族。
+
+对于LS X上的ac集A，定义其上的Minkowski函数$p_A(x) = \inf \{ \lambda, x \in \lambda A \}, \forall x \in X$。若A还是b集，则$p_A$为X上的半范数。
+
+pf is omitted.（见刘培德p5定理1.1）
+
+对于上述ac集A，定义$A_1 = p_A^{-1}([0, 1)) = \{x \in X | p(x) < 1\}, A_2 = p_A^{-1}([0, 1]) = \{x \in X | p(x) \le 1\}$，则有$A^{\circ} \subset A_1 \subset A \subset A_2 \subset \bar{A}$。并且$p_A$连续蕴含着$\theta \in A^{\circ}$以及$A^{\circ} = A_1, A_2 = \bar{A}$。若A还是b集，则三者等价。（下面半范数族的连续性由此而来）
+
+pf is omitted.（见刘培德p21引理4.3)
+
+于是LCS X上的邻域基（其中元素都是abc集）上的Minkowski函数族即为想要的半范数族。这个半范数族又会诱导新的拓扑，两种拓扑的等价性证明见刘培德p23定理4.3注2。
+
+(d). 有界集：$\forall U \in \mathcal{N}(\theta), \exists \lambda > 0$ s.t. $S \subset \lambda U$.
+
+有界集的刻画：$S \subset X$有界 iff $\forall \{x_n\} \in S, \alpha_n \to 0(\mathbb{K})$, we have $\alpha_n x_n \to \theta(X)$.
+
+pf is omitted.（见刘培德p13定理3.1）
+
+可赋范化空间：若TS X上存在范数，使得该范数诱导的拓扑即为原来的拓扑。
+
+Kolmogorov准则：TLS X是可赋范化的 iff X是T2的，且邻域基中元素是凸有界的。
+
+\begin{conc}
+  \textbf{(Week 2)} LCS，半范数，半范数族可以生成局部凸拓扑，弱拓扑，反过来LCS上也可以构造一族半范数，即邻域基元素上的Minkowski函数族，使得其诱导的局部凸拓扑就是原来的拓扑，Minkowski函数，有界集，Kolmogorov准则。
+
+  还是那个问题：TLS什么时候是NLS？第一周讲的是什么是TLS，其由邻域基完全刻画，所以去研究邻域基。第二周讲的LCS，此时邻域基中的元素性质更好，更像是一个球。LCS由其上的一族半范数完全刻画，所以去研究半范数。还差一点有界性，TLS就是NLS了。
+\end{conc}
+
+球：形状：abc，数（半径）：Minkowski函数。
+
+弱拓扑：局部凸拓扑，使得一族半范都连续的最小拓扑
+
+Kolmogorov准则：TLS X是可赋范化的 iff X是T2的，且存在凸有界的邻域基。
+
+pf: 1. $\Leftarrow$ 令$U \in \mathcal{N}(\theta)$凸有界，$\exists V \subset U$平衡凸开有界，Minkowski函数$p_V$连续，为半范数。
+
+2. 由U有界，$\forall W \in \mathcal{N}(\theta), \exists \alpha \ge 0$ s.t. $V \subset U \subset \alpha W \Rightarrow \{ \lambda V, \lambda \ge 0 \}$构成邻域基，此时$\langle p_V \rangle$生成的拓扑就是$\tau$。
+
+3. 由T2，$x \neq \theta \Rightarrow p_V(x) \neq 0$，故$p_V$就是X上的范数。
+
+另外TLS X什么时候是可度量化的，需要T1和邻域基可数。
+
+一个例子：$X = C^{\infty}[0, 1], p_{n}(f) = \max_{t \in [0, 1]} |f^{(n)}(t)|$，$\{p_{n}\}$是一族半范数，X是可度量化的（可数），但不是可赋范化的。
+
+\section{谱测度与谱分解}
+
+\subsection{谱测度与谱积分}
+
+分割求和取极限：$\left\{\begin{array}{ll}
+  A = \sum_{i = 1}^{\infty} \lambda_n P_n \text{ （求和在强算子拓扑意义下收敛）} \\
+  I = \sum_{i = 1}^{\infty} P_n
+\end{array}\right.$
+
+\subsubsection{谱测度}
+
+两个空间：Hilbert空间H和集合X。$\mathcal{P}$是H上的投影算子族，$\mathcal{M}$是X上的$\sigma$-代数，映射$E: \mathcal{M} \to \mathcal{P}$，若
+
+1. $E(X) = I$.
+
+2. 可列可加性：$E(\cup_i A_i) = \sum_i E(A_i)$，$A_i \in \mathcal{M}$两两不交。
+
+则称E为$(X, \mathcal{M})$上（H中）的谱测度，$(X, \mathcal{M}, E)$为H中的谱测度空间。
+
+谱测度的性质：
+
+1. 若$A, B \in \mathcal{M}$不交，则$E(A) E(B)=E(B) E(A)=0$。
+
+2. 若$A, B \in \mathcal{M}$，则$E(A \cup B)=E(A)+E(B)-E(A \bigcap B)$（作为投影算子）。
+
+3. $\{E(A) \mid A \in \mathcal{M}\}$是交换算子族.
+
+谱测度诱导$(X, \mathcal{M})$上的测度：
+
+1. $\mu_x(A) = \langle E(A)x, x \rangle$.
+
+2. $\mu_{x, y}(A) = \langle E(A)x, y \rangle$.
+
+这里$x, y \in H$是给定的，所以是不确定的，由此导出不同谱积分的定义。
+
+用$\mathcal{M}(X)$表示X上可测函数全体，$B(X, \mathcal{M})$表示X上有界可测函数全体。
+
+\subsubsection{谱积分}
+
+定义$f \in B(X, \mathcal{M}), f: X \to \mathbb{K}$关于谱测度E的弱谱积分$T: B(X, \mathcal{M}) \to \mathcal{P}, T[f] = \int_X f(t) E(dt)$ s.t.
+\[
+  \langle \int_X f(t) E(dt) x, y \rangle = \int_X f(t) \langle E(dt) x, y \rangle
+\]
+i.e.,
+\[
+  \langle I[f]x, y \rangle = \int_X f(t) \mu_{x, y}(dt)
+\]
+
+弱谱积分的性质：
+
+1. 1.5线性。
+
+2. 压缩性：$\|I[f]\|_{H'} \le \|f\|_{\infty}$。
+
+3. $E(A) = \int_X 1_A(t) E(dt)$.
+
+pf: 2. 定义双线性泛函$\Phi(x, y) = \langle I[f]x, y \rangle$，对$\Phi(x, x)$用Riesz表示定理。
+
+一致谱积分：按照值域分割求和取极限的过程定义。
+
+两种谱积分本质上是等价的。
+
+第一种定义比较简单，第二种是按照值域划分的过程来定义的，主要用于证明（建立积分）。
+
+$\forall f, g \in B(X, \mathcal{M})$，$T[f]$与$T[g]$（作为投影算子）可交换（可换族）。
+
+pf: 上面谱测度性质第三条相当于是说对于f和g是示性函数的时候上式成立，然后再按照测度论里面的思路，先对一个示性，简单，有界可测，然后再对另一个做就好了。（这里最大的空间就是有界可测函数就完了，没有一般可测）
+
+$\forall f, g \in B(X, \mathcal{M})$，$T[f \cdot g] = T[f] \cdot T[g]$，乘法理解为函数乘法和投影算子复合。
+
+pf: 示性，简单（线性），有界可测（控制收敛）。
+
+\subsection{谱系}
+
+$\mathbb{R}$上的测度与$\mathbb{R}$上单调递增的右连续函数一一对应。
+
+$X = \mathbb{R}$上H中的谱测度与$X = \mathbb{R}$上单调递增的右连续投影算子值函数（谱系）一一对应。
+
+\begin{df}（谱系）
+  Hilbert空间H，$\{E_\lambda\}_{\lambda \in \mathbb{R}}$是一族投影算子，若有
+  \begin{enumerate}
+    \item 单调性：$\forall \lambda, \mu \in \mathbb{R}, \lambda \ge \mu$，有$E_{\lambda} \ge E_{\mu}$。（投影算子值域空间的单调性，越来越大）
+    \item 右连续性：$\forall \lambda \in \mathbb{R}$，有（强）$E_{\lambda + 0} = E_\lambda$。
+    \item 强算子拓扑收敛：（强）$\lim_{\lambda \to -\infty} E_{\lambda}=0$，（强）$\lim_{\lambda \rightarrow+\infty} E_{\lambda}=I$。
+  \end{enumerate}
+\end{df}
+
+定义中的强收敛可以弱化为弱收敛。
+
+谱系的充要条件（见夏道行实变与泛函下p287定理6.7.3$'$）
+
+一个例子：$E_{\lambda} f=1_{(-\infty, \lambda]}(t) f(t), f \in H = L^{2}[0,1]$。
+
+\subsection{有界自伴算子谱分解}
+
+有界变差空间$BV[a, b] = \{g: [a, b] \to \mathbb{R} \mid g(a) = 0, g \text{ 右连续 }, \operatorname{Var}(g) < \infty\}$，其中，1. 左端点函数值为零和右连续称为规范化，是为了之后定义范数时的正定性。2. $\operatorname{Var}(g) = \sup_{\Delta} \operatorname{Var}(g, \Delta)$. 3. 有界变差则几乎处处可导。
+
+\begin{lem}
+  $C[0, 1]^{\ast} \cong BV[0, 1]$.
+\end{lem}
+
+pf: 令$\pi: BV[0, 1] \to C[0, 1]^{\ast}, \pi(g)(f) = \int_0^1 f(t) dg(t) = \int_0^1 f(t) g'(t) dt$（测度加权还是测度），则$\pi$是$BV[0, 1]$到$C[0, 1]^{\ast}$的等距同构。
+
+\begin{lem}（唯一性引理）
+  设$v \in BV[0, 1]$，若$\int_0^1 f(t) dv(t) = 0, \forall f \in C[0, 1]$，则$v = 0$。
+\end{lem}
+
+pf: n次方，多项式（线性），连续（Weierstrass定理 + 有界线性泛函）。
+
+\begin{lem}
+  令$u(t) = \int_0^t g(s) dv(s)$，则$\int_0^1 f(t) du(t) = \int_0^1 f(t) g(t) dv(t)$。
+\end{lem}
+
+\begin{lem}
+  设$A = A^{\ast} \in B(H)$为H上的自伴算子，$\langle Ax, x \rangle \in \mathbb{R}, \forall x \in H$，令$M = \sup_{\|x\| = 1}\langle Ax, x \rangle, m = \inf_{\|x\| = 1}\langle Ax, x \rangle$，则
+  \begin{enumerate}
+    \item $\|A\| = \max\{|m|, |M|\}$.
+    \item $\sigma(A) \in [m, M]$.
+    \item 谱半径$r_\sigma(A) := \sup_{\lambda \in \sigma(A)} |\lambda|$，有$r_\sigma(A) = \|A\|$。
+  \end{enumerate}
+\end{lem}
+
+\begin{lem}（谱映射引理）
+  设$p(\cdot)$为抽象多项式，则$\sigma(p(A)) = p(\sigma(A))$，即（算子）多项式的谱等于谱的（数值）多项式。
+\end{lem}
+
+pf by 代数基本定理。
+
+\begin{thm}（有界自伴算子谱分解定理）
+
+  给定$A = A^{\ast} \in B(H)$为H上的自伴算子，存在谱系$\{E_\lambda\}_{\lambda \in \mathbb{R}}$ s.t.
+  \begin{enumerate}
+    \item 投影性质：$\lambda \le \mu, E_\lambda E_\mu = E_\mu E_\lambda = E_\lambda$。
+    \item 右连续性：$\forall \lambda \in \mathbb{R}$，有（强）$E_{\lambda + 0} = E_\lambda$。
+    \item $E_\lambda = 0, \lambda < m; E_\lambda = I, \lambda \ge M$.
+    \item 交换性：$E_\lambda A = A E_\lambda$。
+  \end{enumerate}
+  进而$f(\lambda) = \langle E_\lambda x, y \rangle$有界变差，且$\langle p(A) x, y \rangle = \int_m^M p(\lambda) d\langle E_\lambda x, y \rangle$，其中$p(\cdot)$为抽象多项式。
+\end{thm}
+
+由有界自伴算子能找到谱系。
+
+\begin{pf}
+  \quad
+  \begin{enumerate}
+    \item $[m, M]$上的多项式函数空间$P[m, M]$稠于连续函数空间$C[m, M]$。
+    \item 固定$x, y \in H$，令$L(p) = \langle p(A)x, y \rangle$，则L是$P[m, M]$上的有界线性泛函，可以延拓到$C[m, M]$上，即$L \in C[m, M]^{\ast}$，注意这里用连续性和稠密性即可，不用Hahn-Banach延拓定理。
+    \item 由引理一，$\exists V(\lambda;x, y) \in BV[m, M]$ s.t. $\pi(V) = L$ i.e. $\pi(V)(f) = L(f)$，在$P[m, M]$上即$\int_m^M f dV(\lambda;x, y) = \int_m^M f d\langle p(A)x, y \rangle$。允许$x, y \in H$动起来，则$V(\lambda;x, y)$是三变量函数。（“可进行规范化，确保唯一性”）
+    \item 固定$\lambda$，$V(\lambda;x, y)$是有界共轭双线型且Hermite。共轭双线性由唯一性引理得到，有界性直接放到最大值就好了，Hermite略。
+    \item 由$V(\lambda;x, y)$找到H上的自伴算子$\langle F_\lambda x, y \rangle = V(\lambda;x, y)$。下证$\{F_\lambda\}$为（我们要找的）谱系。
+    \item 最主要是证投影性质，先对n次方函数证明（需要费一番周折），由唯一性引理可得。最后令$E_\lambda = F_\lambda$即可。
+  \end{enumerate}
+\end{pf}
+
+\begin{rmk} \quad
+
+  \begin{enumerate}
+    \item $p(A) = \int_m^M p(\lambda) dE_\lambda$一致成立，即在强算子拓扑下成立。要想把p推广到有界可测函数f，需要控制收敛定理，这由有限测度和有界函数直接得到。
+    \item 这里的积分限可以是任意$[\alpha, \beta] \supset [m, M]$，都写$[m, M]$是因为我当时没想好这么解释。
+  \end{enumerate}
+\end{rmk}
+
+\begin{thm}（真正的有界自伴算子谱分解定理，提升至算子代数）
+
+  给定$A = A^{\ast} \in B(H)$为H上的自伴算子，则$\pi: C[m, M] \to B(H), \pi(f) = f(A) = \int_m^M f(\lambda) dE_\lambda$ s.t.
+  \begin{enumerate}
+    \item 线性。
+    \item 代数同态：$\pi(f \cdot g) = \pi(f) \cdot \pi(g)$。（Banach代数）
+    \item 若B与$E_\lambda$可交换，则与$f(A)$可交换。
+    \item $f(A)$正规，即$f(A)^{\ast}f(A) = f(A) f(A)^{\ast}$，进一步若f实，则$f(A)$自伴。
+    \item $\pi$压缩，即$\|f(A)\| \le \|f\|_{\infty}$。
+    \item $\|f(A)x\|^2 = \int_m^M |f(\lambda)|^2 d \|E_\lambda x\|^2$.
+  \end{enumerate}
+\end{thm}
+
+\begin{thm}
+  设$\lambda_0 \in \mathbb{R}$，则$\lambda_0 \in \rho(A)$ iff $\exists \varepsilon > 0$ s.t. $E_\lambda$在$[\lambda_0 - \varepsilon, \lambda_0 + \varepsilon]$上为常值。
+\end{thm}
+
+\begin{rmk}
+  对于自伴算子$A = A^{\ast}$，
+  \begin{enumerate}
+    \item 设$\lambda \in \mathbb{C}$，若$\operatorname{Im}\lambda \neq 0$，则$\lambda \in \rho(A)$。
+    \item 设$\lambda \in \mathbb{R}$，若$|\lambda| \ge r_\sigma(A) = \|A\|$，则$\lambda \in \rho(A)$。（什么幂级数展开）
+  \end{enumerate}
+\end{rmk}
+
+\begin{pf}
+  $\Leftarrow$ 令$f(\lambda) = \lambda_0 - \lambda, g(\lambda) = \left\{ \begin{array}{ll}
+    \frac{1}{\lambda_0 - \lambda}, \quad \lambda \notin [\lambda_0 - \varepsilon, \lambda_0 + \varepsilon],\\
+    \text{连续}, \quad \lambda \in [\lambda_0 - \varepsilon, \lambda_0 + \varepsilon].
+  \end{array} \right.$则$\pi[f \cdot g] = f(A) \cdot g(A) = \int_m^M f(\lambda) \cdot g(\lambda) dE_\lambda = \int_m^{\lambda_0 - \varepsilon} + \int_{\lambda_0 - \varepsilon}^{\lambda_0 + \varepsilon} + \int_{\lambda_0 + \varepsilon}^M = 0 + I(A)$，即$g(A) = f^{-1}(A) = (\lambda_0 I - A)^{-1}$，故$\lambda_0 \in \rho(A)$。
+
+  $\Rightarrow$ 反证法。若不是常数，则$\forall \varepsilon, \exists \lambda_0 - \varepsilon \le \lambda_1 < \lambda_2 \le \lambda_0 + \varepsilon, E_{\lambda_1} < E_{\lambda_2}$，谱系是一族投影算子，投影算子的大小是说其值域的大小，而投影算子的值域是H的线性子空间，仍为Hilbert空间，于是存在$y \in E_{\lambda_2}, \|y\| = 1, y \perp E_{\lambda_1}$，则$E_\lambda y = \left\{ \begin{array}{ll}
+    y, \quad \lambda > \lambda_2,\\
+    0, \quad \lambda < \lambda_1.
+  \end{array} \right.$于是$\|(\lambda_0 I - A)y\|^2 = \int_m^M |\lambda_0 - \lambda|^2 d \|E_\lambda y\|^2 = \int_{\lambda_1}^{\lambda_2} |\lambda_0 - \lambda|^2 d \|E_\lambda y\|^2 \le \varepsilon^2 \|y\|^2 = \varepsilon^2$，则$\inf_{\|y\| = 1} \|(\lambda_0 I - A)y\| = 0$，这可以说明$\lambda_0 \in \sigma(A)$，矛盾！
+
+  其中最后一句话是因为，若$\lambda_0 \in \rho(A)$，则$(\lambda_0 I - A)^{-1}$存在且有界。由$\inf_{\|y\| = 1} \|(\lambda_0 I - A)y\| = 0$，$\forall k \in \mathbb{N}, \exists y_k \in H$ s.t. $\|y_k\| = 1, \|(\lambda_0I - A)y_k\| \le \frac{1}{k}$，则$1 = \|(\lambda_0I - A)^{-1} (\lambda_0I - A)y_k\| \le \|(\lambda_0I - A)^{-1}\| \cdot \|(\lambda_0I - A)y_k\| \le \frac{1}{k} \|(\lambda_0I - A)^{-1}\|$，与其有界性矛盾。
+\end{pf}
+
+自伴算子的谱在实轴上，酉算子的谱在单位圆上，二者是代数同构，因此酉算子的谱也是“可演算的”，区别在于自伴算子的起点是多项式函数空间，酉算子的起点是三角多项式函数空间。
+
+一些空间和映射：
+
+1. Hilbert空间H
+
+2. 集合X
+
+3. $\mathcal{P} \subset B(H)$是H上的投影算子族（$B(H)$的线性子空间），$P \in \mathcal{P}, P: H \to H$
+
+4. $\mathcal{M}$是X上的$\sigma$-代数
+
+5. X上H中的谱测度$E: \mathcal{M} \to \mathcal{P}$
+
+6. 固定$x, y \in H$，X上的测度$\mu_x: \mathcal{M} \to \mathbb{K}, \mu_x(A) = \langle E(A)x, x \rangle; \mu_{x, y}: \mathcal{M} \to \mathbb{K}, \mu_{x, y}(A) = \langle E(A)x, y \rangle$
+
+7. 有界可测函数$f \in B(X, \mathcal{M}), f: X \to \mathbb{K}$
+
+8. 谱积分$T: B(X, \mathcal{M}) \to \mathcal{P}, T[f] = \int_X f(t) E(dt)$
+
+9. 谱系$\{E_\lambda\}_{\lambda \in \mathbb{R}} \subset \mathcal{P}$，硬要说就是$E: \mathbb{R} \to \mathcal{P}$（这里$X = \mathbb{R}$，一般集合谈不了左右）
+
+谱的定义
+
+若$(\lambda - A)^{-1}$存在且有界，则$\lambda \in \rho(A)$称正则点，$\rho(A)$称A的预解集，$(\lambda - A)^{-1}$称A的预解式。
+
+若否，则$(\lambda - A)^{-1}$不存在或存在但无界，此时$\lambda \in \sigma(A) = \mathbb{C} - \rho(A)$称谱点。
+
+若不存在，说明$\lambda - A$不单，或Ker$(\lambda - A)$有维数，此时$\lambda \in \sigma_p(A)$称特征值。
+
+若存在但无界，再若稠定，此时$\lambda \in \sigma_c(A)$称连续谱。若不稠定，此时$\lambda \in \sigma_r(A)$称剩余谱。 
+
+\section{广义函数}
+
+与PDE里面那个过程是一样的，就是可积函数由内积可以看成是有界线性泛函，但是有界线性泛函不一定是可积函数，所以引出一类新的“函数”，即广义函数。
+
+空间的对偶关系：$(L^p[a, b])^{\ast} = L^q[a, b], (C[a, b])^{\ast} = BV[a, b]$。
+
+\subsection{基本函数空间}
+
+“广义函数是基本空间上的有界线性泛函”
+
+\begin{df}（基本空间与拓扑（收敛性））
+
+  \begin{enumerate}[(1).]
+    \item $\mathscr{E}(\Omega) = \mathscr{E}(\Omega)$：（收敛性）$\varphi_{\nu} \rightarrow 0\left(C^{\infty}\left(\Omega\right)\right)$ if $\sup _{x \in K}\left|\partial^{\alpha} \varphi_{\nu}\right| \rightarrow 0$。（这里K是任意紧集）
+    \item $\mathscr{D}(\Omega) = C^{\infty}_0(\Omega)$：（收敛性）$\varphi_{\nu} \rightarrow 0\left(C^{\infty}_0\left(\Omega\right)\right)$ if $\sup _{x \in K}\left|\partial^{\alpha} \varphi_{\nu}\right| \rightarrow 0$。（这里要求$\varphi_{\nu}$的支集包含在同一个紧集中，即K）
+    \item $\mathscr{P}(\Omega)$：（定义）首先要求函数$u \in \mathscr{E}(\Omega)$，其次满足速降条件，其有三个等价描述：
+    \begin{enumerate}[1.]
+      \item $\forall \alpha, p, \lim _{|x| \rightarrow \infty} x^{\alpha} \partial^{p} \varphi(x)=0$。
+      \item $\forall \alpha, p, x^{\alpha} \partial^{p} \varphi(x)$在$\Omega$上有界。
+      \item $\forall k, p, (1 + |x|^2)^k \partial^{p} \varphi(x)$在$\Omega$上有界。
+    \end{enumerate}
+    （收敛性）$\varphi_{\nu} \rightarrow 0\left(\mathscr{P}\left(\Omega\right)\right)$ if $\sup_{x \in \Omega}\left|x^{\alpha} \partial^{p} \varphi_{\nu}(x)\right| \rightarrow 0, $。
+  \end{enumerate}
+\end{df}
+
+\begin{rmk}
+  \begin{enumerate}
+    \item 基本函数空间上甚至没有度量，是一个拓扑线性空间，进一步是局部凸空间，其上的半范数族为$\mathcal{P} = \{ p_{K, \alpha}(\varphi) = \sup_{x \in K}\left|\partial^{\alpha} \varphi(x) \right|\}$。
+    \item 基本函数空间是完备的。完备是拓扑概念，因为Cauchy列和收敛列都可以用拓扑定义。
+  \end{enumerate}
+\end{rmk}
+
+\begin{df}
+  磨光算子：$\varphi(x)=\left\{\begin{array}{ll}
+    e^{\frac{1}{|x|^{2}-1}}, & |x|<1 \\
+    0, & |x| \geqslant 1
+  \end{array}\right.$，$\alpha(x)=\frac{1}{\int_{\mathbb{R}^n} \varphi(x) dx} \varphi(x)$是其单位化，$\alpha_{\varepsilon}(x)=\frac{1}{\varepsilon^{n}} \alpha\left(\frac{x}{\varepsilon}\right)$。令$J_{\epsilon} u = u_{\epsilon} = u * a_{\epsilon}$，则$J_{\epsilon}$称为磨光算子，即有（若u局部可积）$J_{\epsilon} u \in C^{\infty}$。
+\end{df}
+
+截断函数略。
+
+\begin{prop}（空间包含关系）
+
+  基本空间有：$\mathscr{E}(\mathbb{R}^n) \supset \mathscr{P}(\mathbb{R}^n) \supset \mathscr{D}(\mathbb{R}^n)$。
+  
+  广义函数空间有：$\mathscr{E}'(\mathbb{R}^n) \subset \mathscr{P}'(\mathbb{R}^n) \subset \mathscr{D}'(\mathbb{R}^n)$。
+
+  另外：$L_{loc}'(\Omega) \subset \mathscr{D}'(\Omega)$。
+\end{prop}
+
+证明即由定义证有界线性泛函，并不是平凡的。
+
+\subsection{广义函数及其运算}
+
+\begin{thm}（广义函数的刻画）
+
+  \begin{enumerate}
+    \item 若$T \in \mathscr{D}'(\Omega)$，则对任一紧集$K \subset \Omega$，存在常数$C(K) > 0$和非负整数$m(K)$，使得
+    \[
+      |\langle T, \varphi\rangle| \leqslant C \sup _{\substack{x \in \Omega \\|\alpha| \leqslant m}}\left|\partial^{\alpha} \varphi(x)\right|, \forall \varphi \text{ s.t. supp} \varphi \subset K.
+    \]
+    反之，若T为$\mathscr{D}(\Omega)$上的线性泛函，且上式成立，则$T \in \mathscr{D}'(\Omega)$。
+    \item 若$T \in \mathscr{E}'(\Omega)$，则存在紧集$K \subset \Omega$、常数$C > 0$和非负整数$m$，使得
+    \[
+      |\langle T, \varphi\rangle| \leqslant C \sup _{\substack{x \in K \\|\alpha| \leqslant m}}\left|\partial^{\alpha} \varphi(x)\right|, \forall \varphi \in \mathscr{E}(\Omega).
+    \]
+    反之，若T为$\mathscr{E}(\Omega)$上的线性泛函，且上式成立，则$T \in \mathscr{E}'(\Omega)$。
+    \item 若$T \in (\mathscr{P})'(\mathbb{R}^n)$，则存在常数$C > 0$和非负整数$m, N$，使得
+    \[
+      |\langle T, \varphi\rangle| \leqslant C \sum_{|\alpha| \leqslant m} \sup _{\substack{x \in \mathbb{R}^n}} {(1 + |x|^2)}^N \left|\partial^{\alpha} \varphi(x)\right|, \forall \varphi \in \mathscr{P}(\mathbb{R}^n).
+    \]
+    反之，若T为$\mathscr{P}(\mathbb{R}^n)$上的线性泛函，且上式成立，则$T \in (\mathscr{P})'(\mathbb{R}^n)$。
+  \end{enumerate}
+\end{thm}
+
+广义函数的性质
+
+\begin{df}
+  广义函数的支集（讨论广义函数在一点的取值是没有意义的，因为Lebesgue可积函数允许在一个零测集上改变取值，但是广义函数在一个开集上的值是可以定义的）：设$T \in \mathscr{D}'(\Omega)$，称T在$\Omega' \subset \Omega$内为0，若$\langle T, \varphi \rangle = 0, \forall \varphi \in \mathscr{D}(\Omega')$。广义函数的支集定义为取零值的最大开集的余集。
+\end{df}
+
+\begin{thm}
+  设$T \in \mathscr{D}'(\Omega)$，则$T \in \mathscr{E}'(\Omega)$ iff T紧支。
+\end{thm}
+
+\begin{df}
+  广义函数的极限：$T_k$弱收敛于0，若$\langle T_k, \varphi \rangle \to 0, \forall \varphi$。
+
+  弱极限与弱$\ast$极限：
+  \begin{enumerate}
+    \item Let $x_n, x \in X$, then $x_n \overset{w}{\longrightarrow} x$ if $f(x_n) \longrightarrow f(x), \forall f \in X^{\ast}$.
+    \item Let $f_n, f \in X^{\ast}$, then $f_n \overset{w-\ast}{\longrightarrow} f$ if $f_n(x) \longrightarrow f(x), \forall x \in X$.
+  \end{enumerate}
+\end{df}
+
+\begin{df}
+  广义函数的导数：$\left\langle\frac{\partial T}{\partial x_{k}}, \varphi\right\rangle = -\left\langle T, \frac{\partial \varphi}{\partial x_{k}}\right\rangle, \forall \varphi \in \mathscr{D}\left(\mathbb{R}^{n}\right)$以及高阶导数$\left\langle\partial^{\alpha} T, \varphi\right\rangle=(-1)^{|\alpha|}\left\langle T, \partial^{\alpha} \varphi\right\rangle, \forall \varphi \in \mathscr{D}\left(\mathbb{R}^{n}\right)$。广义函数无穷阶可导并且求导次序可交换。
+\end{df}
+
+\begin{df}
+  广义函数的卷积：（形式定义）$\langle S * T, \varphi\rangle=\left\langle S_{x},\left\langle T_{y}, \varphi(x+y)\right\rangle\right\rangle, \forall \varphi \in \mathscr{D}\left(\mathbb{R}^{n}\right)$。S和T中至少有一个紧支，则$S * T \in \mathscr{D}'(\mathbb{R}^{n})$
+\end{df}
+
+\begin{prop}（卷积的性质）
+  \begin{enumerate}
+    \item 结合律，交换律
+    \item 单位元为Dirac函数
+    \item $\partial^\alpha(S * T) = (\partial^\alpha S) * T = S * (\partial^\alpha T)$
+  \end{enumerate}
+\end{prop}
+
+广义函数的Fourier变换略。
+
+\vspace{60pt}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

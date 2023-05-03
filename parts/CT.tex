@@ -1,0 +1,507 @@
+\vspace{5pt} \hrule \vspace{5pt}
+
+\chapter{CT}
+
+“认识系统，改变系统"
+
+\section{有界算子}
+
+考虑Hilbert空间H的对偶空间$H' = \mathcal{L}(H, \mathbb{C}) = \{ \text{H上的\textbf{有界线性泛函}} \}$，其仍为Hilbert空间（其上的范数即算子范数）。
+
+\subsection{Riesz表示定理}
+
+Riesz表示定理：设$T \in H'$，则$\exists! z_T \in H$ s.t. $T(x) = \langle x, z_T \rangle$，且$\|T\| = \|z_T\|$。
+
+例子：$H = L^2[a, b], H = l^2.$
+
+对$\forall z \in H$，定义$J_R: H \to H'$ by $J_R(z)(x) = \langle x, z \rangle$。则$J_R$是一个线性算子，并且是单的，$\|J_R(z)\| = \|z\|$。再由Riesz表示定理，$J_R$是满的（$\forall \xi \in H', J_R(z_{\xi}) = \xi$），于是$J_R$是H到$H'$的等距同构。
+
+\subsection{共轭算子}
+
+$T \in \mathcal{L}(H_1, H_2)$的共轭（伴随）算子$T^{\ast} \in \mathcal{L}(H_2', H_1')$，$\|T\| = \|T^{\ast}\|$。
+
+共轭算子的性质：
+
+1. $\text{Ker} T = {(\text{Range} T^{\ast})}^{\perp}, \text{clos}(\text{Range} T^{\ast}) = {(\text{Ker} T)}^{\perp}. (A^{\perp \perp} = \text{clos}(A))$（子空间的正交补空间一定是闭的）
+
+2. $\text{Ker} T^{\ast}T = \text{Ker} T, \text{clos}(\text{Range} T^{\ast}T) = \text{clos}(\text{Range} T^{\ast}).$
+
+3. （闭图像定理）Range $T^{\ast}T$ 是闭的 iff Range$T^{\ast}$是闭的 iff Range$T$是闭的。
+
+例子：零算子和单位算子（自共轭）、左右平移算子（互为共轭）、有限秩算子$K \in \mathcal{L}(H_1, H_2), Kx = \sum_{i = 1}^n \langle x, u_i \rangle v_i, u_i \in H_1, v_i \in H_2$。
+
+\subsection{自伴算子}
+
+自伴算子的性质：
+
+1. 若T为自伴算子，则$H = \text{Ker} T \oplus \text{clos}(\text{Range} T)$。
+
+2. 特征值为实数。
+
+3. 构造自伴算子：$T^{\ast}T$。
+
+《 矩 阵 分 析 》
+
+\section{无界算子}
+
+无界是指不一定有界，这里的界是指范数的界，但是实际中更好用的是从定义域的角度去看，有界算子的定义域是全空间，无界算子的定义域则不是全空间（可以各有各的定义域）。
+
+\subsection{闭算子}
+
+当我们考虑无界算子时，一般考虑闭算子。线性算子$A: D(A)(\subset H) \to Z$为闭算子，若A的图$G(A) = \left\{ \left[ \begin{matrix} f\\
+  Af
+\end{matrix} \right], f \in D(A) \right\}$在$H \times Z$中是闭的（不等于定义域和值域都是闭的）。
+
+一个更好用的定义：$\forall \{ z_n \} \in D(A)$，若$z_n \to z, A(z_n) \to g$，则$z \in D(A), Az = g$。
+
+闭算子的性质：
+
+1. 若A是闭的，则D(A)在图范数$\|f\|_G^2 = \|f\|_H^2 + \|Af\|_Z^2$下完备。（Sobolev范数就是这么来的，微分算子$A: H^1 \to L^2$）
+
+2. 若A是闭的，则A是有界的iff D(A)是闭的。显然，$\forall T \in \mathcal{L}(H, Z)$是闭的。
+
+注意区分：图是闭的，定义域是闭的，核是闭的。
+
+\subsection{共轭算子}
+
+共轭算子：由于无界算子的定义域不是全空间，需要首先解决共轭算子定义域的问题。考虑无界算子$A: D(A)(\subset H) \to H$是稠定的（为了使用Hahn-Banach延拓定理），即D(A)在H中是稠的。定义$D\left(A^{*}\right)=\left\{y \in H | \sup _{z \in D(A), z \neq 0} \frac{|\langle A z, y\rangle|}{\|z\|}<\infty\right\}$，即“有意义”的区域。或者等价地，$y \in D(A^{\ast})$ iff $z \mapsto \langle Az, y \rangle$是有界算子。
+
+Hahn-Banach延拓定理：
+
+1. (FA I version)赋范线性空间的线性子空间上的有界线性泛函可以保范延拓到全空间上。
+
+2. (CT version) Hilbert空间上的无界算子可以\textbf{有界}延拓到全空间上，且若算子是稠定的，则该延拓是唯一的。
+
+于是对无界算子可以使用有界线性算子的Riesz表示定理，找到的$w \in H$即定义为$A^{\ast}y := w$。
+
+例子：微分算子。
+
+函数的绝对连续性（见实变函数周民强p224）：$f:[a, b] \to \mathbb{R}, \forall \varepsilon > 0, \exists \delta > 0$，使得任意有限个互不相交的开区间$(x_i, y_i) \subset [a, b]$满足$\sum (y_i - x_i) < \delta$时，有$\sum |f(y_i) - f(x_i)| < \varepsilon$。
+
+绝对连续$\Rightarrow$1. 一致连续和连续。2. 有界变差。3. 几乎处处可导。
+
+稠定算子A的共轭算子$A^{\ast}$是闭的，这是因为$G\left(A^{*}\right)=\left[\begin{array}{cc}
+  0 & I \\
+  -I & 0
+\end{array}\right] G(A)^{\perp}=\left(\left[\begin{array}{cc}
+  0 & I \\
+  -I & 0
+\end{array}\right] G(A)\right)^{\perp}$是闭的（正交补空间是闭的），其中第一个等号是因为$\langle Az, y \rangle = \langle z, A^{\ast}y \rangle \Rightarrow \langle Az, y \rangle + \langle -z, A^{\ast}y \rangle = 0 \Rightarrow \left[ \begin{matrix}
+  y\\
+  A^{\ast}y
+\end{matrix} \right] \perp \left[ \begin{matrix}
+  Az\\
+  -z
+\end{matrix} \right] = J\left[ \begin{matrix}
+  z\\
+  Az
+\end{matrix} \right]$。
+
+\begin{conc}
+  \textbf{(Week 1)} 有界算子：Riesz表示定理，有界线性算子的共轭算子及其性质，闭图像定理；无界算子：稠定闭算子的共轭算子及其性质，Hahn-Banach延拓定理，对偶关系。空间分割，正交补空间一定是闭的。范数，算子范数，图范数。
+\end{conc}
+
+无界算子最重要的例子：微分算子。
+
+无界算子一般考虑闭算子，如何判断闭算子，一个（实用的）充分条件是逆算子存在。微分算子的逆算子即积分算子（考虑$L^2$空间则积分算子有定义，并且定义域为全空间，即有界算子。），故微分算子是闭算子。
+
+pf（逆算子存在$\Rightarrow$闭算子）：设$f_n \in D(A) \to f \in H$，则$f_n = A^{-1} A f_n \to A^{-1} h = f$，即$Af = h$，故$f \in D(A)$。
+
+为定义无界算子的共轭算子，我们考虑闭的稠定算子。闭稠定算子的共轭算子是闭稠定的，并且两次共轭就是自己。（闭）稠定算子的核像空间分解。（虽然稠定算子就可以定义共轭算子，但是用闭稠定算子是最“合适”的，相当于速降函数之于Fourier变换。）
+
+有界算子的Ker是闭的，但无界算子不一定，需要是闭算子Ker才是闭的。
+
+若A是闭算子，则有空间分解$H = \text{Ker}A \oplus \text{Range}A^{\ast}$。
+
+（一个非常重要的结论）若闭稠定算子的值域是有穷维的，则一定是有界算子。
+
+算子的定义域稠密和值域有限维都是容易做到的，但是闭不容易。通常的边界算子都是有限秩算子，但不是有界的，因为不是闭的。
+
+反例：观测算子$C: D(C) \subset H \to \mathbb{R}, C(f) = f(0)$。
+
+有限秩算子：若$A: D(A) \subset U \to V$可以写成$Af = \sum_{i = 1}^n \alpha_i \langle f, u_i \rangle v_i$，其中$u_i, v_i$为o.n.b.，即值域是有限维的算子。
+
+有限秩算子不一定闭，所以不一定有界，所以不一定紧。
+
+\subsection{对称算子与自伴算子}
+
+对称算子：若$\langle A w, v \rangle = \langle w, A v \rangle, \forall w, v \in H$。iff $\langle Ax, x \rangle \in \mathbb{R}, \forall x \in D(A)$。
+
+自伴算子：若$A = A^{\ast}$。
+
+显然前一个要弱。对称算子的定义域比共轭算子小，自伴算子则是一样的。
+
+自伴算子都是闭算子，因为稠定算子的共轭算子是闭的。
+
+下有界算子等价于单的。
+
+什么时候对称算子是自伴的？需要$sI - A$和$\bar{s}I - A$都是满的。
+
+一个例子：$A_1, A_2, A_3$。
+
+若算子是自伴的和可对角化的 iff 算子可以用特征值和特征向量表示，即$Az = \sum_i \lambda_i \langle z, u_i \rangle u_i$。
+
+若算子是可对角化的，且特征向量构成H的一组o.n.b.，则算子是自伴的。
+
+预解紧的自伴算子是可对角化的。
+
+我们考虑这样一个算子$\lambda - A, \lambda \in \mathbb{C}$，在$\lambda$取何值时有逆算子以及逆算子有界，若存在有界逆算子，则方程存在唯一解。
+
+若$(\lambda - A)^{-1}$存在且有界，则$\lambda \in \rho(A)$称正则点，$\rho(A)$称A的预解集，$(\lambda - A)^{-1}$称A的预解式。
+
+若否，则$(\lambda - A)^{-1}$不存在或存在但无界，此时$\lambda \in \sigma(A) = \mathbb{C} - \rho(A)$称谱点。
+
+若不存在，说明$\lambda - A$不单，或Ker$(\lambda - A)$有维数，此时$\lambda \in \sigma_p(A)$称特征值。
+
+若存在但无界，再若稠定，此时$\lambda \in \sigma_c(A)$称连续谱。若不稠定，此时$\lambda \in \sigma_r(A)$称剩余谱。
+
+\section{\texorpdfstring{$V \subset U \subset V'$}{TEXT}嵌入}
+
+酉算子$U: V \to Z$：若$U^{\ast}U = I_V, UU^{\ast} = I_Z$。酉算子是等距映射。
+
+\subsection{对偶空间} 
+
+对偶关系（是一个1.5线性泛函）：$\langle \cdot, \cdot \rangle_{V, V'}: V \times V' \to \mathbb{C}$，以及$\langle z, \varphi \rangle_{V', V} = \overline{\langle \varphi, z \rangle_{V, V'}}$。
+
+对偶范数：$\|z\|_{V^{\prime}}=\sup _{\varphi \in V,\|\varphi\| \leq 1}\left|\langle z, \varphi\rangle_{V^{\prime}, V}\right|, \forall z \in V^{\prime}$。
+
+算子范数和对偶范数：总之是到$\mathbb{R}$里面去。
+
+设Hilbert空间V稠定地连续嵌入到Hilbert空间H中，即恒等映射是连续（或有界）的，则可以定义H中的范数$\|z\|_{*}=\sup_{\varphi \in V,\|\varphi\|_{V} \leq 1}\left|\langle z, \varphi\rangle_{H}\right|, \forall z \in H$。
+
+H上原来的范数也可以用这种形式理解，即$V = H$，现在“被作用”的空间V变小了，那么这个范数就变小了，于是空间就不完备了，或者说范数变小，空间就“应该”变大。
+
+于是由完备化可以得到一个更大的空间$V^{\ast}$，我们希望这个空间就是V的对偶空间$V'$。定义$J: V^{\ast} \to V', \langle Jz, \varphi \rangle_{V', V} = \lim \langle z_n, \varphi \rangle_H$，不出意料，J是$V^{\ast}$到$V'$的同构。$V^{\ast} \cong V'$称V关于枢轴空间H的对偶空间。反过来，V也由$V'$唯一确定。
+
+设$L \in \mathcal{L}(H)$，1. 若$LV \subset V$，则$L|_V \in \mathcal{L}(V)$。2. 若$L^{\ast}V \subset V$，则L能唯一延拓到$V'$上。
+
+\subsection{\texorpdfstring{$H_1, H_1^d, H_{-1}$}{TEXT}空间}
+
+设$A: D(A) \to H$，$H_1 = (D(A), \|\cdot\|_1)$，$H_1^d = (D(A^{\ast}), \|\cdot\|_1^d)$，$H_{-1}$为H关于$\|\cdot\|_{-1}$的完备化，则$(H_1^d)' = H_{-1}$。
+
+要证这个对偶关系，只要证$H_{-1}$范数可以表示成$H_1^d$范数对偶范数的形式，这是可以做到的。
+
+$H_1 \subset H \subset H_{-1}, H_1^d \subset H \subset H_{-1}^d$.
+
+算子延拓。
+
+一个例子：半无界空间上的微分算子。
+
+自伴算子是正的，若$\langle Az, z \rangle \ge 0, \forall z \in D(A)$。严格正的，若$\langle Az, z \rangle \ge m\|z\|^2, \forall z \in D(A)$。
+
+\begin{conc}
+  \textbf{(Week 2)} 无界算子的共轭算子，对称算子与自伴算子，对偶空间，$H_1, H_1^d, H_{-1}$空间。
+
+  听不懂都。
+\end{conc}
+
+\section{正算子}
+
+一个（首先是）自伴算子A是正的，若$\langle Az, z \rangle \ge 0, \forall z \in D(A)$。
+
+严格正的，若$\langle Az, z \rangle \ge m\|z\|_H, \forall z \in D(A)$或$A \ge mI$，即下有界。
+
+正算子若下有界，则$0 \in \rho(A)$（预解集或正则点，），$\|A^{-1}\| \le \frac{1}{m}$为有界算子。（无界算子的逆可以有界，有界算子的逆可以无界。）
+
+pf: $\|A(x_1 - x_2)\| = 0 \Rightarrow \|x_1 - x_2\| = 0$, a complete proof see Stackexchange `Bounded and Self-adjoint Linear Operator and Its Inverse'.
+
+于是我们可以：1. 比较算子的大小（序结构），能比较就有加减法。2. 开根号（对称正定矩阵可以开根号）。
+
+设A为正算子，则$A \ge \lambda I$ iff $\sigma(A) \ge \lambda$。
+
+设A为自伴算子，$A^2 \ge 0$，以及$A^2 > 0$若$0 \in \rho(A)$。
+
+一个例子：半无界问题，Laplace变换，时域变频域。
+
+$H_{\frac{1}{2}}$和$H_{-\frac{1}{2}}$空间
+
+设A为正算子，则$H_{\frac{1}{2}} = (D(A^{\frac{1}{2}}), \|\cdot\|_{\frac{1}{2}})$（图模范数）
+
+$A^{\frac{1}{2}}$算子，$D(A^{\frac{1}{2}}) = \text{Range}(A^{-\frac{1}{2}})$，$A^{\frac{1}{2}} = {({({A}^{-1})}^{\frac{1}{2}})}^{-1}$。（A是无界算子，$A^{-1}$是有界算子，可以开根号，但再取逆不一定是还是有界算子。）
+
+严格正算子的$\frac{1}{2}$算子是严格正的。
+
+$H_{\frac{1}{2}}$空间的范数$\|\cdot\|_{\frac{1}{2}}$，有$\|f\|_{\frac{1}{2}} = \|A^{\frac{1}{2}}f\|_H$，由内积$\langle f, g \rangle_1 = \langle A^{\frac{1}{2}}f, A^{\frac{1}{2}}g \rangle_H = \langle Af, g \rangle_H$诱导，等价于$A^{\frac{1}{2}}$的图模范数，之前的$H_1$范数也是一样。
+
+$H_1 \subset H_{\frac{1}{2}} \subset H$是稠定的连续嵌入。
+
+$H_\frac{1}{2}$也可以看成$H_1$在上述范数下的完备化空间。
+
+这些对偶空间都是从一个什么算子出发的，没有算子有的时候很难知道对偶空间长什么样。
+
+o.n.b.
+\[
+  \begin{aligned}
+    &A^{\frac{1}{2}} z=\sum_{k=1}^{\infty} \lambda_{k}^{\frac{1}{2}}\left\langle z, \varphi_{k}\right\rangle \varphi_{k}, \\
+    &D\left(A^{\frac{1}{2}}\right)=\left\{z \in H\bigg|\sum_{k=1}^{\infty} \lambda_{k}|\left\langle z, \varphi_{k}\right\rangle|^{2}<\infty\right\}
+  \end{aligned}
+\]
+
+\section{几个常用算子}
+
+\subsection{Sturm-Liouville算子}
+
+纯抄。
+
+例一：$A_{0}: D\left(A_{0}\right) \to L^{2}[0, \pi], A_{0} z=-\frac{d}{d x}\left(a(x) \frac{d z}{d x}\right), D\left(A_{0}\right)=H^{2}(0, \pi) \cap H_{0}^{1}(0, \pi)$，其中$a \in H^{1}(0, \pi)$是实值函数，$a(x) \geq m>0$。则$A_{0}>0$（对称，自伴，严格正）。$H_{\frac{1}{2}}=D\left(A_{0}^{\frac{1}{2}}\right)=H_{0}^{1}(0, \pi), H_{-\frac{1}{2}}=H^{-1}(0, \pi)$。
+
+例二：$A_{1}: D\left(A_{1}\right) \to L^{2}[0, \pi], A_{1} z=-\frac{d}{d x}\left(a(x) \frac{d z}{d x}\right)+b z, D\left(A_{1}\right)=H^{2}(0, \pi) \cap H_{0}^{1}(0, \pi)$，其中$ a \in H^{1}(0, \pi)$是实值函数，$a(x) \geq m>0, b \in L^{\infty}[0, \pi]$。则
+
+- $A_{1}$是自伴的，预解紧的，存在$A_{1}$的本征向量  $\left(\varphi_{k}\right)_{k \in \mathbb{N}}$构成$L^{2}[0, \pi]$的一组标准正交基。
+
+- 若$\lambda \in \mathbb{R}$ s.t. $\lambda+b(x) \geq 0$ a.e. $x \in[0, \pi]$，则$\sigma\left(A_{1}\right) \subset(-\lambda, \infty)$。
+
+半单（semi-simple），代数单，几何单，代数重数和几何重数。
+
+\subsection{耗散算子}
+
+耗散算子$A: D(A) \to H$的定义，TFAE：
+
+1. $\operatorname{Re}\langle A z, z\rangle \leq 0, \quad \forall z \in D(A) .$
+
+2. $\|(\lambda I-A) z\| \geq \lambda\|z\|, \quad \forall z \in D(A), \lambda \in(0, \infty) .
+$
+
+3. $\|(s l-A) z\| \geq \operatorname{Re}(s) \|z\|, \quad \forall z \in D(A), s \in \mathbb{C}_{0} = \{ z \in \mathbb{C} \mid \operatorname{Re}(z) > 0 \} .
+$
+
+pf by def.（2.推3.用1.，其他直接展开就好了。）
+
+稠定耗散算子是可闭的，即可以延拓为闭算子，并且延拓后仍是耗散的。
+
+对于无界算子，我们一般考虑稠定闭算子。出于“框架”，我们可以要求算子稠定和剩余谱为空集。而关于闭，如果算子是耗散的，那自然可以认为是闭的。
+
+耗散算子的定义依赖于内积，所以一般想找一个合适的内积，使得算子是耗散的。
+
+对于耗散的闭算子A，Range$(sI - A)$在H中是闭的，$\forall s \in \mathbb{C}_0$。
+
+pf: 找值域里边的收敛列，用耗散和闭证极限还在值域里。
+
+仍考虑耗散的闭算子A，其存在延拓$\tilde{A}$ s.t. Range$(sI - \tilde{A}) = H$，$\forall s \in \mathbb{C}_0$。如果耗散算子A是有界的，此时这个延拓就是A自己，上式直接成立。
+
+若$\exists s \in \mathbb{C}_0$ s.t. Range$(sI - A) = H$，则A是稠定的。
+
+pf: 证稠密，这里是取正交证0。
+
+进一步，定义最大耗散，TFAE:
+
+1. $\exists s \in \mathbb{C}_0$ s.t. Range$(sI - A) = H$.
+
+2. $\forall s \in \mathbb{C}_0$ s.t. Range$(sI - A) = H$.
+
+3. A是稠定的，且A的耗散延拓是A自己。
+
+pf: 3.$\Rightarrow$2. 用上上个命题。2.$\Rightarrow$1. 显然。1.$\Rightarrow$3. 证延拓和原来的定义域相同。
+
+最大耗散等价于
+
+1. $(0, \infty) \subset \rho(A)$（特别地，A是闭的），以及$\left\|(\lambda I-A)^{-1}\right\| \leq \frac{1}{\lambda}, \forall \lambda \in(0, \infty)$。
+
+2. $\mathbb{C}_{0} \subset \rho(A)$（特别地，A是闭的），以及$\left\|(s l-A)^{-1}\right\| \leq \frac{1}{\operatorname{Res}}, \forall s \in \mathbb{C}_{0}$。
+
+最大耗散算子的对偶算子是最大耗散的。
+
+若A是稠定的耗散算子，则A是最大耗散的 iff A是闭的且$A^{\ast}$是耗散的。
+
+\subsection{反自伴算子}
+
+稠定算子A是反对称的，若$\langle Av, w \rangle = - \langle v, Aw \rangle, \forall v, w \in H$。
+
+显然，-A是$A^{\ast}$的一部分，即$G(- A) \subset G(A^{\ast})$。
+
+iA是对称算子，乘以i之后谱在复平面转了半圈。
+
+这个旋转不是平凡的，热方程$u_t = u_{xx}$（抛物方程，扩散）乘i就变成Schrödinger方程$u_t = i u_{xx}$（双曲方程，震动）了。
+
+反对称的充要条件：$\langle Az, z \rangle = 0, \forall z \in H$，可见反对称则耗散。
+
+稠定算子A是反自伴的，若$A = -A^{\ast}$。
+
+若iA自伴，则A反自伴，即自伴和反自伴只差一个旋转，也可得$\sigma(A) \subset i\mathbb{R}$。
+
+A反自伴 iff A和$-$A都是最大耗散的。
+
+pf: $\Leftarrow$ A和$-$A都是最大耗散的，则A反对称，$G(-A) \subset G(A^{\ast})$，又最大耗散算子的对偶算子是最大耗散的，$A^{\ast}$和$-A^{\ast}$都是最大耗散的，则$A^{\ast}$反对称，$G(-A^{\ast}) \subset G(A^{\ast \ast})$，由A是闭算子，$A = A^{\ast \ast}$，故$-A = A^{\ast}$，即反自伴。
+
+$\Rightarrow$ 反自伴，反对称，耗散，又都闭，所以最大耗散。
+
+反对称算子性质（一点不懂就不写了）
+
+有几个东西一直不是很懂，一个是Hilbert空间的分解，定义域值域核像闭不闭什么的，一个是单满射，尤其是那种要求两个满射完了才有什么结果的，还有就是Laplace变换和Fourier变换，为啥要做这两个变换，变换定义和法则复习一下就行，也知道是时域频域之类的东西，但就是不理解在干嘛，又是什么对偶关系难道。
+
+\subsection{二阶双曲无穷维系统}
+
+也许有一天会明白，也许一辈子都不会明白。
+
+\subsection{半群理论}
+
+$T(t)$是H上一族以t为参数的有界算子族，半群简单来说就是时间不可逆，群运算只对时间向前成立，或者流只能（只需要）向前流。如果时间可逆就升级成群。
+
+一致连续：$\|T(t) - I\| \to 0, t \to 0^+$。（不依赖于初值）
+
+强连续（或$C_0$-半群）：$\left\|T(t) z_{0}-z_{0}\right\| \to 0, t \rightarrow 0^{+}, \forall z_{0} \in H$。（依赖于初值）
+
+感觉一些观点还是挺有意思的。
+
+$C_0$-半群的无穷小生成元：$Az_0 = \lim_{t \to 0^+} \frac{T(t)z_0 - z_0}{t}$。生成元算子的定义域即那些使得上式有意义的点所在区域。
+
+预解算子
+
+$T(t)$是H上的$C_{0}$-半群，其生成元为A，则$\forall s \in \mathbb{C}$，$\operatorname{Re}(s)>\omega(T)$，有$s \in \rho(A)$（因此A是闭的），以及
+\[
+  (sI -A)^{-1} z=\int_{0}^{\infty} e^{-s t} T(t) z d t, \forall z \in H .
+\]
+
+\begin{thm}（Lumer-Phillips定理）
+  设$A: D(A) \rightarrow H$，则A是一个压缩半群的生成元 iff A最大耗散。
+\end{thm}
+
+\begin{thm}（Stone定理）
+  设$A: D(A) \rightarrow H$，则A是一个酉群的生成元 iff A反自伴。
+\end{thm}
+
+对于二阶双曲无穷维系统，A生成酉群意味着解存在唯一以及能量（解的范数）守恒。
+
+\section{方程的解}
+
+\subsection{非齐次方程的解}
+
+非齐次项f表示控制，由于控制不一定是连续的，所以控制f和解u都只要求局部可积。
+
+方程是定义在H上的，但是加上控制以后解可能跑到更大的$H_{-1}$上去了。
+
+\subsection{解的表达式}
+
+形式上就是常数变易法。
+
+\section{系统的稳定性}
+
+控制的分类
+
+最优控制，神经网络控制，自抗扰控制，自适应控制，模糊控制，
+
+智能控制：大数据，模型不准确或高度非线性，测量不精确，
+
+滑模控制：构造滑模平面，验证可达条件，在滑模平面上指数稳定
+
+\dots
+
+时滞系统：状态时滞，输入时滞，输出时滞
+
+系统的分类
+
+线性系统与非线性系统
+
+自治系统与非自治系统
+
+时变系统与定常系统
+
+\subsection{稳定性的基本概念}
+
+有限维系统$\dot x = f(t, x)$
+
+判断解的适定性：半群方法，Riesz基方法，Galerkin方法
+
+解的存在唯一性定理：Lipschitz条件
+
+解的延拓
+
+解对初值的连续依赖性与可微性
+
+解对参数的连续依赖性与可微性
+
+系统的稳定性是自变量区间有限时解对初值的连续依赖性在自变量区间变为无穷时的拓展。
+
+系统的平衡点（是一个集合）：某一条系统轨线在某个时刻之后永远停留在这一点。求解$\dot x = f(t, x) = 0$可得系统的平衡点。
+
+之后我们总考虑零点是稳定点。
+
+Lyapunov稳定性（$\varepsilon - \delta$）：系统的零平衡点是Lyapunov稳定的，若$\forall \varepsilon > 0, \exists \delta(\varepsilon, t_0) > 0$ s.t. $\|x(t; t_0, x_0)\| \le \varepsilon, t \ge t_0$ if $\|x_0\| \le \delta(\varepsilon, t_0)$。（有限维系统范数等价）
+
+不稳定就是不是稳定。
+
+Lyapunov一致稳定性是说$\delta(\varepsilon, t_0) = \delta(\varepsilon)$与$t_0$无关。
+
+稳定性与一致稳定性，见宋申民p21
+
+吸引性（$\varepsilon - \delta$）：系统的零平衡点是吸引的，若$\exists \delta(t_0) \ge 0$ s.t. if $\|x_0\| \le \delta(t_0)$ then $\forall \varepsilon \ge 0, \exists T(\varepsilon; t_0, x_0) \ge 0$ s.t. $\|x(t; t_0, x_0)\| \le \varepsilon, t \ge t_0 + T(\varepsilon; t_0, x_0)$。
+
+一致吸引性是说$T(\varepsilon; t_0, x_0)$与$t_0, x_0$无关。
+
+稳定性与吸引性的区别，见宋申民p22
+
+全局吸引性是说$\delta(t_0)$可以任意大。
+
+一致和全局讲的不是一个东西，前者说的是被吸引点被吸引的速度是一致的，后者说的是平衡点吸引能力足够强，所以自然有全局一致吸引性。
+
+对于零平衡点：
+
+渐进稳定 = 稳定 + 吸引
+
+全局渐进稳定 = 稳定 + 全局吸引
+
+一致渐近稳定 = 一致稳定 + 一致吸引
+
+全局一致渐近稳定 = 一致稳定 + 全局一致吸引 + 解一致有界
+
+解一致有界（$\varepsilon - \delta$）：$\forall r \ge 0, \exists B(r) \ge 0$ s.t. if $\|x_0\| \le r$, then $\|x(t; t_0, x_0)\| \le B(r), t \ge t_0$。（界$B(r)$与$t_0$无关）
+
+界$B(r)$称为平衡点的吸引域。
+
+稳定性与渐近稳定性，见宋申民p23
+
+指数稳定，全局指数稳定
+
+等度吸引，等度渐近稳定，拟一致渐近稳定
+
+稳定性之间的关系
+
+轨道稳定性，轨道渐近稳定性
+
+分布参数系统（无穷维系统）的稳定性定义，无穷维空间范数不再等价
+
+验证稳定性不一定需要求解方程
+
+\section{自治系统的稳定性}
+
+自治系统$f = f(x(t))$，非自治系统$f = f(x(t), t)$。
+
+函数的定性，取值
+
+二次型的定性，顺序主子式，特征值
+
+Lyapunov基本定理
+
+稳定性定理：设零点是平衡点，若存在零点的邻域$U$以及$V: U \to \mathbb{R}$ s.t. $V(0) > 0, \dot V(0) = (\nabla V(0))^T \cdot f(0) \le 0$，则零点是稳定的。
+
+渐近稳定性定理：设零点是平衡点，若存在零点的邻域$U$以及$V: U \to \mathbb{R}$ s.t. $V > 0; \dot V(0) < 0$，则零点是渐近稳定的。
+
+全局渐近稳定性定理：设零点是平衡点，若存在$V: \mathbb{R}^n \to \mathbb{R}$ s.t. $V(0) = 0; V(x) > 0, x \neq 0; V(x) \to \infty, \|x\| \to \infty; \dot V(x) < 0, x \neq 0$，则零点是全局渐近稳定的。
+
+不稳定性定理：ppt稳定性p94
+
+Lyapunov函数的定义：Lyapunov函数是系统状态变量的函数 s.t. $V \in C^1; V > 0; V(X) \to \infty, \|X\| \to \infty$
+
+Lyapunov函数的构造：待定系数法，能量函数
+
+对于系统的轨线$x(t), \dot x(t) = f(x(t))$，定义正极限点p，若$x(t_n) \to p, n \to \infty, t_n \to \infty$；正极限集，正极限点的集合；不变集M，若$x(0) \in M$，则$x(t) \in M, \forall t \in \mathbb{R}$；正不变集M，若$x(0) \in M$，则$x(t) \in M, \forall t \in \mathbb{R}_+$。
+
+LaSalle不变原理：
+
+Barbashin-Krasovskii定理：ppt稳定性p115
+
+定常线性系统稳定性判据
+
+定常线性系统$\dot x = Ax$，若A半负定，则稳定，若负定，则渐近稳定。
+
+Hurwitz判据：ppt稳定性p122
+
+Routh判据：
+
+怎么列
+
+怎么看
+
+Lyapunov第二方法：
+
+
