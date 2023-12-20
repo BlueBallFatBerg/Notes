@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.4.30)  3 MAY 2023 13:42
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.4.30)  3 SEP 2023 11:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -817,48 +817,32 @@ LaTeX Font Info:    Trying to load font information for U+rsfs on input line 2.
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 ) [2
 
-]
-LaTeX Font Info:    Font shape `TU/SongtiSCLight(0)/m/sl' in size <12.045> not available
-(Font)              Font shape `TU/SongtiSCLight(0)/m/it' tried instead on input line 51.
- [3] [4] [5] [6])
+])
 \tf@toc=\write5
 \openout5 = `notes.toc'.
 
- (./parts/SDE.tex [7]
+ (./parts/SDE.tex
+LaTeX Font Info:    Font shape `TU/SongtiSCLight(0)/m/sl' in size <12.045> not available
+(Font)              Font shape `TU/SongtiSCLight(0)/m/it' tried instead on input line 3.
+ [3]
 第一章
-[8
+[4
 
-] [9] [10] [11] [12] [13] [14] [15] [16] [17] [18] [19] [20] [21] [22] [23]
+] [5] [6] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17] [18] [19]
 LaTeX Font Info:    Trying to load font information for U+euf on input line 585.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
-) [24] [25] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] [36] [37] [38] [39] [40] [41] [42] [43]) (./parts/MOM.tex [44]
-第二章
-[45
-
-] [46] [47] [48] [49] [50] [51] [52] [53] [54] [55] [56] [57] [58] [59] [60] [61] [62] [63] [64] [65] [66] [67] [68] [69]) (./parts/CT.tex [70]
-第三章
-[71
-
-] [72] [73] [74] [75] [76] [77] [78] [79] [80] [81] [82] [83]) (./parts/FEM.tex [84]
-第四章
-[85
-
-] [86] [87] [88] [89] [90] [91] [92] [93] [94] [95] [96] [97] [98] [99] [100] [101] [102] [103] [104] [105] [106] [107] [108] [109] [110] [111] [112] [113] [114] [115] [116] [117] [118] [119] [120] [121] [122] [123] [124] [125] [126] [127] [128] [129] [130] [131] [132] [133] [134]) (./parts/FA.tex [135]
-第五章
-[136
-
-] [137] [138] [139] [140] [141] [142] [143] [144] [145] [146] [147] [148] [149] [150] [151]) [152] (./notes.aux)
+) [20] [21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] [36] [37] [38] [39]) [40] (./notes.aux)
 Package rerunfilecheck Info: File `notes.out' has not changed.
-(rerunfilecheck)             Checksum: 4FC661263BADD3EDC8B5518E950E9FEF;20246.
+(rerunfilecheck)             Checksum: 566F6B04E2CDCBE0CB4DBBDB95CEF042;4442.
  ) 
 Here is how much of TeX's memory you used:
- 28668 strings out of 476179
- 643670 string characters out of 5809544
- 916680 words of memory out of 5000000
- 48862 multiletter control sequences out of 15000+600000
- 484523 words of font info for 129 fonts, out of 8000000 for 9000
+ 28084 strings out of 476179
+ 615028 string characters out of 5809544
+ 894798 words of memory out of 5000000
+ 48307 multiletter control sequences out of 15000+600000
+ 478008 words of font info for 94 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 100i,19n,104p,911b,682s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 100i,19n,104p,516b,565s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on notes.pdf (152 pages).
+Output written on notes.pdf (40 pages).
